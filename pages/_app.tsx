@@ -1,11 +1,11 @@
 import React from "react";
 import App, { AppContext, AppInitialProps } from "next/app";
-import { Provider } from "react-redux";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient, NormalizedCacheObject } from "apollo-boost";
 import nextCookie from "next-cookies";
 import withApollo from "../lib/withApollo";
 import GlobalStyles from "../style/GlobalStyle";
+import Header from "../components/Header";
 
 interface IProps {
   apolloState: any;
@@ -28,6 +28,7 @@ class MyApp extends App<IProps> {
 
     return (
       <>
+        <Header />
         <GlobalStyles />
         <ApolloProvider client={apollo}>
           <Component {...pageProps} />

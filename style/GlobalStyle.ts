@@ -1,10 +1,12 @@
 import reset from "styled-reset";
 import { css, createGlobalStyle } from "styled-components";
 
-const GlobalCss = css`
-  * {
+const GlobalStyles = createGlobalStyle`
+    ${reset};
+    * {
     box-sizing: border-box;
     color: #333333;
+    line-height: 1.2;
   }
   body {
     ::-webkit-scrollbar {
@@ -25,10 +27,6 @@ const GlobalCss = css`
     font-display: auto;
     src: url("/fonts/NotoSansKR-Bold-Alphabetic.woff2") format("woff2");
   }
-`;
-
-const GlobalStyles = createGlobalStyle`
-    ${reset};
 `;
 
 export default GlobalStyles;
