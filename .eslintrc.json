@@ -32,7 +32,8 @@
     "@typescript-eslint/no-unused-expressions": "off",
     "react/react-in-jsx-scope": "off",
     "react/no-danger": "off",
-    "no-alert": "off" //
+    "no-alert": "off", //
+    "linebreak-style": 0
   },
 
   "settings": {
