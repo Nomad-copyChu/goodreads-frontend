@@ -6,6 +6,7 @@ import nextCookie from "next-cookies";
 import withApollo from "../lib/withApollo";
 import GlobalStyles from "../style/GlobalStyle";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 interface IProps {
   apolloState: any;
@@ -30,9 +31,11 @@ class MyApp extends App<IProps> {
       <>
         <Header />
         <GlobalStyles />
+
         <ApolloProvider client={apollo}>
           <Component {...pageProps} />
         </ApolloProvider>
+        <Footer />
       </>
     );
   }

@@ -7,7 +7,7 @@ import colors from "../style/colors";
 const Container = styled.div`
   width: 100%;
   height: 52px;
-  background: #f4f1ea;
+  background: ${colors.beige_400};
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
   align-items: center;
   display: flex;
