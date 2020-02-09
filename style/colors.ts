@@ -1,4 +1,4 @@
-export const colors = {
+const colors = {
   black: "#333333",
   deep_black: "#181818",
   beige_100: "#F8F7F2",
@@ -35,3 +35,5 @@ export const colors = {
   yellow_600: "#FCC",
   yellow_700: "#F5A523"
 };
+
+export default colors;
