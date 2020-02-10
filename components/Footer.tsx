@@ -32,6 +32,7 @@ const Column = styled.div`
 
 const Design = styled.div`
   margin-left: auto;
+  margin-right: 18px;
   display: flex;
   justify-content: center;
   align-items: center;

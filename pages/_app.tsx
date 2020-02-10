@@ -31,7 +31,6 @@ class MyApp extends App<IProps> {
       <>
         <Header />
         <GlobalStyles />
-
         <ApolloProvider client={apollo}>
           <Component {...pageProps} />
         </ApolloProvider>

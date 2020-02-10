@@ -14,6 +14,7 @@ const Container = styled.div`
 
   .logo {
     margin-left: 72px;
+    cursor: pointer;
   }
   .font {
     text-decoration: none;
