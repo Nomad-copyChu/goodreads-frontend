@@ -1,44 +1,77 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import colors from "../style/colors";
 
-interface IProps {
-  size: string;
-  text: string;
-  onClick: string;
-  className: string;
-}
+type Sizes = "medium" | "small";
+type Colors = "green";
 
-const getSize = (size: string) => {
-  let heigNum;
-  let fontNum;
-  if (size === "sm") {
-    fontNum = 14;
-    heigNum = 32;
-  } else if (size === "md") {
-    fontNum = 10;
-    heigNum = 21;
+const getSize = (size: Sizes) => {
+  switch (size) {
+    case "medium":
+      return css`
+        height: 32px;
+        font-size: 14px;
+      `;
+    case "small":
+      return css`
+        height: 21px;
+        font-size: 10px;
+      `;
+    default:
+      return null;
   }
-  return `
-        height:${heigNum};
-        font-size:${fontNum};
-    `;
 };
 
-const Container = styled.button`
-    width:74px;
-    ${props => getSize(props)}
-    border: 1px solid ${colors.beige_900};
-    background-color:${colors.beige_400};
-    box-sizing: border-box;
-    border-radius: 5px;
-    text-align: center;
+const getColor = (color: Colors) => {
+  switch (color) {
+    case "green":
+      return css`
+        color: white;
+        background-color: ${colors.green_500};
+        &:hover {
+          background-color: ${colors.green_600};
+        }
+      `;
+
+    default:
+      return null;
+  }
+};
+
+const Container = styled.button<{ size: Sizes; color: Colors }>`
+  width: 100%;
+  border: 1px solid ${colors.beige_900};
+  background-color: ${colors.beige_400};
+  border-radius: 5px;
+  text-align: center;
+  outline: none;
+  font-weight: 500;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+  &:hover {
+    background-color: ${colors.beige_500};
+  }
+  ${props => getSize(props.size)}
+  ${props => getColor(props.color)}
+  :disabled {
+    color: ${colors.gray_300};
+    background-color: ${colors.gray_400};
+  }
 `;
 
-const Button: React.FC<IProps> = ({ size = "md", onClick, className, text }) => {
+interface IProps {
+  size: Sizes;
+  children: React.ReactNode;
+  onClick: () => void;
+  className?: string;
+  color?: Colors;
+  disabled?: boolean;
+}
+
+const Button: React.FC<IProps> = ({ size = "medium", onClick, className, children, color, disabled }) => {
   return (
-    <Container size={size} onClick={onClick} className={className}>
-      {text}
+    <Container size={size} onClick={onClick} className={className} color={color} disabled={disabled}>
+      {children}
     </Container>
   );
 };
