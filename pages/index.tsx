@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NextPage } from "next";
 import { ApolloNextPageContext, Book } from "../types";
 import { GET_BOOKS } from "../query";
@@ -9,10 +9,12 @@ interface IProps {
 }
 
 const index: NextPage<IProps> = ({ data }) => {
+  const [value, setValue] = useState();
   return (
     <div>
+      <div style={{ width: "64px", height: "64px" }} />
       <h1>hello</h1>
-      <SearchInput />
+      <SearchInput value={value} onChange={e => setValue(e.target.value)} />
       <img src="https://media.giphy.com/media/h0cVMLhAiBtug/giphy.gif" alt="" />
     </div>
   );

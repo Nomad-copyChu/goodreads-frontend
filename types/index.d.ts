@@ -1,5 +1,5 @@
 export type ApolloNextPageContext = NextPageContext & { apolloClient: ApolloClient<NormalizedCacheObject> }; //eslint-disable-line
-type Author = {
+export type Author = {
   id: string;
   name: string;
   born: string;
@@ -13,7 +13,7 @@ type Author = {
   updatedAt: string;
 };
 
-type Book = {
+export type Book = {
   id: string;
   title: string;
   authors: Author[];
@@ -36,7 +36,7 @@ type Book = {
   updatedAt: string;
 };
 
-type Comment = {
+export type Comment = {
   id: string;
   book: Book[];
   text: string;
@@ -44,7 +44,7 @@ type Comment = {
   updatedAt: string;
 };
 
-type Display = {
+export type Display = {
   id: string;
   user: User[];
   book: Book[];
@@ -53,13 +53,13 @@ type Display = {
   updatedAt: string;
 };
 
-type File = {
+export type File = {
   filename: string;
   mimetype: string;
   encoding: string;
 };
 
-type Gerne = {
+export type Gerne = {
   id: string;
   term: string;
   books: Book[];
@@ -68,7 +68,7 @@ type Gerne = {
   updatedAt: string;
 };
 
-type Profile = {
+export type Profile = {
   id: string;
   username: string;
   age: number;
@@ -80,7 +80,7 @@ type Profile = {
   updatedAt: string;
 };
 
-type Quote = {
+export type Quote = {
   id: string;
   term: string;
   author: Author;
@@ -90,7 +90,7 @@ type Quote = {
   updatedAt: string;
 };
 
-type Rating = {
+export type Rating = {
   id: string;
   user: User;
   book: Book;
@@ -99,7 +99,7 @@ type Rating = {
   updatedAt: string;
 };
 
-type Shelf = {
+export type Shelf = {
   id: string;
   user: User;
   name: string;
@@ -108,7 +108,7 @@ type Shelf = {
   updatedAt: string;
 };
 
-type Tag = {
+export type Tag = {
   id: string;
   quotes: Quote[];
   term: string;
@@ -116,7 +116,7 @@ type Tag = {
   updatedAt: string;
 };
 
-type User = {
+export type User = {
   id: string;
   email: string;
   password: string;

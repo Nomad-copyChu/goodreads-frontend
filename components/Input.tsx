@@ -2,7 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { colors } from "../style/colors";
 
-type InputSizes = "medium" | "small";
+export type InputSizes = "medium" | "small";
 
 const getSize = (size: InputSizes) => {
   switch (size) {
