@@ -2,16 +2,17 @@ import React from "react";
 import { NextPage } from "next";
 import { ApolloNextPageContext, Book } from "../types";
 import { GET_BOOKS } from "../query";
+import SearchInput from "../components/SearchInput";
 
 interface IProps {
   data: Book[];
 }
 
 const index: NextPage<IProps> = ({ data }) => {
-  console.log(data);
   return (
     <div>
       <h1>hello</h1>
+      <SearchInput />
       <img src="https://media.giphy.com/media/h0cVMLhAiBtug/giphy.gif" alt="" />
     </div>
   );

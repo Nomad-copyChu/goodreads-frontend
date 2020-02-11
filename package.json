@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "next dev",
     "start": "next start",
-    "build": "next build"
+    "build": "next build",
+    "build-fragment": "lib/schemaQuery.js"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -41,6 +42,7 @@
     "next-cookies": "^2.0.3",
     "next-offline": "^5.0.0",
     "next-with-apollo": "^5.0.0",
+    "node-fetch": "^2.6.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-icons": "^3.9.0",
