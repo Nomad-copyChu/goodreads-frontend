@@ -9,12 +9,14 @@ interface IProps {
 }
 
 const index: NextPage<IProps> = ({ data }) => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState("");
   return (
     <div>
       <div style={{ width: "64px", height: "64px" }} />
       <h1>hello</h1>
-      <SearchInput value={value} onChange={e => setValue(e.target.value)} />
+      <div style={{ width: "500px" }}>
+        <SearchInput value={value} onChange={e => setValue(e.target.value)} />
+      </div>
       <img src="https://media.giphy.com/media/h0cVMLhAiBtug/giphy.gif" alt="" />
     </div>
   );

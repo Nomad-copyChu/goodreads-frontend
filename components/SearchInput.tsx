@@ -1,14 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
+import isEmpty from "lodash/isEmpty";
 import SadIcon from "../public/static/svg/sad.svg";
 import Input from "./Input";
 import SEARCH from "../query/search";
 import { Book, User, Author } from "../types";
-import isEmpty from "lodash/isEmpty";
 
 const Container = styled.div`
   width: 100%;
+  position: relative;
+  .serach-result-popup {
+    height: 150px;
+    border: 1px solid black;
+    border-radius: 5px;
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .no-search-result {
+    text-align: center;
+  }
 `;
 
 interface IProps {
@@ -22,6 +38,7 @@ const SearchInput: React.FC<IProps> = ({ value, onChange }) => {
     variables: { keyword: value },
     fetchPolicy: "network-only"
   });
+  const [popupStatus, setPoupStatus] = useState(false);
   console.log(data, loading, error);
   const results = data?.search.map(item => {
     if ((item as Book).title) {
@@ -53,17 +70,24 @@ const SearchInput: React.FC<IProps> = ({ value, onChange }) => {
   });
   return (
     <Container>
-      <Input value={value} onChange={onChange} />
+      <Input value={value} onChange={onChange} onFocus={() => setPoupStatus(true)} />
       <div>{loading && <img src="/static/gif/bookgif.gif" alt="" />}</div>
-      <div>
-        {!loading && !!data && isEmpty(data?.search) && (
-          <div className="no-search-result">
-            <SadIcon />
-            <p>{`${value}검색결과가 없습니다. ㅠㅠ`}</p>
-          </div>
-        )}
-        {results}
-      </div>
+      {popupStatus && (
+        <div className="serach-result-popup">
+          {!loading && !!data && isEmpty(data?.search) && (
+            <>
+              <div className="no-search-data">
+                <p>검색어를 입력해주세요</p>
+              </div>
+              <div className="no-search-result">
+                <SadIcon />
+                <p>{`${value}검색결과가 없습니다. ㅠㅠ`}</p>
+              </div>
+            </>
+          )}
+          {results}
+        </div>
+      )}
     </Container>
   );
 };

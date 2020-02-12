@@ -23,6 +23,7 @@ const getSize = (size: InputSizes) => {
 
 const Container = styled.div<{ size: InputSizes }>`
   input {
+    width: 100%;
     padding: 0 12px;
     border-radius: 5px;
     border: 1px solid ${colors.woody_500};
@@ -42,12 +43,13 @@ interface IProps {
   placeholder?: string;
   value: string;
   onChange: (e) => void;
+  onFocus: () => void;
 }
 
-const Input: React.FC<IProps> = ({ size = "medium", placeholder, value, onChange }) => {
+const Input: React.FC<IProps> = ({ size = "medium", placeholder, value, onChange, onFocus }) => {
   return (
     <Container size={size}>
-      <input placeholder={placeholder} value={value} onChange={onChange} />
+      <input placeholder={placeholder} value={value} onChange={onChange} onFocus={onFocus} />
     </Container>
   );
 };
