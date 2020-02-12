@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { colors } from "../style/colors";
+import colors from "../style/colors";
 
 export type InputSizes = "medium" | "small";
 
