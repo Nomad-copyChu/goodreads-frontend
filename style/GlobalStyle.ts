@@ -8,6 +8,9 @@ const GlobalStyles = createGlobalStyle`
     color: #333333;
     line-height: 1.2;
   }
+  a{
+    line-height: 1.2;
+  }
   body {
     ::-webkit-scrollbar {
       display: none;

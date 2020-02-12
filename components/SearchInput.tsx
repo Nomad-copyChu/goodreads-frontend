@@ -1,29 +1,76 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
+import OutsideClickHandler from "react-outside-click-handler";
 import isEmpty from "lodash/isEmpty";
 import SadIcon from "../public/static/svg/sad.svg";
 import Input from "./Input";
 import SEARCH from "../query/search";
 import { Book, User, Author } from "../types";
+import colors from "../style/colors";
 
 const Container = styled.div`
   width: 100%;
   position: relative;
   .serach-result-popup {
     height: 150px;
-    border: 1px solid black;
+    border: 1px solid ${colors.woody_500};
     border-radius: 5px;
     position: absolute;
     background-color: white;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
+    .search-loading {
+      width: 100%;
+      height: 100%;
+    }
   }
   .no-search-result {
     text-align: center;
+  }
+  .book-result {
+    width: 100%;
+    display: flex;
+    border-bottom: 1px solid ${colors.gray_500};
+    transition: 0.2s ease-in-out;
+    padding: 8px;
+
+    img {
+      height: 50px;
+    }
+    &:hover {
+      background-color: ${colors.beige_400};
+    }
+  }
+  .result-user {
+    width: 100%;
+    display: flex;
+    border-bottom: 1px solid ${colors.gray_500};
+    padding: 8px;
+
+    &:hover {
+      background-color: ${colors.beige_400};
+    }
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+  .result-author {
+    width: 100%;
+    display: flex;
+    border-bottom: 1px solid ${colors.gray_500};
+    padding: 8px;
+    &:hover {
+      background-color: ${colors.beige_400};
+    }
+    img {
+      width: 50px;
+      height: 50px;
+    }
   }
 `;
 
@@ -60,34 +107,43 @@ const SearchInput: React.FC<IProps> = ({ value, onChange }) => {
     }
     if ((item as User).username) {
       //유저라면
-      return <div>{(item as User).username}</div>;
+      return (
+        <li className="result-user">
+          <img src={(item as User).profilePhoto} alt="" />
+          {(item as User).username}
+        </li>
+      );
     }
     if ((item as Author).name) {
       //작가라면
-      return <div>{(item as Author).name}</div>;
+      return <li className="result-author">{(item as Author).name}</li>;
     }
     return null;
   });
   return (
     <Container>
-      <Input value={value} onChange={onChange} onFocus={() => setPoupStatus(true)} />
-      <div>{loading && <img src="/static/gif/bookgif.gif" alt="" />}</div>
-      {popupStatus && (
-        <div className="serach-result-popup">
-          {!loading && !!data && isEmpty(data?.search) && (
-            <>
-              <div className="no-search-data">
-                <p>검색어를 입력해주세요</p>
+      <OutsideClickHandler onOutsideClick={() => setPoupStatus(false)}>
+        <Input value={value} onChange={onChange} onFocus={() => setPoupStatus(true)} />
+        {popupStatus && (
+          <div className="serach-result-popup">
+            {loading && <img src="/static/gif/bookgif.gif" alt="" className="search-loading" />}
+            {value === "" && (
+              <div>
+                <div className="no-search-data">
+                  <p>검색어를 입력해주세요</p>
+                </div>
               </div>
+            )}
+            {!loading && !!data && isEmpty(data?.search) && (
               <div className="no-search-result">
                 <SadIcon />
                 <p>{`${value}검색결과가 없습니다. ㅠㅠ`}</p>
               </div>
-            </>
-          )}
-          {results}
-        </div>
-      )}
+            )}
+            {results}
+          </div>
+        )}
+      </OutsideClickHandler>
     </Container>
   );
 };

@@ -121,6 +121,7 @@ export type User = {
   email: string;
   password: string;
   username: string;
+  profilePhoto: string;
   profile: Profile;
   isAdmin: Boolean;
   ratings: Rating[];

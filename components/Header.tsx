@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import Logo from "../public/svg/goodreadsKr.svg";
+import Logo from "../public/static/svg/goodreadsKr.svg";
 import colors from "../style/colors";
+import Sidebar from "./Sidebar";
+import MenuIcon from "../public/static/svg/menu.svg";
 
 const Container = styled.div`
   width: 100%;
@@ -13,49 +15,84 @@ const Container = styled.div`
   display: flex;
 
   .logo {
-    margin-left: 72px;
     cursor: pointer;
+    @media (max-width: 600px) {
+      margin-left: 20px;
+    }
   }
-  .font {
+  a {
     text-decoration: none;
     font-size: 16px;
     color: ${colors.blue_green};
     margin-right: 24px;
+    :last-child {
+      margin: 0;
+    }
   }
-`;
-const List = styled.div`
-  margin-left: 75px;
-`;
-const LogInfo = styled.div`
-  margin-left: auto;
-  margin-right: 33px;
+  .sidebar-icon {
+    position: absolute;
+    right: 20px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    fill: ${colors.black};
+    @media (min-width: 700px) {
+      display: none;
+    }
+  }
+  .list {
+    margin-left: 75px;
+    @media (max-width: 700px) {
+      display: none;
+    }
+  }
+  .log-info {
+    margin-left: auto;
+    margin-right: 33px;
+    display: flex;
+    align-items: center;
+    a {
+      :last-child {
+        margin: 0;
+      }
+    }
+    @media (max-width: 700px) {
+      display: none;
+    }
+  }
 `;
 
 const Header: React.FC = () => {
+  const [show, setShow] = useState(false);
+  const toggleSidebar = () => {
+    setShow(!show);
+  };
   return (
     <Container>
+      <Sidebar show={show} />
       <Link href="/">
         <Logo className="logo" />
       </Link>
-      <List>
+      <div className="list">
         <Link href="/booklist">
-          <a className="font">도서목록</a>
+          <a>도서목록</a>
         </Link>
         <Link href="/authlist">
-          <a className="font">작가목록</a>
+          <a>작가목록</a>
         </Link>
         <Link href="/quoteslist">
-          <a className="font">명언목록</a>
+          <a>명언목록</a>
         </Link>
-      </List>
-      <LogInfo>
+      </div>
+      <div className="log-info">
         <Link href="/register">
-          <a className="font">회원가입</a>
+          <a>회원가입</a>
         </Link>
         <Link href="/login">
-          <a className="font">로그인</a>
+          <a>로그인</a>
         </Link>
-      </LogInfo>
+      </div>
+      <MenuIcon className="sidebar-icon" onClick={toggleSidebar} />
     </Container>
   );
 };
