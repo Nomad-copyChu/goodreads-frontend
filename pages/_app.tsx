@@ -26,7 +26,6 @@ class MyApp extends App<IProps> {
 
   render() {
     const { Component, pageProps, apollo } = this.props;
-
     return (
       <>
         <Header />
