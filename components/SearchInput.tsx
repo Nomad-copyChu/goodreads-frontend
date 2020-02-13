@@ -28,6 +28,11 @@ const Container = styled.div`
       height: 100%;
     }
   }
+  .no-search-input {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
   .no-search-result {
     text-align: center;
   }
@@ -39,10 +44,14 @@ const Container = styled.div`
     padding: 8px;
 
     img {
+      width: 34px;
       height: 50px;
     }
     &:hover {
       background-color: ${colors.beige_400};
+    }
+    .book-result-infos {
+      margin-left: 16px;
     }
   }
   .result-user {
@@ -57,6 +66,7 @@ const Container = styled.div`
     img {
       width: 50px;
       height: 50px;
+      border-radius: 50%;
     }
   }
   .result-author {
@@ -85,15 +95,15 @@ const SearchInput: React.FC<IProps> = ({ value, onChange }) => {
     variables: { keyword: value },
     fetchPolicy: "network-only"
   });
+  console.log(data);
   const [popupStatus, setPoupStatus] = useState(false);
-  console.log(data, loading, error);
   const results = data?.search.map(item => {
     if ((item as Book).title) {
       //책이라면
       return (
         <div className="book-result">
           <img src={(item as Book).thumbnail} alt="" />
-          <div>
+          <div className="book-result-infos">
             <h2>{(item as Book).title}</h2>
             <p>
               {(item as Book).authors?.map((author: Author) => (
@@ -110,13 +120,21 @@ const SearchInput: React.FC<IProps> = ({ value, onChange }) => {
       return (
         <li className="result-user">
           <img src={(item as User).profilePhoto} alt="" />
-          {(item as User).username}
+          <p>{(item as User).username}</p>
         </li>
       );
     }
     if ((item as Author).name) {
       //작가라면
-      return <li className="result-author">{(item as Author).name}</li>;
+      return (
+        <li className="result-author">
+          <img src={(item as Author).photo} alt={(item as Author).name} />
+          <div className="author-result-infos">
+            <h2>{(item as Author).name}</h2>
+            <p>{(item as Author).gernes?.map(gerne => `#${gerne.term} `)}</p>
+          </div>
+        </li>
+      );
     }
     return null;
   });
@@ -128,10 +146,8 @@ const SearchInput: React.FC<IProps> = ({ value, onChange }) => {
           <div className="serach-result-popup">
             {loading && <img src="/static/gif/bookgif.gif" alt="" className="search-loading" />}
             {value === "" && (
-              <div>
-                <div className="no-search-data">
-                  <p>검색어를 입력해주세요</p>
-                </div>
+              <div className="no-search-input">
+                <p>검색어를 입력해주세요</p>
               </div>
             )}
             {!loading && !!data && isEmpty(data?.search) && (

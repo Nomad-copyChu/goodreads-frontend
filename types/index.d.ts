@@ -6,7 +6,7 @@ export type Author = {
   died: string;
   gernes: Gerne[];
   description: string;
-  photos: [string];
+  photo: string;
   books: Book[];
   quotes: Quote[];
   createdAt: string;
