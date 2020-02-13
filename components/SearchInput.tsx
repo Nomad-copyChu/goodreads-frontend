@@ -13,7 +13,7 @@ const Container = styled.div`
   width: 100%;
   position: relative;
   .serach-result-popup {
-    height: 150px;
+    height: 250px;
     border: 1px solid ${colors.woody_500};
     border-radius: 5px;
     position: absolute;
@@ -35,6 +35,11 @@ const Container = styled.div`
   }
   .no-search-result {
     text-align: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
   }
   .book-result {
     width: 100%;
@@ -42,7 +47,8 @@ const Container = styled.div`
     border-bottom: 1px solid ${colors.gray_500};
     transition: 0.2s ease-in-out;
     padding: 8px;
-
+    background-color: white;
+    cursor: pointer;
     img {
       width: 34px;
       height: 50px;
@@ -51,15 +57,33 @@ const Container = styled.div`
       background-color: ${colors.beige_400};
     }
     .book-result-infos {
-      margin-left: 16px;
+      margin-left: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      h2 {
+      }
+      p {
+        span {
+          margin-right: 8px;
+          :last-child {
+            margin: 0;
+          }
+        }
+      }
+      .gerne {
+        color: ${colors.gray_800};
+      }
     }
   }
   .result-user {
     width: 100%;
     display: flex;
+    align-items: center;
     border-bottom: 1px solid ${colors.gray_500};
     padding: 8px;
-
+    background-color: white;
+    cursor: pointer;
     &:hover {
       background-color: ${colors.beige_400};
     }
@@ -68,12 +92,30 @@ const Container = styled.div`
       height: 50px;
       border-radius: 50%;
     }
+    p {
+      margin-left: 12px;
+    }
+  }
+  .author-result-infos {
+    margin-left: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    h2 {
+      margin-bottom: 8px;
+    }
+    p {
+      color: ${colors.gray_800};
+    }
   }
   .result-author {
     width: 100%;
     display: flex;
     border-bottom: 1px solid ${colors.gray_500};
     padding: 8px;
+    background-color: white;
+    cursor: pointer;
+
     &:hover {
       background-color: ${colors.beige_400};
     }
@@ -110,7 +152,7 @@ const SearchInput: React.FC<IProps> = ({ value, onChange }) => {
                 <span>{author.name}</span>
               ))}
             </p>
-            <p>{(item as Book).gernes?.map(gerne => gerne.term)}</p>
+            <p className="gerne">{(item as Book).gernes?.map(gerne => `#${gerne.term} `)}</p>
           </div>
         </div>
       );
@@ -156,7 +198,7 @@ const SearchInput: React.FC<IProps> = ({ value, onChange }) => {
                 <p>{`${value}검색결과가 없습니다. ㅠㅠ`}</p>
               </div>
             )}
-            {results}
+            {!loading && results}
           </div>
         )}
       </OutsideClickHandler>
