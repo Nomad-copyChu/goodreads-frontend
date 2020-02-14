@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import { NextPage } from "next";
 import { ApolloNextPageContext, Book } from "../types";
 import { GET_BOOKS } from "../query";
@@ -8,16 +9,26 @@ interface IProps {
   data: Book[];
 }
 
+const Container = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  .banner {
+    width: 100%;
+    height: 235px;
+  }
+`;
+
 const index: NextPage<IProps> = ({ data }) => {
   const [value, setValue] = useState("");
   return (
     <div>
-      <div style={{ width: "64px", height: "64px" }} />
+      {/* <div style={{ width: "64px", height: "64px" }} />
       <h1>hello</h1>
       <div style={{ width: "500px" }}>
         <SearchInput value={value} onChange={e => setValue(e.target.value)} />
       </div>
-      <img src="https://media.giphy.com/media/h0cVMLhAiBtug/giphy.gif" alt="" />
+      <img src="https://media.giphy.com/media/h0cVMLhAiBtug/giphy.gif" alt="" /> */}
     </div>
   );
 };

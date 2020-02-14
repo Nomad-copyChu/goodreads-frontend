@@ -13,16 +13,38 @@ const Container = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   position: relative;
+  .button {
+    width: 108px;
+    height: 32px;
+  }
   .login-background {
     position: absolute;
     width: 100%;
     height: 100%;
   }
+  .text {
+    margin-top: 80px;
+    margin-left: 80px;
+    margin-bottom: 60px;
+    position: relative;
+    font-family: Hoefler Text;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 60px;
+    z-index: 4;
+    height: 150px;
+
+    p {
+      color: white;
+      margin-bottom: 18px;
+    }
+  }
   .login-box {
+    position: relative;
     z-index: 10;
+    margin-left: 80px;
     background-color: white;
     border: 1px solid ${colors.gray_500};
     border-radius: 5px;
@@ -41,6 +63,11 @@ const Container = styled.div`
     input {
       margin-top: 2px;
       margin-bottom: 12px;
+    }
+    p {
+      margin-bottom: 10px;
+      color: ${colors.gray_600};
+      font-size: 10px;
     }
     .forget-password {
       color: ${colors.gray_600};
@@ -65,6 +92,10 @@ const LoginBox: React.FC = () => {
   };
   return (
     <Container>
+      <div className="text">
+        <p>Meet you next </p>
+        <p>favorite book</p>
+      </div>
       <img className="login-background" src="https://media.giphy.com/media/h0cVMLhAiBtug/giphy.gif" alt="" />
       <div className="login-box">
         <Logo />
@@ -74,7 +105,9 @@ const LoginBox: React.FC = () => {
         <label>비밀번호</label>
         <Input value={password} onChange={e => setPassword(e.target.value)} type="password" color="transparent" />
         <p>비밀번호를 잃어버리셨나요?</p>
-        <Button onClick={loginRequest}>로그인</Button>
+        <Button onClick={loginRequest} className="button">
+          로그인
+        </Button>
       </div>
     </Container>
   );
