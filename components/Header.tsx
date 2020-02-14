@@ -16,6 +16,7 @@ const Container = styled.div`
 
   .logo {
     cursor: pointer;
+    margin-left: 72px;
     @media (max-width: 600px) {
       margin-left: 20px;
     }

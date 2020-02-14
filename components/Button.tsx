@@ -60,7 +60,7 @@ const Container = styled.button<{ size: Sizes; color: Colors }>`
 `;
 
 interface IProps {
-  size: Sizes;
+  size?: Sizes;
   children: React.ReactNode;
   onClick: () => void;
   className?: string;

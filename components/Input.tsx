@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import colors from "../style/colors";
 
 export type InputSizes = "medium" | "small";
-
+export type InputColors = "transparent";
 const getSize = (size: InputSizes) => {
   switch (size) {
     case "medium":
@@ -21,7 +21,25 @@ const getSize = (size: InputSizes) => {
   }
 };
 
-const Container = styled.div<{ size: InputSizes }>`
+const getColor = (color: InputColors) => {
+  switch (color) {
+    case "transparent":
+      return css`
+        border: none;
+        border-bottom: 1px solid ${colors.woody_500};
+        font-size: 14px;
+        border-radius: 0;
+        &:focus {
+          box-shadow: none;
+        }
+      `;
+
+    default:
+      return null;
+  }
+};
+
+const Container = styled.div<{ size: InputSizes; color: InputColors }>`
   input {
     width: 100%;
     padding: 0 12px;
@@ -34,6 +52,7 @@ const Container = styled.div<{ size: InputSizes }>`
     & ::placeholder {
       color: ${colors.gray_800};
     }
+    ${props => getColor(props.color)}
     ${props => getSize(props.size)}
   }
 `;
@@ -42,14 +61,16 @@ interface IProps {
   size?: InputSizes;
   placeholder?: string;
   value: string;
+  type?: string;
   onChange: (e) => void;
-  onFocus: () => void;
+  onFocus?: () => void;
+  color?: InputColors;
 }
 
-const Input: React.FC<IProps> = ({ size = "medium", placeholder, value, onChange, onFocus }) => {
+const Input: React.FC<IProps> = ({ size = "medium", placeholder, value, onChange, onFocus, type, color }) => {
   return (
-    <Container size={size}>
-      <input placeholder={placeholder} value={value} onChange={onChange} onFocus={onFocus} />
+    <Container size={size} color={color}>
+      <input placeholder={placeholder} value={value} type={type} onChange={onChange} onFocus={onFocus} />
     </Container>
   );
 };
