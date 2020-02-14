@@ -41,13 +41,13 @@ const Sidebar: React.FC<IPRops> = ({ show }) => {
   return (
     <Container>
       {transition.map(({ item, key, props }) => (
-        <>
+        <React.Fragment key={key}>
           {item ? (
             <animated.div key={key} style={props} className="sidebar">
               <div className="content">asdfasf</div>
             </animated.div>
           ) : null}
-        </>
+        </React.Fragment>
       ))}
     </Container>
   );
