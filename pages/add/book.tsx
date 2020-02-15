@@ -1,8 +1,9 @@
 import React from "react";
-import styled from "styled-components";
+import { NextPage } from "next";
+import AddBook from "../../components/AddBook";
 
-const book: React.FC = () => {
-  return <div>hello world</div>;
+const book: NextPage = () => {
+  return <AddBook />;
 };
 
 export default book;

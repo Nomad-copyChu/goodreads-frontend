@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useQuery } from "@apollo/react-hooks";
 import OutsideClickHandler from "react-outside-click-handler";
+import axios from "axios";
 import isEmpty from "lodash/isEmpty";
 import SadIcon from "../../public/static/svg/sad.svg";
 import SearchIcon from "../../public/static/svg/search.svg";
 import Input from "./Input";
-import SEARCH from "../../query/search";
 import { Book, User, Author } from "../../types";
 import colors from "../../style/colors";
 import useDebounce from "../../hooks/useDebounce";
@@ -139,81 +138,27 @@ interface IProps {
   placeholder?: string;
   onClick?: (selected: SearchResult) => void;
 }
-const SearchInput: React.FC<IProps> = ({ placeholder, onClick }) => {
+const SearchKakaoInput: React.FC<IProps> = ({ placeholder, onClick }) => {
   const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
   const serachValue = useDebounce(value, 500);
-  const { data, loading } = useQuery<{ search: [SearchResult] }>(SEARCH, {
-    skip: value === "",
-    pollInterval: 2000,
-    variables: { keyword: serachValue },
-    fetchPolicy: "network-only"
-  });
+  const searchToKaKao = async () => {
+    setLoading(true);
+    const data = await axios.get("https://dapi.kakao.com/v3/search/book?target=title?can", {
+      headers: {
+        Authorization: "KakaoAK c18fd9563bb5f1308b1995a43bd59c99"
+      },
+      params: {
+        query: "미움"
+      }
+    });
+    console.log(data);
+  };
+  useEffect(() => {
+    searchToKaKao();
+  }, [serachValue]);
   const [popupStatus, setPoupStatus] = useState(false);
-  const results = data?.search.map((item, index) => {
-    if ((item as Book).title) {
-      //책이라면
-      return (
-        <li
-          key={index}
-          className="book-result"
-          role="presentation"
-          onClick={() => {
-            onClick(item);
-            setPoupStatus(false);
-          }}
-        >
-          <img src={(item as Book).thumbnail} alt="" />
-          <div className="book-result-infos">
-            <h2>{(item as Book).title}</h2>
-            <p>
-              {(item as Book).authors?.map((author: Author, index) => (
-                <span key={index}>{author.name}</span>
-              ))}
-            </p>
-            <p className="gerne">{(item as Book).gernes?.map(gerne => `#${gerne.term} `)}</p>
-          </div>
-        </li>
-      );
-    }
-    if ((item as User).username) {
-      //유저라면
-      return (
-        <li
-          key={index}
-          className="result-user"
-          role="presentation"
-          onClick={() => {
-            onClick(item);
-            setPoupStatus(false);
-          }}
-        >
-          <img src={(item as User).profilePhoto} alt="" />
-          <p>{(item as User).username}</p>
-        </li>
-      );
-    }
-    if ((item as Author).name) {
-      //작가라면
-      return (
-        <li
-          key={index}
-          className="result-author"
-          role="presentation"
-          onClick={() => {
-            onClick(item);
-            setPoupStatus(false);
-          }}
-        >
-          <img src={(item as Author).photo} alt={(item as Author).name} />
-          <div className="author-result-infos">
-            <h2>{(item as Author).name}</h2>
-            <p>{(item as Author).gernes?.map(gerne => `#${gerne.term} `)}</p>
-          </div>
-        </li>
-      );
-    }
-    return null;
-  });
+
   return (
     <Container>
       <OutsideClickHandler onOutsideClick={() => setPoupStatus(false)}>
@@ -232,13 +177,13 @@ const SearchInput: React.FC<IProps> = ({ placeholder, onClick }) => {
                 <p>검색어를 입력해주세요</p>
               </div>
             )}
-            {!loading && !!data && isEmpty(data?.search) && (
+            {!loading && !!"data" && (
               <div className="no-search-result">
                 <SadIcon />
                 <p>{`${value}검색결과가 없습니다. ㅠㅠ`}</p>
               </div>
             )}
-            {!loading && results}
+            {!loading && "results"}
           </div>
         )}
       </OutsideClickHandler>
@@ -246,4 +191,4 @@ const SearchInput: React.FC<IProps> = ({ placeholder, onClick }) => {
   );
 };
 
-export default SearchInput;
+export default SearchKakaoInput;

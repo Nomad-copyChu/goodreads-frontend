@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Link from "next/link";
 import Logo from "../public/static/svg/goodreadsKr.svg";
 import colors from "../style/colors";
-import Sidebar from "./Sidebar";
 import MenuIcon from "../public/static/svg/menu.svg";
 
 const Container = styled.div`
@@ -70,7 +69,6 @@ const Header: React.FC = () => {
   };
   return (
     <Container>
-      <Sidebar show={show} />
       <Link href="/">
         <a>
           <Logo className="logo" />
