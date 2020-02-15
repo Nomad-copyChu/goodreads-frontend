@@ -1,8 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import RegisterSuccess from "../../../components/auth/RegisterSuccess";
 
 const sucess: React.FC = () => {
-  return <div>hello world</div>;
+  return (
+    <div>
+      <RegisterSuccess />
+    </div>
+  );
 };
 
 export default sucess;

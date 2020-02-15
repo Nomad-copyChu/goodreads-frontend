@@ -35,7 +35,7 @@ const Sidebar: React.FC<IPRops> = ({ show }) => {
     config: config.stiff,
     ref: sidebarRef
   });
-
+  console.log(transition);
   useChain([sidebarRef], [0, 0.5]);
 
   return (
