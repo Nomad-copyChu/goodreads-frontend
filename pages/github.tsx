@@ -11,13 +11,20 @@ interface IProps {
 }
 
 const github: NextPage<IProps> = ({ code }) => {
-  const [githublogin] = useMutation<{ githubLogin: string }>(GITHUB_LOGIN, { variables: { code } });
+  const [githublogin] = useMutation<{ githubLogin: { token: string; isFisrt: boolean } }>(GITHUB_LOGIN, {
+    variables: { code }
+  });
   const router = useRouter();
   const githubLogin = async () => {
     const { data } = await githublogin();
     if (data?.githubLogin) {
-      cookie.set("Authorization", data.githubLogin);
-      router.push("/");
+      cookie.set("Authorization", data.githubLogin.token);
+      if (data.githubLogin.isFisrt) {
+        //최초 로그인 이라면
+        router.push("/auth/register/success");
+      } else {
+        router.push("/");
+      }
     }
   };
   useEffect(() => {

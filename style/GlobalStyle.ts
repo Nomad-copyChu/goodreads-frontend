@@ -1,5 +1,6 @@
 import reset from "styled-reset";
 import { createGlobalStyle } from "styled-components";
+import colors from "./colors";
 
 const GlobalStyles = createGlobalStyle`
     ${reset};
@@ -10,8 +11,15 @@ const GlobalStyles = createGlobalStyle`
   }
   a{
     line-height: 1.2;
+    color:${colors.blue_green};
+    text-decoration:none;
+
+    &:hover{
+      text-decoration:underline;
+    }
   }
   body {
+    background-color:${colors.beige_400};
     ::-webkit-scrollbar {
       display: none;
     }

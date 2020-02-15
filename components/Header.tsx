@@ -72,24 +72,26 @@ const Header: React.FC = () => {
     <Container>
       <Sidebar show={show} />
       <Link href="/">
-        <Logo className="logo" />
+        <a>
+          <Logo className="logo" />
+        </a>
       </Link>
       <div className="list">
-        <Link href="/booklist">
+        <Link href="/bookList">
           <a>도서목록</a>
         </Link>
-        <Link href="/authlist">
+        <Link href="/authorList">
           <a>작가목록</a>
         </Link>
-        <Link href="/quoteslist">
+        <Link href="/quoteList">
           <a>명언목록</a>
         </Link>
       </div>
       <div className="log-info">
-        <Link href="/register">
+        <Link href="/auth/register">
           <a>회원가입</a>
         </Link>
-        <Link href="/login">
+        <Link href="/auth/login">
           <a>로그인</a>
         </Link>
       </div>

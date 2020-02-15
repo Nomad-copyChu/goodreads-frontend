@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import OutsideClickHandler from "react-outside-click-handler";
 import isEmpty from "lodash/isEmpty";
-import SadIcon from "../public/static/svg/sad.svg";
+import SadIcon from "../../public/static/svg/sad.svg";
 import Input from "./Input";
-import SEARCH from "../query/search";
-import { Book, User, Author } from "../types";
-import colors from "../style/colors";
+import SEARCH from "../../query/search";
+import { Book, User, Author } from "../../types";
+import colors from "../../style/colors";
 
 const Container = styled.div`
   width: 100%;

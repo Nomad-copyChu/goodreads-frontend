@@ -2,7 +2,10 @@ import { gql } from "apollo-boost";
 
 const GITHUB_LOGIN = gql`
   mutation githubLogin($code: String!) {
-    githubLogin(code: $code)
+    githubLogin(code: $code) {
+      token
+      isFirst
+    }
   }
 `;
 

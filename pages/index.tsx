@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { NextPage } from "next";
 import { ApolloNextPageContext, Book } from "../types";
 import { GET_BOOKS } from "../query";
-import SearchInput from "../components/SearchInput";
+import SearchInput from "../components/common/SearchInput";
 
 interface IProps {
   data: Book[];

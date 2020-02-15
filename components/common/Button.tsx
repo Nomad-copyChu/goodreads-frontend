@@ -1,9 +1,9 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import colors from "../style/colors";
+import colors from "../../style/colors";
 
 type Sizes = "medium" | "small";
-type Colors = "green";
+type Colors = "green" | "github";
 
 const getSize = (size: Sizes) => {
   switch (size) {
@@ -30,6 +30,15 @@ const getColor = (color: Colors) => {
         background-color: ${colors.green_500};
         &:hover {
           background-color: ${colors.green_600};
+        }
+      `;
+    case "github":
+      return css`
+        color: white;
+        background-color: ${colors.github};
+        &:hover {
+          color: #bebfc1;
+          background-color: ${colors.github};
         }
       `;
 
