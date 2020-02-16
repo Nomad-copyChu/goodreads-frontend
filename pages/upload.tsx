@@ -8,7 +8,6 @@ const upload: React.FC = () => {
     const file = e.target.files![0];
     fileUploadMuation({ variables: { file } }).then(res => setValue(res));
   };
-  console.log(value);
   return <input type="file" onChange={onChange} />;
 };
 

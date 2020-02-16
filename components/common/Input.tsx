@@ -30,6 +30,7 @@ const getColor = (color: InputColors) => {
         font-size: 14px;
         border-radius: 0;
         padding: 0 2px;
+        background-color: transparent;
         &:focus {
           box-shadow: none;
         }

@@ -161,7 +161,7 @@ const SearchKakaoInput: React.FC<IProps> = ({ placeholder, onClick }) => {
                   <img src={book.thumbnail} alt="" />
                   <div className="book-infos">
                     <p>{book.title}</p>
-                    <p className="book-authors">{book.authors.map(author => <span>{author}</span>)}</p>
+                    <p className="book-authors">{book.authors.map((author) => <span key={author}>{author}</span>)}</p>
                   </div>
                 </div>
               ))}
