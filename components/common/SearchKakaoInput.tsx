@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import styled from "styled-components";
 import OutsideClickHandler from "react-outside-click-handler";
 import axios from "axios";
@@ -6,7 +6,6 @@ import isEmpty from "lodash/isEmpty";
 import SadIcon from "../../public/static/svg/sad.svg";
 import SearchIcon from "../../public/static/svg/search.svg";
 import Input from "./Input";
-import { Book, User, Author } from "../../types";
 import colors from "../../style/colors";
 import useDebounce from "../../hooks/useDebounce";
 
@@ -25,6 +24,7 @@ const Container = styled.div`
     position: absolute;
     background-color: white;
     width: 100%;
+    overflow: scroll;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -48,116 +48,78 @@ const Container = styled.div`
     flex-direction: column;
     justify-content: center;
   }
-  .book-result {
-    width: 100%;
-    display: flex;
-    border-bottom: 1px solid ${colors.gray_500};
-    transition: 0.2s ease-in-out;
-    padding: 8px;
-    background-color: white;
-    cursor: pointer;
-    img {
-      width: 34px;
-      height: 50px;
-    }
-    &:hover {
-      background-color: ${colors.beige_400};
-    }
-    .book-result-infos {
-      margin-left: 28px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      h2 {
-      }
-      p {
-        span {
-          margin-right: 8px;
-          :last-child {
-            margin: 0;
-          }
-        }
-      }
-      .gerne {
-        color: ${colors.gray_800};
-      }
-    }
-  }
-  .result-user {
-    width: 100%;
+  .kakao-book-result {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid ${colors.gray_500};
-    padding: 8px;
-    background-color: white;
-    cursor: pointer;
-    &:hover {
-      background-color: ${colors.beige_400};
-    }
-    img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-    }
-    p {
-      margin-left: 12px;
-    }
-  }
-  .author-result-infos {
-    margin-left: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    h2 {
-      margin-bottom: 8px;
-    }
-    p {
-      color: ${colors.gray_800};
-    }
-  }
-  .result-author {
     width: 100%;
-    display: flex;
     border-bottom: 1px solid ${colors.gray_500};
     padding: 8px;
-    background-color: white;
     cursor: pointer;
-
     &:hover {
       background-color: ${colors.beige_400};
     }
     img {
-      width: 50px;
       height: 50px;
+    }
+    .book-infos {
+      margin-left: 12px;
+      .book-authors {
+        margin-top: 8px;
+        color: ${colors.gray_800};
+        span {
+          margin-right: 8px;
+        }
+      }
     }
   }
 `;
 
-export type SearchResult = Book | User | Author;
 interface IProps {
   placeholder?: string;
-  onClick?: (selected: SearchResult) => void;
+  onClick?: (selected: KakaoSearchResult) => void;
 }
+
+type KakaoSearchResult = {
+  authors: string[];
+  contents: string;
+  datetime: Date;
+  isbn: string;
+  price: number;
+  publisher: string;
+  sale_price: number;
+  status: string;
+  thumbnail: string;
+  title: string;
+  translators: string[];
+  url: string;
+};
+
 const SearchKakaoInput: React.FC<IProps> = ({ placeholder, onClick }) => {
   const [value, setValue] = useState("");
-  const [loading, setLoading] = useState(false);
-  const serachValue = useDebounce(value, 500);
-  const searchToKaKao = async () => {
-    setLoading(true);
-    const data = await axios.get("https://dapi.kakao.com/v3/search/book?target=title?can", {
-      headers: {
-        Authorization: "KakaoAK c18fd9563bb5f1308b1995a43bd59c99"
-      },
-      params: {
-        query: "미움"
-      }
-    });
-    console.log(data);
-  };
+  const searchValue = useDebounce(value, 500);
+  const [bookList, setBookList] = useState<KakaoSearchResult[]>([]);
+  const [popupStatus, setPoupStatus] = useState(false);
+  const loading = useMemo(() => value !== searchValue, [value, searchValue]);
+
+  const searchToKaKao = useCallback(async () => {
+    if (searchValue !== "") {
+      await axios
+        .get("https://dapi.kakao.com/v3/search/book?target=title", {
+          headers: {
+            Authorization: "KakaoAK c18fd9563bb5f1308b1995a43bd59c99"
+          },
+          params: {
+            query: searchValue
+          }
+        })
+        .then(res => {
+          setBookList(res.data.documents);
+        });
+    }
+  }, [searchValue]);
   useEffect(() => {
     searchToKaKao();
-  }, [serachValue]);
-  const [popupStatus, setPoupStatus] = useState(false);
+  }, [searchValue]);
 
   return (
     <Container>
@@ -171,19 +133,38 @@ const SearchKakaoInput: React.FC<IProps> = ({ placeholder, onClick }) => {
         <SearchIcon className="search-icon" />
         {popupStatus && (
           <div className="serach-result-popup">
-            {loading && <img src="/static/gif/bookgif.gif" alt="" className="search-loading" />}
+            {value !== "" && loading && <img src="/static/gif/bookgif.gif" alt="" className="search-loading" />}
             {value === "" && (
               <div className="no-search-input">
                 <p>검색어를 입력해주세요</p>
               </div>
             )}
-            {!loading && !!"data" && (
+            {!loading && value !== "" && isEmpty(bookList) && (
               <div className="no-search-result">
                 <SadIcon />
                 <p>{`${value}검색결과가 없습니다. ㅠㅠ`}</p>
               </div>
             )}
-            {!loading && "results"}
+            {//prettier-ignore
+            value !== ""
+              && !loading
+              && bookList.map((book) => (
+                <div
+                  key={book.isbn}
+                  className="kakao-book-result"
+                  role="button"
+                  onClick={() => {
+                    onClick(book);
+                    setPoupStatus(false);
+                  }}
+                >
+                  <img src={book.thumbnail} alt="" />
+                  <div className="book-infos">
+                    <p>{book.title}</p>
+                    <p className="book-authors">{book.authors.map(author => <span>{author}</span>)}</p>
+                  </div>
+                </div>
+              ))}
           </div>
         )}
       </OutsideClickHandler>
