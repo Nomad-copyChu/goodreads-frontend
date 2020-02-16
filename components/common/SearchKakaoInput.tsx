@@ -79,7 +79,7 @@ interface IProps {
   onClick?: (selected: KakaoSearchResult) => void;
 }
 
-type KakaoSearchResult = {
+export type KakaoSearchResult = {
   authors: string[];
   contents: string;
   datetime: Date;
