@@ -21,9 +21,9 @@ const github: NextPage<IProps> = ({ code }) => {
       cookie.set("Authorization", data.githubLogin.token);
       if (data.githubLogin.isFisrt) {
         //최초 로그인 이라면
-        router.push("/auth/register/success");
+        window.location.href = "/auth/register/success";
       } else {
-        router.push("/");
+        window.location.href = "/";
       }
     }
   };

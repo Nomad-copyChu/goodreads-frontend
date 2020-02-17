@@ -95,7 +95,7 @@ const LoginBox: React.FC = () => {
       const token = data?.data?.login;
       if (token) {
         cookie.set("Authorization", token);
-        router.push("/");
+        window.location.href = "/";
       }
     } catch (e) {
       setError(e.message.replace("GraphQL error: ", ""));

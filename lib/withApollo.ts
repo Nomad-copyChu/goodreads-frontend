@@ -17,7 +17,7 @@ export default withApollo(ctx => {
     link: createUploadLink({
       uri: "http://localhost:4000/",
       headers: {
-        Authorization: serverCookie || browserCookie
+        Authorization: serverCookie?.replace("Authorization=", "") || browserCookie
       }
     }),
     cache,

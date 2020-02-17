@@ -88,12 +88,15 @@ const LoginBox: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [username, setUsername] = useState("");
-  const [registerMutation] = useMutation<string>(REGISTER_USER, { variables: { email, password, username } });
+  const [registerMutation] = useMutation<{ createUser: string }>(REGISTER_USER, {
+    variables: { email, password, username }
+  });
   const router = useRouter();
   const registerRequest = async () => {
     try {
       const data = await registerMutation();
-      const token = data?.data;
+      const token = data?.data?.createUser;
+      console.log(token);
       if (token) {
         cookie.set("Authorization", token);
         router.push("/auth/register/success");
