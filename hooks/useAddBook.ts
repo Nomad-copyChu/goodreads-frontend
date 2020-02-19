@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
+import format from "date-fns/format";
 import ADD_BOOK from "../query/book";
 import { KakaoSearchResult } from "../components/common/SearchKakaoInput";
 
@@ -10,7 +11,7 @@ export default () => {
   const [gerneInput, setGerneInput] = useState();
   const [thumbnail, setThumbnail] = useState();
   const [contents, setContents] = useState();
-  const [datetime, setDatetime] = useState();
+  const [datetime, setDatetime] = useState(null);
   const [isbn, setIsbn] = useState();
   const [price, setPrice] = useState();
   const [publisher, setPublisher] = useState();
@@ -35,7 +36,7 @@ export default () => {
     setAuthors(selected?.authors);
     setThumbnail(selected?.thumbnail);
     setContents(selected?.contents);
-    setDatetime(selected?.datetime);
+    setDatetime(format(new Date(selected?.datetime), "yyyy-MM-dd"));
     setIsbn(selected?.isbn.split(" ")[0]);
     setPrice(selected?.price);
     setPublisher(selected?.publisher);
@@ -48,16 +49,23 @@ export default () => {
   };
   return {
     title,
+    setTitle,
     authors,
     gernes,
     gerneInput,
     thumbnail,
     contents,
+    setContents,
     datetime,
+    setDatetime,
     isbn,
+    setIsbn,
     price,
+    setPrice,
     publisher,
+    setPublisher,
     saleStatus,
+    setSaleStatus,
     setGerneInput,
     addBookMutation,
     onKakaoResultClick,

@@ -12,12 +12,22 @@ export default withApollo(ctx => {
   //apollo cache 가져오기
   const cache = new InMemoryCache({ fragmentMatcher }).restore(ctx.initialState || {});
   const serverCookie = ctx?.headers?.cookie;
+  const cookies: any = {};
+  serverCookie?.split(/\s*;\s*/).forEach(pairs => {
+    const output = {};
+    const pair = pairs.split(/\s*=\s*/);
+    output[pair[0]] = pair.splice(1).join("=");
+    const json = JSON.stringify(output, null, 4);
+    Object.assign(cookies, JSON.parse(json));
+  });
+
+  console.log(cookies?.Authorization);
   const browserCookie = cookie.get("Authorization");
   return new ApolloClient({
     link: createUploadLink({
       uri: "http://localhost:4000/",
       headers: {
-        Authorization: serverCookie?.replace("Authorization=", "") || browserCookie
+        Authorization: cookies?.Authorization || browserCookie
       }
     }),
     cache,

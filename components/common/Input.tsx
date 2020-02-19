@@ -64,15 +64,32 @@ interface IProps {
   placeholder?: string;
   value: string;
   type?: string;
+  className?: string;
   onChange: (e) => void;
   onFocus?: () => void;
   color?: InputColors;
 }
 
-const Input: React.FC<IProps> = ({ size = "medium", placeholder, value, onChange, onFocus, type, color }) => {
+const Input: React.FC<IProps> = ({
+  size = "medium",
+  placeholder,
+  value,
+  onChange,
+  onFocus,
+  type,
+  color,
+  className
+}) => {
   return (
     <Container size={size} color={color}>
-      <input placeholder={placeholder} value={value} type={type} onChange={onChange} onFocus={onFocus} />
+      <input
+        placeholder={placeholder}
+        value={value}
+        type={type}
+        onChange={onChange}
+        onFocus={onFocus}
+        className={className}
+      />
     </Container>
   );
 };

@@ -1,4 +1,5 @@
 import React from "react";
+import "react-datepicker/dist/react-datepicker.css";
 import App, { AppContext, AppInitialProps } from "next/app";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient, NormalizedCacheObject } from "apollo-boost";
