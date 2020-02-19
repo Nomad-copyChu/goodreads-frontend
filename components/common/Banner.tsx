@@ -4,6 +4,8 @@ import SearchInput from "./SearchInput";
 
 const Container = styled.div`
   display: flex;
+  margin: auto;
+  width: 100%;
   .background {
     width: 100%;
     height: 235px;

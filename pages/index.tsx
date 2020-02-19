@@ -11,10 +11,15 @@ interface IProps {
   data: Book[];
 }
 
-const Container = styled.div``;
+const Container = styled.div`
+  margin: 0 auto;
+  height: 1337px;
+`;
 const Main = styled.div`
+  /* overflow: auto; */
   padding-left: 312px;
   padding-right: 312px;
+  overflow: auto;
   .suggested-font {
     font-size: 21px;
     font-weight: 500;
@@ -40,14 +45,39 @@ const Main = styled.div`
     margin-left: 16px;
   }
   .author-name {
-    position: absolute;
-    margin-top: 16px;
+    position: relative;
+    margin-top: 0px;
     margin-left: 16px;
   }
   .author-desc {
     margin-top: 8px;
     display: flex;
     margin-left: 16px;
+  }
+  .books-font {
+    margin-left: 16px;
+    margin-top: 4px;
+    margin-bottom: 3px;
+    font-size: 12px;
+  }
+  .author-books {
+    width: 60px;
+    height: 94px;
+    margin-left: 16px;
+    margin-right: 12px;
+    border: 1px solid #d8d8d8;
+    box-sizing: border-box;
+    border-radius: 5px;
+  }
+  .muti-box {
+    display: flex;
+  }
+  .box {
+    margin-right: 25px;
+  }
+  .author-photo-small {
+    width: 63px;
+    height: 73px;
   }
 `;
 
@@ -66,12 +96,32 @@ const index: NextPage<IProps> = ({ data }) => {
           ))}
         </div>
         <div className="suggested-font">추천작가</div>
-        <BorderBox size="md">
-          <img className="author-photo" src={data[0].authors[0].photo} alt="" />
-          <Link href="/authList">
-            <a className="author-name">{data[0].authors[0].name}</a>
-          </Link>
-        </BorderBox>
+        <div className="muti-box">
+          <BorderBox size="lg" className="box">
+            <img className="author-photo" src={data[0].authors[0].photo} alt="" />
+            <Link href="/authList">
+              <a className="author-name">{data[0].authors[0].name}</a>
+            </Link>
+            <div className="books-font">Books</div>
+            <div>
+              <img className="author-books" src={data[0].thumbnail} alt="" />
+            </div>
+          </BorderBox>
+          <BorderBox size="lg">
+            <img className="author-photo" src={data[2].authors[0].photo} alt="" />
+            <Link href="/authList">
+              <a className="author-name">{data[2].authors[0].name}</a>
+            </Link>
+            <div className="books-font">Books</div>
+            <div>
+              <img className="author-books" src={data[2].thumbnail} alt="" />
+            </div>
+          </BorderBox>
+        </div>
+        <div className="suggested-font">작가의 명언</div>
+        <div>
+          <BorderBox size="sm">{/* <img className="author-photo-small" src={data[0].authors[0].photo} /> */}</BorderBox>
+        </div>
       </Main>
     </Container>
   );

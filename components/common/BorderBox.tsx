@@ -1,14 +1,19 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
-type Size = "sm" | "md";
+type Size = "lg" | "sm" | "md";
 
 const getSize = (size: Size) => {
   switch (size) {
-    case "md":
+    case "lg":
       return css`
         width: 425px;
         height: 240px;
+      `;
+    case "md":
+      return css`
+        width: 200px;
+        height: 284px;
       `;
     case "sm":
       return css`

@@ -10,7 +10,10 @@ export const GET_BOOKS = gql`
         name
         photo
         description
-        books
+        books {
+          id
+          thumbnail
+        }
       }
       thumbnail
       contents
