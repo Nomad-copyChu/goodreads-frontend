@@ -43,7 +43,7 @@ const Design = styled.div`
 const Footer: React.FC = () => {
   return (
     <Container>
-      <Connect>Connect</Connect>
+      <Connect>Contact</Connect>
       <Column>
         <Mail>tjerry3@naver.com</Mail>
         <Mail>akakak231@gmail.com</Mail>

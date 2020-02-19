@@ -3,17 +3,24 @@ import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import OutsideClickHandler from "react-outside-click-handler";
 import isEmpty from "lodash/isEmpty";
-import SadIcon from "../public/static/svg/sad.svg";
+import SadIcon from "../../public/static/svg/sad.svg";
+import SearchIcon from "../../public/static/svg/search.svg";
 import Input from "./Input";
-import SEARCH from "../query/search";
-import { Book, User, Author } from "../types";
-import colors from "../style/colors";
+import SEARCH from "../../query/search";
+import { Book, User, Author } from "../../types";
+import colors from "../../style/colors";
+import useDebounce from "../../hooks/useDebounce";
 
 const Container = styled.div`
   width: 100%;
   position: relative;
+  .search-icon {
+    position: absolute;
+    right: 12px;
+    top: 8px;
+  }
   .serach-result-popup {
-    height: 150px;
+    height: 250px;
     border: 1px solid ${colors.woody_500};
     border-radius: 5px;
     position: absolute;
@@ -24,6 +31,7 @@ const Container = styled.div`
     align-items: center;
     flex-direction: column;
     .search-loading {
+      border-radius: 5px;
       width: 100%;
       height: 100%;
     }
@@ -35,6 +43,11 @@ const Container = styled.div`
   }
   .no-search-result {
     text-align: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
   }
   .book-result {
     width: 100%;
@@ -42,7 +55,8 @@ const Container = styled.div`
     border-bottom: 1px solid ${colors.gray_500};
     transition: 0.2s ease-in-out;
     padding: 8px;
-
+    background-color: white;
+    cursor: pointer;
     img {
       width: 34px;
       height: 50px;
@@ -51,15 +65,33 @@ const Container = styled.div`
       background-color: ${colors.beige_400};
     }
     .book-result-infos {
-      margin-left: 16px;
+      margin-left: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      h2 {
+      }
+      p {
+        span {
+          margin-right: 8px;
+          :last-child {
+            margin: 0;
+          }
+        }
+      }
+      .gerne {
+        color: ${colors.gray_800};
+      }
     }
   }
   .result-user {
     width: 100%;
     display: flex;
+    align-items: center;
     border-bottom: 1px solid ${colors.gray_500};
     padding: 8px;
-
+    background-color: white;
+    cursor: pointer;
     &:hover {
       background-color: ${colors.beige_400};
     }
@@ -68,12 +100,30 @@ const Container = styled.div`
       height: 50px;
       border-radius: 50%;
     }
+    p {
+      margin-left: 12px;
+    }
+  }
+  .author-result-infos {
+    margin-left: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    h2 {
+      margin-bottom: 8px;
+    }
+    p {
+      color: ${colors.gray_800};
+    }
   }
   .result-author {
     width: 100%;
     display: flex;
     border-bottom: 1px solid ${colors.gray_500};
     padding: 8px;
+    background-color: white;
+    cursor: pointer;
+
     &:hover {
       background-color: ${colors.beige_400};
     }
@@ -84,41 +134,59 @@ const Container = styled.div`
   }
 `;
 
-interface IProps {
-  value: string;
-  onChange: (e) => void;
-}
 export type SearchResult = Book | User | Author;
-const SearchInput: React.FC<IProps> = ({ value, onChange }) => {
-  const { data, loading, error } = useQuery<{ search: [SearchResult] }>(SEARCH, {
+interface IProps {
+  placeholder?: string;
+  onClick?: (selected: SearchResult) => void;
+}
+const SearchInput: React.FC<IProps> = ({ placeholder, onClick }) => {
+  const [value, setValue] = useState("");
+  const serachValue = useDebounce(value, 500);
+  const { data, loading } = useQuery<{ search: [SearchResult] }>(SEARCH, {
     skip: value === "",
-    variables: { keyword: value },
+    pollInterval: 2000,
+    variables: { keyword: serachValue },
     fetchPolicy: "network-only"
   });
-  console.log(data);
   const [popupStatus, setPoupStatus] = useState(false);
-  const results = data?.search.map(item => {
+  const results = data?.search.map((item, index) => {
     if ((item as Book).title) {
       //책이라면
       return (
-        <div className="book-result">
+        <li
+          key={index}
+          className="book-result"
+          role="presentation"
+          onClick={() => {
+            onClick(item);
+            setPoupStatus(false);
+          }}
+        >
           <img src={(item as Book).thumbnail} alt="" />
           <div className="book-result-infos">
             <h2>{(item as Book).title}</h2>
             <p>
-              {(item as Book).authors?.map((author: Author) => (
-                <span>{author.name}</span>
+              {(item as Book).authors?.map((author: Author, index) => (
+                <span key={index}>{author.name}</span>
               ))}
             </p>
-            <p>{(item as Book).gernes?.map(gerne => gerne.term)}</p>
+            <p className="gerne">{(item as Book).gernes?.map(gerne => `#${gerne.term} `)}</p>
           </div>
-        </div>
+        </li>
       );
     }
     if ((item as User).username) {
       //유저라면
       return (
-        <li className="result-user">
+        <li
+          key={index}
+          className="result-user"
+          role="presentation"
+          onClick={() => {
+            onClick(item);
+            setPoupStatus(false);
+          }}
+        >
           <img src={(item as User).profilePhoto} alt="" />
           <p>{(item as User).username}</p>
         </li>
@@ -127,7 +195,15 @@ const SearchInput: React.FC<IProps> = ({ value, onChange }) => {
     if ((item as Author).name) {
       //작가라면
       return (
-        <li className="result-author">
+        <li
+          key={index}
+          className="result-author"
+          role="presentation"
+          onClick={() => {
+            onClick(item);
+            setPoupStatus(false);
+          }}
+        >
           <img src={(item as Author).photo} alt={(item as Author).name} />
           <div className="author-result-infos">
             <h2>{(item as Author).name}</h2>
@@ -141,7 +217,13 @@ const SearchInput: React.FC<IProps> = ({ value, onChange }) => {
   return (
     <Container>
       <OutsideClickHandler onOutsideClick={() => setPoupStatus(false)}>
-        <Input value={value} onChange={onChange} onFocus={() => setPoupStatus(true)} />
+        <Input
+          value={value}
+          onChange={e => setValue(e.target.value)}
+          onFocus={() => setPoupStatus(true)}
+          placeholder={placeholder}
+        />
+        <SearchIcon className="search-icon" />
         {popupStatus && (
           <div className="serach-result-popup">
             {loading && <img src="/static/gif/bookgif.gif" alt="" className="search-loading" />}
@@ -156,7 +238,7 @@ const SearchInput: React.FC<IProps> = ({ value, onChange }) => {
                 <p>{`${value}검색결과가 없습니다. ㅠㅠ`}</p>
               </div>
             )}
-            {results}
+            {!loading && results}
           </div>
         )}
       </OutsideClickHandler>

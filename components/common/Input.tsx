@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import colors from "../style/colors";
+import colors from "../../style/colors";
 
 export type InputSizes = "medium" | "small";
 export type InputColors = "transparent";
@@ -29,6 +29,8 @@ const getColor = (color: InputColors) => {
         border-bottom: 1px solid ${colors.woody_500};
         font-size: 14px;
         border-radius: 0;
+        padding: 0 2px;
+        background-color: transparent;
         &:focus {
           box-shadow: none;
         }

@@ -16,6 +16,7 @@ const colors = {
   woody_800: "#7B7164",
   dark_woody: "#38200F",
   brown: "#825744",
+  github: "#24292E",
   dark_brown: "#462F20",
   green_500: "#409D69",
   green_600: "#3d9363",
