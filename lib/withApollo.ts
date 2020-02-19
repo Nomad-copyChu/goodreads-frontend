@@ -20,8 +20,6 @@ export default withApollo(ctx => {
     const json = JSON.stringify(output, null, 4);
     Object.assign(cookies, JSON.parse(json));
   });
-
-  console.log(cookies?.Authorization);
   const browserCookie = cookie.get("Authorization");
   return new ApolloClient({
     link: createUploadLink({

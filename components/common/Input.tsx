@@ -73,7 +73,7 @@ interface IProps {
 const Input: React.FC<IProps> = ({
   size = "medium",
   placeholder,
-  value,
+  value = "",
   onChange,
   onFocus,
   type,

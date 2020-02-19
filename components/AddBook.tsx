@@ -37,9 +37,20 @@ const Container = styled.div`
   .book-thumbnail-rating {
     width: 200px;
     position: relative;
+
+    .thumbnail-input {
+      input {
+        position: absolute;
+        width: 100%;
+        height: 312px;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 1;
+      }
+    }
     img {
       width: 100%;
-      height: 312px;
+      min-height: 312px;
       margin-bottom: 12px;
     }
     .placeholder-image {
@@ -115,6 +126,11 @@ const Container = styled.div`
       align-items: center;
       margin-top: 8px;
     }
+    form {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
     h3 {
       font-size: 16px;
       font-weight: bold;
@@ -127,11 +143,71 @@ const Container = styled.div`
       flex-shrink: 0;
     }
   }
+  .buy-book-wrapper {
+    margin-top: 20px;
+    h1 {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .buy-book {
+      display: flex;
+      margin-top: 12px;
+      a {
+        padding: 0px 12px;
+        padding-top: 5px;
+        height: 32px;
+        margin-right: 20px;
+        border-radius: 5px;
+        font-size: 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid ${colors.woody_500};
+        color: ${colors.black};
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+  .author-info-wrapper {
+    width: 348px;
+    margin-left: 40px;
+    .author-title {
+      font-size: 21px;
+    }
+    .author-infos {
+      margin-top: 20px;
+      .author-photo-name-wrapper {
+        display: flex;
+        align-items: center;
+        .author-profile-photo {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          border: 1px solid ${colors.gray_300};
+        }
+        .author-name {
+          margin-left: 20px;
+          span {
+            font-size: 16px;
+            color: ${colors.blue_green};
+            margin-right: 4px;
+          }
+        }
+      }
+    }
+  }
 `;
 
 const AddBook: React.FC = () => {
   const state = useAddBook();
   const { fileUploadMuation } = useUpload();
+  const changeThumbnail = async e => {
+    const file = e.target.files[0];
+    const { data } = await fileUploadMuation({ variables: { file } });
+    state.setThumbnail(data?.singleUpload);
+  };
   return (
     <Container>
       <div className="kakao-search-wrapper">
@@ -140,13 +216,16 @@ const AddBook: React.FC = () => {
       <div className="search-input-wrapper">
         <div className="book-wrapper">
           <div className="book-thumbnail-rating">
-            <img src={state.thumbnail} alt="" />
-            {!state.thumbnail && (
-              <div className="placeholder-image">
-                <MagicBook />
-                <p>커버 이미지를 추가해 주세요.</p>
-              </div>
-            )}
+            <div className="thumbnail-input">
+              <input type="file" onChange={changeThumbnail} />
+              <img src={state.thumbnail} alt="" />
+              {!state.thumbnail && (
+                <div className="placeholder-image">
+                  <MagicBook />
+                  <p>커버 이미지를 추가해 주세요.</p>
+                </div>
+              )}
+            </div>
             <Button
               onClick={() => {
                 console.log("addToShelf");
@@ -210,16 +289,16 @@ const AddBook: React.FC = () => {
               <div className="info-wrapper">
                 <p>장르 :</p>
                 <form onSubmit={state.addGenre}>
+                  {state.gernes.map((gerne, index) => (
+                    <span key={index}>{`#${gerne}`}</span>
+                  ))}
                   <Input
                     color="transparent"
                     value={state.gerneInput}
                     type="text"
                     onChange={e => state.setGerneInput(e.target.value)}
-                    placeholder="#해커톤 #노예 #아이패드"
+                    placeholder="엔터로 추가해 주세요"
                   />
-                  {state.gernes.map((gerne, index) => (
-                    <span key={index}>{`#${gerne}`}</span>
-                  ))}
                 </form>
               </div>
               <div className="info-wrapper">
@@ -257,9 +336,44 @@ const AddBook: React.FC = () => {
                 />
               </div>
             </div>
-            <div className="buy-book">
-              <Button onClick={() => console.log("hi")}>Amazon</Button>
-              <Button onClick={() => console.log("hi")}>알라딘</Button>
+            <div className="buy-book-wrapper">
+              <h1>책 구하기</h1>
+              <div className="buy-book">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`http://www.yes24.com/Mall/Buyback/Search?SearchDomain=BOOK,FOREIGN&searchWord=${state.isbn}`}
+                >
+                  Yes24
+                </a>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=${state.isbn}&orderClick=LAG&Kc=`}
+                >
+                  교보문고
+                </a>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`https://www.nl.go.kr/kolisnet/search/searchResultList.do?tab=BKGM&historyYn=Y&keywordType1=total&keyword1=${state.isbn}&bookFilter=BKGM`}
+                >
+                  국립 도서관
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="author-info-wrapper">
+            <h1 className="author-title">작가</h1>
+            <div className="author-infos">
+              <div className="author-photo-name-wrapper">
+                <img src="" alt="" className="author-profile-photo" />
+                <p className="author-name">
+                  {state.authors?.map(author => (
+                    <span>{author}</span>
+                  ))}
+                </p>
+              </div>
             </div>
           </div>
         </div>

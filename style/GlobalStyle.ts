@@ -7,7 +7,6 @@ const GlobalStyles = createGlobalStyle`
     * {
     box-sizing: border-box;
     color: #333333;
-    line-height: 1.2;
   }
   a{
     line-height: 1.2;
@@ -37,6 +36,7 @@ const GlobalStyles = createGlobalStyle`
     src: url("/fonts/NotoSansKR-Bold-Alphabetic.woff2") format("woff2");
   }
   body {
+    line-height: 1.2;
     background-color:${colors.beige_400};
     font-family: Noto Sans Kr;
     ::-webkit-scrollbar {

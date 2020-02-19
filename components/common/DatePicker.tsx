@@ -11,7 +11,7 @@ import colors from "../../style/colors";
 const Container = styled.div`
   position: relative;
   display: block;
-  width: 100%;
+  width: 280px;
   input {
     background-color: transparent;
     width: 100%;

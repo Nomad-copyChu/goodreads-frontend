@@ -37,7 +37,7 @@ export default () => {
     setThumbnail(selected?.thumbnail);
     setContents(selected?.contents);
     setDatetime(format(new Date(selected?.datetime), "yyyy-MM-dd"));
-    setIsbn(selected?.isbn.split(" ")[0]);
+    setIsbn(selected?.isbn.split(" ")[1]);
     setPrice(selected?.price);
     setPublisher(selected?.publisher);
     setSaleStatus(selected?.status);
@@ -54,6 +54,7 @@ export default () => {
     gernes,
     gerneInput,
     thumbnail,
+    setThumbnail,
     contents,
     setContents,
     datetime,
