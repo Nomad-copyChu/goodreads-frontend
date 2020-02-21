@@ -7,6 +7,13 @@ export const GET_BOOKS = gql`
       title
       authors {
         id
+        name
+        photo
+        description
+        books {
+          id
+          thumbnail
+        }
       }
       thumbnail
       contents

@@ -3,8 +3,8 @@ import styled from "styled-components";
 import colors from "../style/colors";
 
 const Container = styled.div`
-  position: absolute;
-  top: 957px;
+  position: fixed;
+  bottom: 0px;
   height: 67px;
   width: 100%;
   background-color: ${colors.beige_400};
