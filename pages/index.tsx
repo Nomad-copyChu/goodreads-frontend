@@ -45,8 +45,8 @@ const Main = styled.div`
     margin-left: 16px;
   }
   .author-name {
-    position: relative;
-    margin-top: 0px;
+    position: absolute;
+    margin-top: 16px;
     margin-left: 16px;
   }
   .author-desc {
@@ -82,9 +82,33 @@ const Main = styled.div`
       margin-bottom: 15px;
     }
   }
+  .author-container {
+    display: flex;
+  }
   .author-photo-small {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
     width: 63px;
     height: 73px;
+  }
+  .author-desc {
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 700px) {
+      margin-left: 0px;
+    }
+  }
+  .small-box {
+    margin-bottom: 10px;
+  }
+  .tags {
+    margin-left: 24px;
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+  .tags-font {
+    font-size: 14px;
   }
 `;
 
@@ -126,8 +150,24 @@ const index: NextPage<IProps> = ({ data }) => {
           </BorderBox>
         </div>
         <div className="suggested-font">작가의 명언</div>
-        <div>
-          <BorderBox size="sm">{/* <img className="author-photo-small" src={data[0].authors[0].photo} /> */}</BorderBox>
+        <div className="author-container">
+          <div className="author-desc">
+            <BorderBox className="small-box" size="sm">
+              <img className="author-photo-small" src={data[2].authors[0].photo} alt="" />
+            </BorderBox>
+            <BorderBox className="small-box" size="sm">
+              <img className="author-photo-small" src={data[2].authors[0].photo} alt="" />
+            </BorderBox>
+            <BorderBox className="small-box" size="sm">
+              <img className="author-photo-small" src={data[2].authors[0].photo} alt="" />
+            </BorderBox>
+          </div>
+          <div className="tags">
+            <Link href="tags">
+              <a className="tags-font">Tags</a>
+            </Link>
+            {/* <div className="tag">{data.map(book => book.gernes.map(gerne => gerne.term))}</div> */}
+          </div>
         </div>
       </Main>
     </Container>
