@@ -12,14 +12,14 @@ interface IProps {
 }
 
 const Container = styled.div`
-  margin: 0 auto;
-  height: 1337px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `;
 const Main = styled.div`
-  /* overflow: auto; */
-  padding-left: 312px;
-  padding-right: 312px;
   overflow: auto;
+  margin: 0 auto;
+  scroll-behavior: smooth;
   .suggested-font {
     font-size: 21px;
     font-weight: 500;
@@ -71,9 +71,16 @@ const Main = styled.div`
   }
   .muti-box {
     display: flex;
+    @media (max-width: 700px) {
+      display: block;
+      margin-left: 15px;
+    }
   }
   .box {
     margin-right: 25px;
+    @media (max-width: 700px) {
+      margin-bottom: 15px;
+    }
   }
   .author-photo-small {
     width: 63px;

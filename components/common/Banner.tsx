@@ -1,33 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import SearchInput from "./SearchInput";
 
 const Container = styled.div`
   display: flex;
-  margin: auto;
+  margin: 0 auto;
   width: 100%;
+  justify-content: center;
+  align-items: center;
   .background {
-    width: 100%;
     height: 235px;
+    width: 100%;
     z-index: 0;
   }
-  .search {
-    z-index: 1;
+  .Content {
     position: absolute;
-    width: 407px;
+    display: flex;
+    @media (max-width: 700px) {
+      display: block;
+    }
+  }
+  .search {
+    flex: 3 0 0;
+    align-self: stretch;
+    z-index: 2;
+    width: 472px;
     height: 32px;
-    margin-top: 62px;
-    margin-left: 593px;
+    margin: 0 auto;
+    @media (max-width: 700px) {
+      width: 300px;
+    }
   }
   .bannerText {
-    position: absolute;
+    flex: 3 0 0;
+    margin-right: 10px;
+    width: 100%;
     font-size: 50px;
-    margin-top: 62px;
-    margin-left: 90px;
     z-index: 3;
     p {
       color: white;
       margin-bottom: 10px;
+    }
+    @media (max-width: 700px) {
+      font-size: 30px;
     }
   }
 `;
@@ -40,12 +55,14 @@ const Banner: React.FC = () => {
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTEXOq1t-AE6-FeMfma4C4ns2wXwY2DaDfF-G1pSltKGI03dwQU"
         alt=""
       />
-      <div className="bannerText">
-        <p>Meet you next</p>
-        <p>favorite book</p>
-      </div>
-      <div className="search">
-        <SearchInput placeholder="궁금한 책을 검색하세요." />
+      <div className="Content">
+        <div className="bannerText">
+          <p>Meet you next</p>
+          <p>favorite book</p>
+        </div>
+        <div className="search">
+          <SearchInput placeholder="궁금한 책을 검색하세요." />
+        </div>
       </div>
     </Container>
   );

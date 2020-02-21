@@ -19,6 +19,7 @@ const GlobalStyles = createGlobalStyle`
     }
   }
   body {
+    height: 100vh;
     background-color:${colors.beige_400};
     ::-webkit-scrollbar {
       display: none;
