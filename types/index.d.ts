@@ -64,10 +64,11 @@ export type File = {
 export type Gerne = {
   id: string;
   term: string;
-  books: Book[];
-  authors: Author[];
-  createdAt: string;
-  updatedAt: string;
+  books?: Book[];
+  authors?: Author[];
+  booksCount: number;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type Profile = {

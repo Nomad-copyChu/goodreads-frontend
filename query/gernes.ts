@@ -5,14 +5,7 @@ const GET_GERNES = gql`
     getGernes {
       id
       term
-      books {
-        id
-        title
-      }
-      authors {
-        id
-        name
-      }
+      booksCount
     }
   }
 `;
