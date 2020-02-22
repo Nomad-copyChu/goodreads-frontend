@@ -1,11 +1,11 @@
 /* eslint-disable react/no-array-index-key */
-import React from "react";
+import React, { useEffect } from "react";
 import TextArea from "react-textarea-autosize";
 import dynamic from "next/dynamic";
-import format from "date-fns/format";
+import isEmpty from "lodash/isEmpty";
+import cloneDeep from "lodash/cloneDeep";
 import styled from "styled-components";
-import { useMutation } from "@apollo/react-hooks";
-import ADD_BOOK from "../query/book";
+import { useQuery } from "@apollo/react-hooks";
 import MagicBook from "../public/static/svg/maginBook.svg";
 import SearchKakaoInput from "./common/SearchKakaoInput";
 import Input from "./common/Input";
@@ -16,17 +16,25 @@ import Button from "./common/Button";
 import Selector from "./common/Selector";
 import colors from "../style/colors";
 import DatePicker from "./common/DatePicker";
+import { GET_AUTHORS_WITH_NAME } from "../query/author";
 
 const ReactStars = dynamic(import("react-stars"), { ssr: false });
 
 const Container = styled.div`
+  margin-top: 20px;
+  position: relative;
   .book-wrapper {
     display: flex;
   }
-  .kakao-search-wrapper {
+  .kakao-search-sbumit-wrapper {
     width: 385px;
     margin: auto;
-    margin-top: 20px;
+    .book-submit {
+      position: absolute;
+      right: 20px;
+      top: 0;
+      width: fit-content;
+    }
   }
   .search-input-wrapper {
     width: fit-content;
@@ -173,7 +181,7 @@ const Container = styled.div`
     }
   }
   .author-info-wrapper {
-    width: 348px;
+    width: 280px;
     margin-left: 40px;
     .author-title {
       font-size: 21px;
@@ -183,6 +191,15 @@ const Container = styled.div`
       .author-photo-name-wrapper {
         display: flex;
         align-items: center;
+        .author-photo-input {
+          position: absolute;
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          cursor: poti;
+          cursor: pointer;
+          opacity: 0;
+        }
         .author-profile-photo {
           width: 48px;
           height: 48px;
@@ -198,6 +215,29 @@ const Container = styled.div`
           }
         }
       }
+      .author-description {
+        width: 100%;
+        margin-top: 20px;
+        width: 100%;
+        border: 0;
+        outline: none;
+        font-size: 16px;
+        min-height: 180px;
+        width: 100%;
+        resize: none;
+        background-color: transparent;
+      }
+      .author-books {
+        font-size: 21px;
+        margin-top: 20px;
+      }
+      .author-other-book {
+        img {
+          width: 60px;
+          margin-top: 12px;
+          border-radius: 5px;
+        }
+      }
     }
   }
 `;
@@ -205,15 +245,46 @@ const Container = styled.div`
 const AddBook: React.FC = () => {
   const state = useAddBook();
   const { fileUploadMuation } = useUpload();
+
+  //작가 이름들로 DB작가 조회하기
+  const { data, refetch } = useQuery(GET_AUTHORS_WITH_NAME, {
+    skip: isEmpty(state.authors),
+    variables: { authors: state.authors }
+  });
+
+  useEffect(() => {
+    if (data?.getAuthorsWithName) {
+      //서버에서 작가 데이터를 받으면
+      state.setAuthorsFromDB(data?.getAuthorsWithName);
+    }
+  }, [data]);
+  useEffect(() => {
+    //검색된 작가가 들어오면 서버에 작가 검색
+    if (!isEmpty(state.authors)) {
+      refetch();
+    }
+  }, [state.authors]);
   const changeThumbnail = async e => {
     const file = e.target.files[0];
     const { data } = await fileUploadMuation({ variables: { file } });
     state.setThumbnail(data?.singleUpload);
   };
+  const changeAuthorPhoto = async (e, index) => {
+    const file = e.target.files[0];
+    const { data } = await fileUploadMuation({ variables: { file } });
+    state.setAuthorsFromDB(authors => {
+      const newAuthors = cloneDeep(authors);
+      newAuthors[index].photo = data?.singleUpload;
+      return newAuthors;
+    });
+  };
   return (
     <Container>
-      <div className="kakao-search-wrapper">
+      <div className="kakao-search-sbumit-wrapper">
         <SearchKakaoInput onClick={state.onKakaoResultClick} />
+        <Button className="book-submit" color="green" onClick={() => state.addBookMutation()}>
+          책 등록하기
+        </Button>
       </div>
       <div className="search-input-wrapper">
         <div className="book-wrapper">
@@ -261,7 +332,7 @@ const AddBook: React.FC = () => {
                 className="title"
                 type="text"
                 onChange={e => state.setTitle(e.target.value)}
-                placeholder="Title..."
+                placeholder="제목..."
               />
               <div className="share">
                 <ShareArrow />
@@ -274,7 +345,7 @@ const AddBook: React.FC = () => {
               value={state.contents}
               type="text"
               onChange={e => state.setContents(e.target.value)}
-              placeholder="Contents..."
+              placeholder="책 소개..."
             />
             <div className="sub-infos">
               <h3>More</h3>
@@ -323,8 +394,8 @@ const AddBook: React.FC = () => {
                   color="transparent"
                   value={state.price}
                   type="text"
-                  onChange={e => state.setDatetime(e.target.value)}
-                  placeholder="1234567..."
+                  onChange={e => state.setPrice(e.target.value)}
+                  placeholder="20000만원..."
                 />
               </div>
               <div className="info-wrapper">
@@ -334,7 +405,7 @@ const AddBook: React.FC = () => {
                   value={state.saleStatus}
                   type="text"
                   onChange={e => state.setSaleStatus(e.target.value)}
-                  placeholder="1234567..."
+                  placeholder="정상판매..."
                 />
               </div>
             </div>
@@ -367,16 +438,15 @@ const AddBook: React.FC = () => {
           </div>
           <div className="author-info-wrapper">
             <h1 className="author-title">작가</h1>
-            <div className="author-infos">
-              <div className="author-photo-name-wrapper">
-                <img src="" alt="" className="author-profile-photo" />
-                <p className="author-name">
-                  {state.authors?.map(author => (
-                    <span>{author}</span>
-                  ))}
-                </p>
+            {state.authorsFromDB.map((author, index) => (
+              <div className="author-infos" key={index}>
+                <div className="author-photo-name-wrapper">
+                  <input className="author-photo-input" type="file" onChange={e => changeAuthorPhoto(e, index)} />
+                  <img src={author.photo} alt="" className="author-profile-photo" />
+                  <p className="author-name">{author.name}</p>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

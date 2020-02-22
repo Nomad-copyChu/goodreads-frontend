@@ -4,9 +4,15 @@ import format from "date-fns/format";
 import ADD_BOOK from "../query/book";
 import { KakaoSearchResult } from "../components/common/SearchKakaoInput";
 
+type AddBookAuthorType = {
+  name: string;
+  description?: string;
+  photo?: string;
+};
+
 export default () => {
   const [title, setTitle] = useState();
-  const [authors, setAuthors] = useState();
+  const [authors, setAuthors] = useState<string[]>([]);
   const [gernes, setGernes] = useState([]);
   const [gerneInput, setGerneInput] = useState();
   const [thumbnail, setThumbnail] = useState();
@@ -16,22 +22,29 @@ export default () => {
   const [price, setPrice] = useState();
   const [publisher, setPublisher] = useState();
   const [saleStatus, setSaleStatus] = useState();
+  const [authorsFromDB, setAuthorsFromDB] = useState<AddBookAuthorType[]>([]);
+
   const [addBookMutation] = useMutation(ADD_BOOK, {
     variables: {
-      title,
-      authors,
-      gernes,
-      thumbnail,
-      contents,
-      datetime,
-      isbn,
-      price,
-      publisher,
-      saleStatus
+      bookInfos: {
+        title,
+        gernes,
+        thumbnail,
+        contents,
+        datetime,
+        isbn,
+        price,
+        publisher,
+        saleStatus
+      },
+      authors: authorsFromDB.map((author: AddBookAuthorType) => ({
+        name: author.name,
+        description: author.description,
+        photo: author.photo
+      }))
     }
   });
   const onKakaoResultClick = (selected: KakaoSearchResult) => {
-    console.log(selected);
     setTitle(selected?.title);
     setAuthors(selected?.authors);
     setThumbnail(selected?.thumbnail);
@@ -47,6 +60,7 @@ export default () => {
     setGernes(gerne => [...gerne, gerneInput]);
     setGerneInput("");
   };
+
   return {
     title,
     setTitle,
@@ -70,6 +84,8 @@ export default () => {
     setGerneInput,
     addBookMutation,
     onKakaoResultClick,
-    addGenre
+    addGenre,
+    authorsFromDB,
+    setAuthorsFromDB
   };
 };
