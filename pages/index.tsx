@@ -3,13 +3,16 @@ import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { NextPage } from "next";
-import { ApolloNextPageContext, Book } from "../types";
+import { ApolloNextPageContext, Book, Author } from "../types";
 import { GET_BOOKS } from "../query";
 import Banner from "../components/common/Banner";
 import BorderBox from "../components/common/BorderBox";
+import GetGernes from "../components/common/GetGernes";
+import { GET_AUTHORS } from "../query/author";
 
 interface IProps {
-  data: Book[];
+  books: Book[];
+  authors: Author[];
 }
 
 const Container = styled.div`
@@ -113,14 +116,14 @@ const Main = styled.div`
   }
 `;
 
-const index: NextPage<IProps> = ({ data }) => {
+const index: NextPage<IProps> = ({ books, authors }) => {
   return (
     <Container>
       <Banner />
       <Main>
         <div className="suggested-font">추천하는 도서</div>
         <div className="books-slide">
-          {data.map((book, index) => (
+          {books.map((book, index) => (
             <span key={index}>
               <img className="books-thumnail" src={book.thumbnail} alt="" />
               <div className="books-title">{book.title}</div>
@@ -130,23 +133,27 @@ const index: NextPage<IProps> = ({ data }) => {
         <div className="suggested-font">추천작가</div>
         <div className="muti-box">
           <BorderBox size="lg" className="box">
-            <img className="author-photo" src={data[0].authors[0]?.photo} alt="" />
+            {authors.map(author => (
+              <img className="author-photo" src={author.photo} alt="" />
+            ))}
             <Link href="/authList">
-              <a className="author-name">{data[0].authors[0]?.name}</a>
+              {authors.map(author => (
+                <a className="authorname">{author.name}</a>
+              ))}
             </Link>
             <div className="books-font">Books</div>
             <div>
-              <img className="author-books" src={data[0]?.thumbnail} alt="" />
+              <img className="author-books" src={books[0]?.thumbnail} alt="" />
             </div>
           </BorderBox>
           <BorderBox size="lg">
-            <img className="author-photo" src={data[2].authors[0]?.photo} alt="" />
+            <img className="author-photo" src={books[2]?.authors[0]?.photo} alt="" />
             <Link href="/authList">
-              <a className="author-name">{data[2].authors[0]?.name}</a>
+              <a className="author-name">{books[2]?.authors[0]?.name}</a>
             </Link>
             <div className="books-font">Books</div>
             <div>
-              <img className="author-books" src={data[2]?.thumbnail} alt="" />
+              <img className="author-books" src={books[2]?.thumbnail} alt="" />
             </div>
           </BorderBox>
         </div>
@@ -154,13 +161,13 @@ const index: NextPage<IProps> = ({ data }) => {
         <div className="author-container">
           <div className="author-desc">
             <BorderBox className="small-box" size="sm">
-              <img className="author-photo-small" src={data[2].authors[0]?.photo} alt="" />
+              <img className="author-photo-small" src={books[2]?.authors[0]?.photo} alt="" />
             </BorderBox>
             <BorderBox className="small-box" size="sm">
-              <img className="author-photo-small" src={data[2].authors[0]?.photo} alt="" />
+              <img className="author-photo-small" src={books[2]?.authors[0]?.photo} alt="" />
             </BorderBox>
             <BorderBox className="small-box" size="sm">
-              <img className="author-photo-small" src={data[2].authors[0]?.photo} alt="" />
+              <img className="author-photo-small" src={books[2]?.authors[0]?.photo} alt="" />
             </BorderBox>
           </div>
           <div className="tags">
@@ -170,6 +177,7 @@ const index: NextPage<IProps> = ({ data }) => {
             {/* <div className="tag">{data.map(book => book.gernes.map(gerne => gerne.term))}</div> */}
           </div>
         </div>
+        <GetGernes />
       </Main>
     </Container>
   );
@@ -178,11 +186,16 @@ const index: NextPage<IProps> = ({ data }) => {
 index.getInitialProps = async (ctx: ApolloNextPageContext) => {
   const { apolloClient } = ctx;
   //Posts 불러오기
-  const { data }: { data: { getBooks: Book[] } } = await apolloClient.query({
+  const bookData = await apolloClient.query({
     query: GET_BOOKS,
     fetchPolicy: "network-only"
   });
-  return { data: data.getBooks };
+  const authorData = await apolloClient.query({
+    query: GET_AUTHORS,
+    fetchPolicy: "network-only"
+  });
+
+  return { books: bookData?.data?.getBooks, authors: authorData?.data?.getAuthors };
 };
 
 export default index;
