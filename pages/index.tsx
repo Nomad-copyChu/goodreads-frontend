@@ -130,23 +130,23 @@ const index: NextPage<IProps> = ({ data }) => {
         <div className="suggested-font">추천작가</div>
         <div className="muti-box">
           <BorderBox size="lg" className="box">
-            <img className="author-photo" src={data[0].authors[0].photo} alt="" />
+            <img className="author-photo" src={data[0].authors[0]?.photo} alt="" />
             <Link href="/authList">
-              <a className="author-name">{data[0].authors[0].name}</a>
+              <a className="author-name">{data[0].authors[0]?.name}</a>
             </Link>
             <div className="books-font">Books</div>
             <div>
-              <img className="author-books" src={data[0].thumbnail} alt="" />
+              <img className="author-books" src={data[0]?.thumbnail} alt="" />
             </div>
           </BorderBox>
           <BorderBox size="lg">
-            <img className="author-photo" src={data[2].authors[0].photo} alt="" />
+            <img className="author-photo" src={data[2].authors[0]?.photo} alt="" />
             <Link href="/authList">
-              <a className="author-name">{data[2].authors[0].name}</a>
+              <a className="author-name">{data[2].authors[0]?.name}</a>
             </Link>
             <div className="books-font">Books</div>
             <div>
-              <img className="author-books" src={data[2].thumbnail} alt="" />
+              <img className="author-books" src={data[2]?.thumbnail} alt="" />
             </div>
           </BorderBox>
         </div>
@@ -154,13 +154,13 @@ const index: NextPage<IProps> = ({ data }) => {
         <div className="author-container">
           <div className="author-desc">
             <BorderBox className="small-box" size="sm">
-              <img className="author-photo-small" src={data[2].authors[0].photo} alt="" />
+              <img className="author-photo-small" src={data[2].authors[0]?.photo} alt="" />
             </BorderBox>
             <BorderBox className="small-box" size="sm">
-              <img className="author-photo-small" src={data[2].authors[0].photo} alt="" />
+              <img className="author-photo-small" src={data[2].authors[0]?.photo} alt="" />
             </BorderBox>
             <BorderBox className="small-box" size="sm">
-              <img className="author-photo-small" src={data[2].authors[0].photo} alt="" />
+              <img className="author-photo-small" src={data[2].authors[0]?.photo} alt="" />
             </BorderBox>
           </div>
           <div className="tags">

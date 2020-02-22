@@ -55,7 +55,7 @@ export default () => {
     setPublisher(selected?.publisher);
     setSaleStatus(selected?.status);
   };
-  const addGenre = e => {
+  const addGerne = e => {
     e.preventDefault();
     setGernes(gerne => [...gerne, gerneInput]);
     setGerneInput("");
@@ -84,7 +84,7 @@ export default () => {
     setGerneInput,
     addBookMutation,
     onKakaoResultClick,
-    addGenre,
+    addGerne,
     authorsFromDB,
     setAuthorsFromDB
   };

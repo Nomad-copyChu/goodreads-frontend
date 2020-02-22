@@ -269,6 +269,7 @@ const AddBook: React.FC = () => {
     const { data } = await fileUploadMuation({ variables: { file } });
     state.setThumbnail(data?.singleUpload);
   };
+
   const changeAuthorPhoto = async (e, index) => {
     const file = e.target.files[0];
     const { data } = await fileUploadMuation({ variables: { file } });
@@ -361,7 +362,7 @@ const AddBook: React.FC = () => {
               </div>
               <div className="info-wrapper">
                 <p>장르 :</p>
-                <form onSubmit={state.addGenre}>
+                <form onSubmit={state.addGerne}>
                   {state.gernes.map((gerne, index) => (
                     <span key={index}>{`#${gerne}`}</span>
                   ))}

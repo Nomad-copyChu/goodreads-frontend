@@ -41,6 +41,7 @@ export const GET_AUTHORS = gql`
       }
       quotes {
         id
+        term
       }
     }
   }
