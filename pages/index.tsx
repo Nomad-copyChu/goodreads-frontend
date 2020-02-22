@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
@@ -119,8 +120,8 @@ const index: NextPage<IProps> = ({ data }) => {
       <Main>
         <div className="suggested-font">추천하는 도서</div>
         <div className="books-slide">
-          {data.map(book => (
-            <span>
+          {data.map((book, index) => (
+            <span key={index}>
               <img className="books-thumnail" src={book.thumbnail} alt="" />
               <div className="books-title">{book.title}</div>
             </span>

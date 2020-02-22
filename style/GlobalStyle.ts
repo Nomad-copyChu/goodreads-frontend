@@ -7,7 +7,6 @@ const GlobalStyles = createGlobalStyle`
     * {
     box-sizing: border-box;
     color: #333333;
-    line-height: 1.2;
   }
   a{
     line-height: 1.2;
@@ -26,6 +25,7 @@ const GlobalStyles = createGlobalStyle`
       display: none;
     }
   }
+  
   @font-face {
     font-style: normal;
     font-family: "Noto Sans KR";
@@ -39,6 +39,14 @@ const GlobalStyles = createGlobalStyle`
     font-weight: 700;
     font-display: auto;
     src: url("/fonts/NotoSansKR-Bold-Alphabetic.woff2") format("woff2");
+  }
+  body {
+    line-height: 1.2;
+    background-color:${colors.beige_400};
+    font-family: Noto Sans Kr;
+    ::-webkit-scrollbar {
+      display: none;
+    }
   }
 `;
 
