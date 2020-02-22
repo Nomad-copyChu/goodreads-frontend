@@ -9,20 +9,12 @@ const GlobalStyles = createGlobalStyle`
     color: #333333;
   }
   a{
-    line-height: 1.2;
+    line-height: 1.5;
     color:${colors.blue_green};
     text-decoration:none;
 
     &:hover{
       text-decoration:underline;
-    }
-  }
-  body {
-    overflow:auto;
-    height: 100vh;
-    background-color:${colors.beige_400};
-    ::-webkit-scrollbar {
-      display: none;
     }
   }
   
@@ -41,9 +33,10 @@ const GlobalStyles = createGlobalStyle`
     src: url("/fonts/NotoSansKR-Bold-Alphabetic.woff2") format("woff2");
   }
   body {
-    line-height: 1.2;
+    line-height: 1.4;
     background-color:${colors.beige_400};
     font-family: Noto Sans Kr;
+    height: 100vh;
     ::-webkit-scrollbar {
       display: none;
     }

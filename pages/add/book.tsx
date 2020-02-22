@@ -1,6 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
-import AddBook from "../../components/AddBook";
+import AddBook from "../../components/book/AddBook";
 
 const book: NextPage = () => {
   return <AddBook />;

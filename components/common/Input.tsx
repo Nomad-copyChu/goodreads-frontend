@@ -41,7 +41,7 @@ const getColor = (color: InputColors) => {
   }
 };
 
-const Container = styled.div<{ size: InputSizes; color: InputColors }>`
+const Container = styled.div<{ size: InputSizes; color: InputColors; width: string }>`
   input {
     width: 100%;
     padding: 0 12px;
@@ -57,6 +57,7 @@ const Container = styled.div<{ size: InputSizes; color: InputColors }>`
     ${props => getColor(props.color)}
     ${props => getSize(props.size)}
   }
+  width: ${props => props.width};
 `;
 
 interface IProps {
@@ -68,6 +69,7 @@ interface IProps {
   onChange: (e) => void;
   onFocus?: () => void;
   color?: InputColors;
+  width?: string;
 }
 
 const Input: React.FC<IProps> = ({
@@ -78,10 +80,11 @@ const Input: React.FC<IProps> = ({
   onFocus,
   type,
   color,
-  className
+  className,
+  width
 }) => {
   return (
-    <Container size={size} color={color}>
+    <Container size={size} color={color} width={width}>
       <input
         placeholder={placeholder}
         value={value}

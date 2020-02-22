@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import format from "date-fns/format";
+import { useRouter } from "next/dist/client/router";
 import ADD_BOOK from "../query/book";
 import { KakaoSearchResult } from "../components/common/SearchKakaoInput";
 
@@ -24,7 +25,9 @@ export default () => {
   const [saleStatus, setSaleStatus] = useState();
   const [authorsFromDB, setAuthorsFromDB] = useState<AddBookAuthorType[]>([]);
 
-  const [addBookMutation] = useMutation(ADD_BOOK, {
+  const router = useRouter();
+
+  const [addBookMutation, { error: addBookMutationError }] = useMutation(ADD_BOOK, {
     variables: {
       bookInfos: {
         title,
@@ -42,6 +45,9 @@ export default () => {
         description: author.description,
         photo: author.photo
       }))
+    },
+    onCompleted: data => {
+      router.push("/book/[id]", `/book/${data.addBook.id}`);
     }
   });
   const onKakaoResultClick = (selected: KakaoSearchResult) => {
@@ -83,6 +89,7 @@ export default () => {
     setSaleStatus,
     setGerneInput,
     addBookMutation,
+    addBookMutationError,
     onKakaoResultClick,
     addGerne,
     authorsFromDB,

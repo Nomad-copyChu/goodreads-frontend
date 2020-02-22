@@ -1,22 +1,22 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import TextArea from "react-textarea-autosize";
 import dynamic from "next/dynamic";
 import isEmpty from "lodash/isEmpty";
 import cloneDeep from "lodash/cloneDeep";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
-import MagicBook from "../public/static/svg/maginBook.svg";
-import SearchKakaoInput from "./common/SearchKakaoInput";
-import Input from "./common/Input";
-import useAddBook from "../hooks/useAddBook";
-import ShareArrow from "../public/static/svg/share-arrow.svg";
-import useUpload from "../hooks/useUpload";
-import Button from "./common/Button";
-import Selector from "./common/Selector";
-import colors from "../style/colors";
-import DatePicker from "./common/DatePicker";
-import { GET_AUTHORS_WITH_NAME } from "../query/author";
+import MagicBook from "../../public/static/svg/maginBook.svg";
+import SearchKakaoInput from "../common/SearchKakaoInput";
+import Input from "../common/Input";
+import useAddBook from "../../hooks/useAddBook";
+import ShareArrow from "../../public/static/svg/share-arrow.svg";
+import useUpload from "../../hooks/useUpload";
+import Button from "../common/Button";
+import AddToShelfButton from "./AddToShelfButton";
+import colors from "../../style/colors";
+import DatePicker from "../common/DatePicker";
+import { GET_AUTHORS_WITH_NAME } from "../../query/author";
 
 const ReactStars = dynamic(import("react-stars"), { ssr: false });
 
@@ -31,9 +31,20 @@ const Container = styled.div`
     margin: auto;
     .book-submit {
       position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
       right: 20px;
       top: 0;
       width: fit-content;
+      button {
+        width: fit-content;
+      }
+      p {
+        margin-top: 8px;
+        max-width: 300px;
+        color: ${colors.red_500};
+      }
     }
   }
   .search-input-wrapper {
@@ -97,16 +108,21 @@ const Container = styled.div`
     .title-share {
       display: flex;
       justify-content: space-between;
+      cursor: pointer;
+
       .title {
         font-size: 21px;
         font-weight: bold;
         margin-bottom: 8px;
         width: fit-content;
+        width: 100%;
         ::placeholder {
           color: ${colors.gray_600};
         }
       }
       .share {
+        white-space: pre;
+        margin-left: 20px;
         span {
           color: ${colors.blue_green};
           margin-left: 4px;
@@ -196,7 +212,6 @@ const Container = styled.div`
           width: 48px;
           height: 48px;
           border-radius: 50%;
-          cursor: poti;
           cursor: pointer;
           opacity: 0;
         }
@@ -245,9 +260,10 @@ const Container = styled.div`
 const AddBook: React.FC = () => {
   const state = useAddBook();
   const { fileUploadMuation } = useUpload();
-
+  const options = ["원해요", "읽는중", "읽음"];
+  const [shelf, setShelf] = useState(options[0]);
   //작가 이름들로 DB작가 조회하기
-  const { data, refetch } = useQuery(GET_AUTHORS_WITH_NAME, {
+  const { data, refetch, loading } = useQuery(GET_AUTHORS_WITH_NAME, {
     skip: isEmpty(state.authors),
     variables: { authors: state.authors }
   });
@@ -279,13 +295,17 @@ const AddBook: React.FC = () => {
       return newAuthors;
     });
   };
+
   return (
     <Container>
       <div className="kakao-search-sbumit-wrapper">
         <SearchKakaoInput onClick={state.onKakaoResultClick} />
-        <Button className="book-submit" color="green" onClick={() => state.addBookMutation()}>
-          책 등록하기
-        </Button>
+        <div className="book-submit">
+          <Button color="green" onClick={() => state.addBookMutation()}>
+            책 등록하기
+          </Button>
+          <p>{state.addBookMutationError?.message}</p>
+        </div>
       </div>
       <div className="search-input-wrapper">
         <div className="book-wrapper">
@@ -300,14 +320,7 @@ const AddBook: React.FC = () => {
                 </div>
               )}
             </div>
-            <Button
-              onClick={() => {
-                console.log("addToShelf");
-              }}
-            >
-              <Selector />
-              <p>선반에 추가하기</p>
-            </Button>
+            <AddToShelfButton value={shelf} options={["원해요", "읽는중", "읽음"]} onClick={value => setShelf(value)} />
             <div className="ratings">
               <p>원해요 : 0명</p>
               <p>읽는중 : 0명</p>
@@ -334,6 +347,7 @@ const AddBook: React.FC = () => {
                 type="text"
                 onChange={e => state.setTitle(e.target.value)}
                 placeholder="제목..."
+                width="100%"
               />
               <div className="share">
                 <ShareArrow />
@@ -439,11 +453,12 @@ const AddBook: React.FC = () => {
           </div>
           <div className="author-info-wrapper">
             <h1 className="author-title">작가</h1>
+            {loading && "loading..."}
             {state.authorsFromDB.map((author, index) => (
               <div className="author-infos" key={index}>
                 <div className="author-photo-name-wrapper">
                   <input className="author-photo-input" type="file" onChange={e => changeAuthorPhoto(e, index)} />
-                  <img src={author.photo} alt="" className="author-profile-photo" />
+                  <img src={author.photo || "nophoto"} alt="" className="author-profile-photo" />
                   <p className="author-name">{author.name}</p>
                 </div>
               </div>
