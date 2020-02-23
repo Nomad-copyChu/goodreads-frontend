@@ -16,6 +16,11 @@ export const GET_BOOK = gql`
         id
         name
         photo
+        books {
+          id
+          title
+          thumbnail
+        }
       }
       thumbnail
       contents

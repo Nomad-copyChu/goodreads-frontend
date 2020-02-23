@@ -1,5 +1,8 @@
 import { gql } from "apollo-boost";
 
+/**
+ * * 로그인 한 유저 불러오기
+ */
 export const GET_USER = gql`
   query getUser {
     getUser {
@@ -16,6 +19,9 @@ export const GET_USER = gql`
   }
 `;
 
+/**
+ * * 캐쉬에 유저 저장하기
+ */
 export const GET_CACHE_USER = gql`
   query getCacheUser {
     user @client {
@@ -32,16 +38,14 @@ export const GET_CACHE_USER = gql`
   }
 `;
 
-export const SET_USER = gql`
-  mutation setUser(
-    $id: ID!
-    $email: String!
-    $username: String!
-    $profilePhoto: String!
-    $isAdmin: Boolean!
-    $shelves: [Shelf]
-  ) {
-    setUser(id: $id, email: $email, profilePhoto: $profilePhoto, isAdmin: $isAdmin, shelves: $shelves) @client
+/**
+ * *
+ */
+export const ADD_TO_SHELF = gql`
+  mutation addToShelf($shelfName: String!, $bookId: ID!) {
+    addToShelf(shelfName: $shelfName, bookId: $bookId) {
+      id
+    }
   }
 `;
 

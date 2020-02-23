@@ -6,6 +6,11 @@ export const GET_AUTHORS_WITH_NAME = gql`
       name
       description
       photo
+      books {
+        id
+        title
+        thumbnail
+      }
     }
   }
 `;

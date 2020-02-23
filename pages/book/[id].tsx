@@ -1,15 +1,15 @@
 import React from "react";
 import { NextPage } from "next";
-import { ApolloNextPageContext, Author } from "../../types";
+import { ApolloNextPageContext, Book } from "../../types";
 import { GET_BOOK } from "../../query/book";
 import BookDetail from "../../components/book/BookDetail";
 
 interface IProps {
-  author: Author;
+  book: Book;
 }
 
-const book: NextPage<IProps> = ({ author }) => {
-  return <BookDetail />;
+const book: NextPage<IProps> = ({ book }) => {
+  return <BookDetail book={book} />;
 };
 
 book.getInitialProps = async ({ apolloClient, query }: ApolloNextPageContext) => {
@@ -20,6 +20,6 @@ book.getInitialProps = async ({ apolloClient, query }: ApolloNextPageContext) =>
       id: id as string
     }
   });
-  return { author: data?.getBook };
+  return { book: data?.getBook };
 };
 export default book;
