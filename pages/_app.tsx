@@ -8,25 +8,48 @@ import withApollo from "../lib/withApollo";
 import GlobalStyles from "../style/GlobalStyle";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { GET_USER } from "../query/user";
 
 interface IProps {
   apolloState: any;
   apollo: ApolloClient<NormalizedCacheObject>;
+  cookies: any;
+  userprops: any;
 }
 
 class MyApp extends App<IProps> {
-  static getInitialProps = async (appContext: AppContext & { ctx: { apolloClient: any } }) => {
+  static getInitialProps = async (
+    appContext: AppContext & { ctx: { apolloClient: ApolloClient<NormalizedCacheObject> } }
+  ) => {
     const { ctx } = appContext;
     //쿠키 받아오기
     const cookies = ctx && ctx.req && nextCookie(ctx);
-    //props로 cookie전달
+    let userprops = null;
+    if (cookies) {
+      try {
+        const { data } = await ctx.apolloClient.query({
+          query: GET_USER,
+          variables: { id: cookies?.Authorization }
+        });
+        userprops = data?.getUser;
+      } catch (e) {
+        console.log(e.message);
+      }
+    }
     const appInitialProps: AppInitialProps = await App.getInitialProps(appContext);
-    Object.assign(appInitialProps, { cookies });
-    return { ...appInitialProps };
+    return { ...appInitialProps, userprops };
   };
 
   render() {
-    const { Component, pageProps, apollo } = this.props;
+    const { Component, pageProps, apollo, userprops } = this.props;
+    if (userprops) {
+      apollo.writeData({
+        data: {
+          user: userprops
+        }
+      });
+    }
+
     return (
       <>
         <Header />

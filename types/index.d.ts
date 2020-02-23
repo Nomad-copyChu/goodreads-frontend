@@ -1,4 +1,5 @@
 import { NextPageContext } from "next";
+import { ApolloClient, NormalizedCacheObject } from "apollo-boost";
 
 export type ApolloNextPageContext = NextPageContext & { apolloClient: ApolloClient<NormalizedCacheObject> }; //eslint-disable-line
 export type Author = {
