@@ -180,7 +180,6 @@ const Container = styled.div`
       margin-top: 12px;
       a {
         padding: 0px 12px;
-        padding-top: 5px;
         height: 32px;
         margin-right: 20px;
         border-radius: 5px;
@@ -191,6 +190,7 @@ const Container = styled.div`
         border: 1px solid ${colors.woody_500};
         color: ${colors.black};
         &:hover {
+          background-color: ${colors.woody_600};
           text-decoration: none;
         }
       }
@@ -320,7 +320,13 @@ const AddBook: React.FC = () => {
                 </div>
               )}
             </div>
-            <AddToShelfButton value={shelf} options={["원해요", "읽는중", "읽음"]} onClick={value => setShelf(value)} />
+            <AddToShelfButton
+              options={[
+                { value: "원해요", label: "원해요" },
+                { value: "읽는중", label: "읽는중" },
+                { value: "읽음", label: "읽음" }
+              ]}
+            />
             <div className="ratings">
               <p>원해요 : 0명</p>
               <p>읽는중 : 0명</p>
@@ -458,7 +464,7 @@ const AddBook: React.FC = () => {
               <div className="author-infos" key={index}>
                 <div className="author-photo-name-wrapper">
                   <input className="author-photo-input" type="file" onChange={e => changeAuthorPhoto(e, index)} />
-                  <img src={author.photo || "nophoto"} alt="" className="author-profile-photo" />
+                  <img src={author.photo || "  "} alt="" className="author-profile-photo" />
                   <p className="author-name">{author.name}</p>
                 </div>
               </div>

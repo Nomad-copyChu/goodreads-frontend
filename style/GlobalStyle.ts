@@ -9,7 +9,6 @@ const GlobalStyles = createGlobalStyle`
     color: #333333;
   }
   a{
-    line-height: 1.5;
     color:${colors.blue_green};
     text-decoration:none;
 
@@ -19,24 +18,47 @@ const GlobalStyles = createGlobalStyle`
   }
   
   @font-face {
-    font-style: normal;
-    font-family: "Noto Sans KR";
-    font-weight: normal;
-    font-display: auto;
-    src: url("/fonts/NotoSansKR-Regular-Alphabetic.woff2") format("woff2");
-  }
-  @font-face {
-    font-style: normal;
-    font-family: "Noto Sans KR";
-    font-weight: 700;
-    font-display: auto;
-    src: url("/fonts/NotoSansKR-Bold-Alphabetic.woff2") format("woff2");
-  }
+  font-style: normal;
+  font-family: Noto Sans KR;
+  font-weight: normal;
+  font-display: optional;
+  src: url('/fonts/NotoSansKR-Regular-Alphabetic.woff2') format("woff2");
+  /* 한글 */
+  unicode-range:U+0020-U+007E,U+1100-U+11F9,U+3000-U+303F,U+3131-U+318E,U+327F-U+327F,U+AC00-U+D7A3,U+FF01-U+FF60;
+}
+@font-face {
+  font-style: normal;
+  font-family: Noto Sans KR;
+  font-weight: bold;
+  font-display: optional;
+  src: url('/fonts/NotoSansKR-Bold-Alphabetic.woff2') format("woff2");
+  /* 한글 */
+  unicode-range:U+0020-U+007E,U+1100-U+11F9,U+3000-U+303F,U+3131-U+318E,U+327F-U+327F,U+AC00-U+D7A3,U+FF01-U+FF60;
+}
+
+@font-face {
+  font-style: normal;
+  font-family: Noto Sans;
+  font-weight: normal;
+  font-display: optional;
+  src: url('/fonts/NotoSans-Regular.woff2') format("woff2");
+  /* 영문,숫자 */
+  unicode-range: U+0020-U+002F,U+0030-U+0039,U+003A-U+0040,U+0041-U+005A,U+005B-U+0060,U+0061-U+007A,U+007B-U+007E;
+}
+@font-face {
+  font-style: normal;
+  font-family: Noto Sans;
+  font-weight: bold;
+  font-display: optional;
+  src: url('/fonts/NotoSans-Bold.woff2') format("woff2");
+  /* 영문,숫자 */
+  unicode-range: U+0020-U+002F,U+0030-U+0039,U+003A-U+0040,U+0041-U+005A,U+005B-U+0060,U+0061-U+007A,U+007B-U+007E;
+}
   body {
-    line-height: 1.4;
+    font-family: Noto Sans,Noto Sans KR;
     background-color:${colors.beige_400};
-    font-family: Noto Sans Kr;
     height: 100vh;
+    line-height:1.4;
     ::-webkit-scrollbar {
       display: none;
     }

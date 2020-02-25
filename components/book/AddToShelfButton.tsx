@@ -68,13 +68,18 @@ const Container = styled.div`
 `;
 
 interface IProps {
-  value?: string;
-  options: string[];
-  onClick: () => void;
-  onChange: (value) => void;
+  value?: { value: string; label: string };
+  options: { value: string; label: string }[];
+  onClick?: () => void;
+  onChange?: ({ value, label }: { value: string; label: string }) => void;
 }
 
-const AddToShelfButton: React.FC<IProps> = ({ value = "원해요", options, onClick, onChange }) => {
+const AddToShelfButton: React.FC<IProps> = ({
+  value = { value: "원해요", label: "원해요" },
+  options,
+  onClick,
+  onChange
+}) => {
   const [popupStatus, setPopupStatus] = useState(false);
   return (
     <Container role="button" onClick={() => onClick()}>
@@ -86,21 +91,20 @@ const AddToShelfButton: React.FC<IProps> = ({ value = "원해요", options, onCl
           setPopupStatus(!popupStatus);
         }}
       >
-        <p className="select-input-value">{value}</p>
-        <ArrowIcon classnName="arrow-icon" />
+        <p className="select-input-value">{value.label}</p>
+        <ArrowIcon className="arrow-icon" />
         {popupStatus && (
           <OutsideClickHandler onOutsideClick={() => setPopupStatus(false)}>
             <ul className="popup-box">
               {options.map((option, index) => (
                 <li key={index} onClick={() => onChange(option)}>
-                  {option}
+                  {option.label}
                 </li>
               ))}
             </ul>
           </OutsideClickHandler>
         )}
       </div>
-
       <p>선반에 추가하기</p>
     </Container>
   );

@@ -8,14 +8,15 @@ export default () => {
     shelves.map(shelf => {
       switch (shelf.name) {
         case "want":
-          return "원해요";
+          return { value: "want", label: "원해요" };
         case "reading":
-          return "읽는중";
+          return { value: "reading", label: "읽는중" };
         case "read":
-          return "읽음";
+          return { value: "read", label: "읽음" };
         default:
-          return shelf.name;
+          return { value: shelf.name, label: shelf.name };
       }
     });
+
   return { getShelvesName };
 };

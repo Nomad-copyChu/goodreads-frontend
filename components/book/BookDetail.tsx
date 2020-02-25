@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import styled from "styled-components";
 import { useRouter } from "next/dist/client/router";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import isEmpty from "lodash/isEmpty";
 import MagicBook from "../../public/static/svg/maginBook.svg";
 import ShareArrow from "../../public/static/svg/share-arrow.svg";
 import AddToShelfButton from "./AddToShelfButton";
@@ -112,15 +113,6 @@ const Container = styled.div`
           color: ${colors.gray_600};
         }
       }
-      .share {
-        white-space: pre;
-        margin-left: 20px;
-        span {
-          color: ${colors.blue_green};
-          margin-left: 4px;
-        }
-        cursor: pointer;
-      }
     }
     .contents-textarea {
       width: 100%;
@@ -172,7 +164,6 @@ const Container = styled.div`
       margin-top: 12px;
       a {
         padding: 0px 12px;
-        padding-top: 5px;
         height: 32px;
         margin-right: 20px;
         border-radius: 5px;
@@ -180,9 +171,10 @@ const Container = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        border: 1px solid ${colors.woody_500};
+        border: 1px solid ${colors.beige_900};
         color: ${colors.black};
         &:hover {
+          background-color: ${colors.beige_500};
           text-decoration: none;
         }
       }
@@ -191,6 +183,19 @@ const Container = styled.div`
   .author-info-wrapper {
     width: 280px;
     margin-left: 40px;
+    .share {
+      white-space: pre;
+      margin-left: 20px;
+      span {
+        color: ${colors.blue_green};
+        margin-left: 4px;
+      }
+      cursor: pointer;
+    }
+    .author-share-wrapper {
+      display: flex;
+      justify-content: space-between;
+    }
     .author-title {
       font-size: 21px;
     }
@@ -251,22 +256,30 @@ const Container = styled.div`
 
 interface IProps {
   book: Book;
+  rating?: { id: string; count: number };
 }
 
-const BookDetail: React.FC<IProps> = ({ book }) => {
-  const { user, isLogged, addToShelfMutation } = useUser();
+const BookDetail: React.FC<IProps> = ({ book, rating }) => {
+  const { user, isLogged, addToShelfMutation, rateBook } = useUser();
   const { getShelvesName } = useBook();
   /**
    * * 유저 선반 리스트
    */
   const shelvesNames = useMemo(() => {
-    return isLogged ? getShelvesName(user?.shelves) : ["원해요", "읽는중", "읽음"];
+    if (isLogged) {
+      return getShelvesName(user?.shelves);
+    }
+    return [
+      { value: "원해요", label: "원해요" },
+      { value: "읽는중", label: "읽는중" },
+      { value: "읽음", label: "읽음" }
+    ];
   }, []);
   /**
    * * 추가할 유저의 선반
    */
   const [shelf, setShelf] = useState(shelvesNames[0]);
-
+  const [starCount, setStarCount] = useState(rating ? rating.count : 0);
   const router = useRouter();
   return (
     <Container>
@@ -286,7 +299,19 @@ const BookDetail: React.FC<IProps> = ({ book }) => {
               value={shelf}
               options={shelvesNames}
               onChange={value => setShelf(value)}
-              onClick={() => console.log("hi")}
+              onClick={async () => {
+                if (isLogged) {
+                  try {
+                    await addToShelfMutation({
+                      variables: { shelfName: shelf.value, bookId: book.id }
+                    }).then(() => alert(`${shelf.value}선반에 추가하였습니다.`));
+                  } catch (e) {
+                    alert(e.message);
+                  }
+                } else {
+                  alert("로그인이 필요한 기능 입니다.");
+                }
+              }}
             />
             <div className="ratings">
               <p>{`원해요 : ${book.wantCount}명`}</p>
@@ -295,11 +320,14 @@ const BookDetail: React.FC<IProps> = ({ book }) => {
               <div className="stars-wrapper">
                 <ReactStars
                   count={5}
-                  value={0}
-                  onChange={e => console.log(e)}
+                  value={starCount}
+                  onChange={count => {
+                    setStarCount(count);
+                    rateBook({ variables: { bookId: book.id, count } }).catch(e => alert(e.message));
+                  }}
                   size={20}
-                  color1="#D8D8D8"
-                  color2="#F5A523"
+                  color1={colors.gray_500}
+                  color2={colors.yellow_700}
                 />
                 <p>0 (0명 투표함)</p>
               </div>
@@ -308,12 +336,6 @@ const BookDetail: React.FC<IProps> = ({ book }) => {
           <div className="book-infos">
             <div className="title-share">
               <p className="title">{book.title}</p>
-              <CopyToClipboard text={router?.asPath} onCopy={() => alert(`${router?.asPath} 를 복사했습니다.`)}>
-                <div className="share">
-                  <ShareArrow />
-                  <span>공유하기</span>
-                </div>
-              </CopyToClipboard>
             </div>
             <p className="contents-textarea">{book.contents}</p>
             <div className="sub-infos">
@@ -323,7 +345,7 @@ const BookDetail: React.FC<IProps> = ({ book }) => {
                 <p>{book.isbn}</p>
               </div>
               <div className="info-wrapper">
-                <p>장르 :</p>
+                {!isEmpty(book.gernes) && <p>장르 :</p>}
                 {book.gernes.map((gerne, index) => (
                   <span key={index}>{`#${gerne}`}</span>
                 ))}
@@ -373,11 +395,19 @@ const BookDetail: React.FC<IProps> = ({ book }) => {
             </div>
           </div>
           <div className="author-info-wrapper">
-            <h1 className="author-title">작가</h1>
+            <div className="author-share-wrapper">
+              <h1 className="author-title">작가</h1>
+              <CopyToClipboard text={router?.asPath} onCopy={() => alert(`${router?.asPath} 를 복사했습니다.`)}>
+                <div className="share">
+                  <ShareArrow />
+                  <span>공유하기</span>
+                </div>
+              </CopyToClipboard>
+            </div>
             {book.authors.map((author, index) => (
               <div className="author-infos" key={index}>
                 <div className="author-photo-name-wrapper">
-                  <img src={author.photo || "nophoto"} alt="" className="author-profile-photo" />
+                  <img src={author.photo || "  "} alt="" className="author-profile-photo" />
                   <p className="author-name">{author.name}</p>
                 </div>
               </div>
