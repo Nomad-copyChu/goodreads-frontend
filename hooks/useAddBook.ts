@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import format from "date-fns/format";
 import { useRouter } from "next/dist/client/router";
-import ADD_BOOK from "../query/book";
+import { ADD_BOOK } from "../query/book";
 import { KakaoSearchResult } from "../components/common/SearchKakaoInput";
 
 type AddBookAuthorType = {

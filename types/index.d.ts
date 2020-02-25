@@ -1,4 +1,5 @@
 import { NextPageContext } from "next";
+import { ApolloClient, NormalizedCacheObject } from "apollo-boost";
 
 export type ApolloNextPageContext = NextPageContext & { apolloClient: ApolloClient<NormalizedCacheObject> }; //eslint-disable-line
 export type Author = {
@@ -104,11 +105,7 @@ export type Rating = {
 
 export type Shelf = {
   id: string;
-  user: User;
   name: string;
-  displays: Display[];
-  createdAt: string;
-  updatedAt: string;
 };
 
 export type Tag = {
@@ -126,7 +123,7 @@ export type User = {
   username: string;
   profilePhoto: string;
   profile: Profile;
-  isAdmin: Boolean;
+  isAdmin: boolean;
   ratings: Rating[];
   ratingBooks: Book[];
   bookAvgRating: Float;
@@ -136,4 +133,13 @@ export type User = {
   displays: Display[];
   createdAt: string;
   updatedAt: string;
+};
+export type CacheUser = {
+  id: string;
+  email: string;
+  password: string;
+  username: string;
+  profilePhoto: string;
+  isAdmin: boolean;
+  shelves: Shelf[];
 };

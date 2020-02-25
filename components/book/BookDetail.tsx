@@ -1,22 +1,16 @@
-/* eslint-disable react/no-array-index-key */
-import React, { useEffect, useState } from "react";
-import TextArea from "react-textarea-autosize";
+import React, { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
-import isEmpty from "lodash/isEmpty";
-import cloneDeep from "lodash/cloneDeep";
 import styled from "styled-components";
-import { useQuery } from "@apollo/react-hooks";
+import { useRouter } from "next/dist/client/router";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import isEmpty from "lodash/isEmpty";
 import MagicBook from "../../public/static/svg/maginBook.svg";
-import SearchKakaoInput from "../common/SearchKakaoInput";
-import Input from "../common/Input";
-import useAddBook from "../../hooks/useAddBook";
 import ShareArrow from "../../public/static/svg/share-arrow.svg";
-import useUpload from "../../hooks/useUpload";
-import Button from "../common/Button";
 import AddToShelfButton from "./AddToShelfButton";
 import colors from "../../style/colors";
-import DatePicker from "../common/DatePicker";
-import { GET_AUTHORS_WITH_NAME } from "../../query/author";
+import { Book } from "../../types";
+import useUser from "../../hooks/useUser";
+import useBook from "../../hooks/useBook";
 
 const ReactStars = dynamic(import("react-stars"), { ssr: false });
 
@@ -108,7 +102,6 @@ const Container = styled.div`
     .title-share {
       display: flex;
       justify-content: space-between;
-      cursor: pointer;
 
       .title {
         font-size: 21px;
@@ -119,15 +112,6 @@ const Container = styled.div`
         ::placeholder {
           color: ${colors.gray_600};
         }
-      }
-      .share {
-        white-space: pre;
-        margin-left: 20px;
-        span {
-          color: ${colors.blue_green};
-          margin-left: 4px;
-        }
-        cursor: pointer;
       }
     }
     .contents-textarea {
@@ -187,10 +171,10 @@ const Container = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        border: 1px solid ${colors.woody_500};
+        border: 1px solid ${colors.beige_900};
         color: ${colors.black};
         &:hover {
-          background-color: ${colors.woody_600};
+          background-color: ${colors.beige_500};
           text-decoration: none;
         }
       }
@@ -199,6 +183,19 @@ const Container = styled.div`
   .author-info-wrapper {
     width: 280px;
     margin-left: 40px;
+    .share {
+      white-space: pre;
+      margin-left: 20px;
+      span {
+        color: ${colors.blue_green};
+        margin-left: 4px;
+      }
+      cursor: pointer;
+    }
+    .author-share-wrapper {
+      display: flex;
+      justify-content: space-between;
+    }
     .author-title {
       font-size: 21px;
     }
@@ -257,63 +254,41 @@ const Container = styled.div`
   }
 `;
 
-const AddBook: React.FC = () => {
-  const state = useAddBook();
-  const { fileUploadMuation } = useUpload();
-  const options = ["원해요", "읽는중", "읽음"];
-  const [shelf, setShelf] = useState(options[0]);
-  //작가 이름들로 DB작가 조회하기
-  const { data, refetch, loading } = useQuery(GET_AUTHORS_WITH_NAME, {
-    skip: isEmpty(state.authors),
-    variables: { authors: state.authors }
-  });
+interface IProps {
+  book: Book;
+  rating?: { id: string; count: number };
+}
 
-  useEffect(() => {
-    if (data?.getAuthorsWithName) {
-      //서버에서 작가 데이터를 받으면
-      state.setAuthorsFromDB(data?.getAuthorsWithName);
+const BookDetail: React.FC<IProps> = ({ book, rating }) => {
+  const { user, isLogged, addToShelfMutation, rateBook } = useUser();
+  const { getShelvesName } = useBook();
+  /**
+   * * 유저 선반 리스트
+   */
+  const shelvesNames = useMemo(() => {
+    if (isLogged) {
+      return getShelvesName(user?.shelves);
     }
-  }, [data]);
-  useEffect(() => {
-    //검색된 작가가 들어오면 서버에 작가 검색
-    if (!isEmpty(state.authors)) {
-      refetch();
-    }
-  }, [state.authors]);
-  const changeThumbnail = async e => {
-    const file = e.target.files[0];
-    const { data } = await fileUploadMuation({ variables: { file } });
-    state.setThumbnail(data?.singleUpload);
-  };
-
-  const changeAuthorPhoto = async (e, index) => {
-    const file = e.target.files[0];
-    const { data } = await fileUploadMuation({ variables: { file } });
-    state.setAuthorsFromDB(authors => {
-      const newAuthors = cloneDeep(authors);
-      newAuthors[index].photo = data?.singleUpload;
-      return newAuthors;
-    });
-  };
-
+    return [
+      { value: "원해요", label: "원해요" },
+      { value: "읽는중", label: "읽는중" },
+      { value: "읽음", label: "읽음" }
+    ];
+  }, []);
+  /**
+   * * 추가할 유저의 선반
+   */
+  const [shelf, setShelf] = useState(shelvesNames[0]);
+  const [starCount, setStarCount] = useState(rating ? rating.count : 0);
+  const router = useRouter();
   return (
     <Container>
-      <div className="kakao-search-sbumit-wrapper">
-        <SearchKakaoInput onClick={state.onKakaoResultClick} />
-        <div className="book-submit">
-          <Button color="green" onClick={() => state.addBookMutation()}>
-            책 등록하기
-          </Button>
-          <p>{state.addBookMutationError?.message}</p>
-        </div>
-      </div>
       <div className="search-input-wrapper">
         <div className="book-wrapper">
           <div className="book-thumbnail-rating">
             <div className="thumbnail-input">
-              <input type="file" onChange={changeThumbnail} />
-              <img src={state.thumbnail} alt="" />
-              {!state.thumbnail && (
+              <img src={book.thumbnail} alt={book.title} />
+              {!book.thumbnail && (
                 <div className="placeholder-image">
                   <MagicBook />
                   <p>커버 이미지를 추가해 주세요.</p>
@@ -321,24 +296,38 @@ const AddBook: React.FC = () => {
               )}
             </div>
             <AddToShelfButton
-              options={[
-                { value: "원해요", label: "원해요" },
-                { value: "읽는중", label: "읽는중" },
-                { value: "읽음", label: "읽음" }
-              ]}
+              value={shelf}
+              options={shelvesNames}
+              onChange={value => setShelf(value)}
+              onClick={async () => {
+                if (isLogged) {
+                  try {
+                    await addToShelfMutation({
+                      variables: { shelfName: shelf.value, bookId: book.id }
+                    }).then(() => alert(`${shelf.value}선반에 추가하였습니다.`));
+                  } catch (e) {
+                    alert(e.message);
+                  }
+                } else {
+                  alert("로그인이 필요한 기능 입니다.");
+                }
+              }}
             />
             <div className="ratings">
-              <p>원해요 : 0명</p>
-              <p>읽는중 : 0명</p>
-              <p>읽음 : 0명</p>
+              <p>{`원해요 : ${book.wantCount}명`}</p>
+              <p>{`읽는중 : ${book.readingCount}명`}</p>
+              <p>{`읽음 : ${book.readCount}명`}</p>
               <div className="stars-wrapper">
                 <ReactStars
                   count={5}
-                  value={0}
-                  onChange={e => console.log(e)}
+                  value={starCount}
+                  onChange={count => {
+                    setStarCount(count);
+                    rateBook({ variables: { bookId: book.id, count } }).catch(e => alert(e.message));
+                  }}
                   size={20}
-                  color1="#D8D8D8"
-                  color2="#F5A523"
+                  color1={colors.gray_500}
+                  color2={colors.yellow_700}
                 />
                 <p>0 (0명 투표함)</p>
               </div>
@@ -346,88 +335,36 @@ const AddBook: React.FC = () => {
           </div>
           <div className="book-infos">
             <div className="title-share">
-              <Input
-                color="transparent"
-                value={state.title}
-                className="title"
-                type="text"
-                onChange={e => state.setTitle(e.target.value)}
-                placeholder="제목..."
-                width="100%"
-              />
-              <div className="share">
-                <ShareArrow />
-                <span>공유하기</span>
-              </div>
+              <p className="title">{book.title}</p>
             </div>
-            <TextArea
-              color="transparent"
-              className="contents-textarea"
-              value={state.contents}
-              type="text"
-              onChange={e => state.setContents(e.target.value)}
-              placeholder="책 소개..."
-            />
+            <p className="contents-textarea">{book.contents}</p>
             <div className="sub-infos">
               <h3>More</h3>
               <div className="info-wrapper">
                 <p>ISBN :</p>
-                <Input
-                  color="transparent"
-                  value={state.isbn}
-                  type="text"
-                  onChange={e => state.setIsbn(e.target.value)}
-                  placeholder="1234567..."
-                />
+                <p>{book.isbn}</p>
               </div>
               <div className="info-wrapper">
-                <p>장르 :</p>
-                <form onSubmit={state.addGerne}>
-                  {state.gernes.map((gerne, index) => (
-                    <span key={index}>{`#${gerne}`}</span>
-                  ))}
-                  <Input
-                    color="transparent"
-                    value={state.gerneInput}
-                    type="text"
-                    onChange={e => state.setGerneInput(e.target.value)}
-                    placeholder="엔터로 추가해 주세요"
-                  />
-                </form>
+                {!isEmpty(book.gernes) && <p>장르 :</p>}
+                {book.gernes.map((gerne, index) => (
+                  <span key={index}>{`#${gerne}`}</span>
+                ))}
               </div>
               <div className="info-wrapper">
                 <p>출판사 :</p>
-                <Input
-                  color="transparent"
-                  value={state.publisher}
-                  type="text"
-                  onChange={e => state.setPublisher(e.target.value)}
-                  placeholder="제리출판사..."
-                />
+                <p>{book.publisher}</p>
               </div>
               <div className="info-wrapper">
                 <p>출간날짜 :</p>
-                <DatePicker value={state.datetime} onChange={date => state.setDatetime(date)} />
+                <p>{book.datetime}</p>
               </div>
               <div className="info-wrapper">
                 <p>가격 :</p>
-                <Input
-                  color="transparent"
-                  value={state.price}
-                  type="text"
-                  onChange={e => state.setPrice(e.target.value)}
-                  placeholder="20000만원..."
-                />
+                <p>{book.price}</p>
               </div>
               <div className="info-wrapper">
                 <p>판매상태 :</p>
-                <Input
-                  color="transparent"
-                  value={state.saleStatus}
-                  type="text"
-                  onChange={e => state.setSaleStatus(e.target.value)}
-                  placeholder="정상판매..."
-                />
+                <p>{book.saleStatus}</p>
               </div>
             </div>
             <div className="buy-book-wrapper">
@@ -436,21 +373,21 @@ const AddBook: React.FC = () => {
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  href={`http://www.yes24.com/Mall/Buyback/Search?SearchDomain=BOOK,FOREIGN&searchWord=${state.isbn}`}
+                  href={`http://www.yes24.com/Mall/Buyback/Search?SearchDomain=BOOK,FOREIGN&searchWord=${book.isbn}`}
                 >
                   Yes24
                 </a>
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  href={`http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=${state.isbn}&orderClick=LAG&Kc=`}
+                  href={`http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=${book.isbn}&orderClick=LAG&Kc=`}
                 >
                   교보문고
                 </a>
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  href={`https://www.nl.go.kr/kolisnet/search/searchResultList.do?tab=BKGM&historyYn=Y&keywordType1=total&keyword1=${state.isbn}&bookFilter=BKGM`}
+                  href={`https://www.nl.go.kr/kolisnet/search/searchResultList.do?tab=BKGM&historyYn=Y&keywordType1=total&keyword1=${book.isbn}&bookFilter=BKGM`}
                 >
                   국립 도서관
                 </a>
@@ -458,12 +395,18 @@ const AddBook: React.FC = () => {
             </div>
           </div>
           <div className="author-info-wrapper">
-            <h1 className="author-title">작가</h1>
-            {loading && "loading..."}
-            {state.authorsFromDB.map((author, index) => (
+            <div className="author-share-wrapper">
+              <h1 className="author-title">작가</h1>
+              <CopyToClipboard text={router?.asPath} onCopy={() => alert(`${router?.asPath} 를 복사했습니다.`)}>
+                <div className="share">
+                  <ShareArrow />
+                  <span>공유하기</span>
+                </div>
+              </CopyToClipboard>
+            </div>
+            {book.authors.map((author, index) => (
               <div className="author-infos" key={index}>
                 <div className="author-photo-name-wrapper">
-                  <input className="author-photo-input" type="file" onChange={e => changeAuthorPhoto(e, index)} />
                   <img src={author.photo || "  "} alt="" className="author-profile-photo" />
                   <p className="author-name">{author.name}</p>
                 </div>
@@ -476,4 +419,4 @@ const AddBook: React.FC = () => {
   );
 };
 
-export default AddBook;
+export default BookDetail;

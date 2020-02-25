@@ -4,13 +4,14 @@ import { ApolloClient } from "apollo-client";
 import { createUploadLink } from "apollo-upload-client";
 import cookie from "js-cookie";
 import introspectionQueryResultData from "./fragmentTypes.json";
+import { typeDefs, resolvers } from "./localState";
 
 export default withApollo(ctx => {
   const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData
   });
   //apollo cache 가져오기
-  const cache = new InMemoryCache({ fragmentMatcher }).restore(ctx.initialState || {});
+  const cache = new InMemoryCache({ fragmentMatcher }).restore(ctx.initialState);
   const serverCookie = ctx?.headers?.cookie;
   const cookies: any = {};
   serverCookie?.split(/\s*;\s*/).forEach(pairs => {
@@ -29,6 +30,9 @@ export default withApollo(ctx => {
       }
     }),
     cache,
-    resolvers: {}
+    typeDefs,
+    resolvers,
+    connectToDevTools: true,
+    ssrMode: true
   });
 });
