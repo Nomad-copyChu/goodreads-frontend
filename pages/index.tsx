@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from "react";
 import styled from "styled-components";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { NextPage } from "next";
 import { ApolloNextPageContext, Book, Author } from "../types";
@@ -14,6 +15,7 @@ interface IProps {
   books: Book[];
   authors: Author[];
 }
+const ReactStars = dynamic(import("react-stars"), { ssr: false });
 
 const Container = styled.div`
   display: flex;
@@ -44,14 +46,55 @@ const Main = styled.div`
       display: none;
     }
   }
-  /* .main-BooksCard-hover {
+  .main-BooksCard-hover {
     position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 150px;
+    height: 234px;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  .main-BooksCard-hover-moreContent {
+    width: 91px;
+    height: 27px;
+    background: rgba(196, 196, 196, 0.2);
+    border: 1px solid #ffffff;
+    box-sizing: border-box;
+    border-radius: 5px;
+  }
+  .main-BooksCard-hover-moreContent-font {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: white;
+  }
+  .main-BooksCard-hover-authorName-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 128px;
+  }
+  .main-BooksCard-hover-authorName-font {
+    margin-right: 3px;
+    color: white;
+    font-size: 15px;
+  }
+  .main-BooksCard-hover-gerne-wrapper {
+    margin-right: 2px;
+  }
+  .main-BooksCard-hover-gerne-font {
+    font-size: 12px;
+    color: white;
   }
   .main-booksCard-wrpper {
+    position: relative;
     display: flex;
-  } */
+  }
   .main-booksCard {
-    position: static;
+    position: relative;
     margin-right: 20px;
   }
   .books-title {
@@ -151,10 +194,38 @@ const index: NextPage<IProps> = ({ books, authors }) => {
         <div className="books-slide">
           {books.map((book, index) => (
             <span key={index}>
-              {/* <div className="main-booksCard-wrpper"> */}
-              <BooksCard size="large" className="main-booksCard" src={book.thumbnail} alt="" />
-              {/* <span className="main-BooksCard-hover">hi</span> */}
-              {/* </div> */}
+              <div className="main-booksCard-wrpper">
+                <BooksCard size="large" className="main-booksCard" src={book.thumbnail} alt="" />
+                <div className="main-BooksCard-hover">
+                  <div className="main-BooksCard-hover-moreContent">
+                    <Link href="/book">
+                      <a className="main-BooksCard-hover-moreContent-font">더 알아보기</a>
+                    </Link>
+                  </div>
+                  <div className="main-BooksCard-hover-authorName-wrapper">
+                    <div className="main-BooksCard-hover-authorName-font">by</div>
+                    <div className="main-BooksCard-hover-authorName-font">
+                      {book.authors.map(author => author.name)}
+                    </div>
+                  </div>
+                  <div className="main-BooksCard-hover-gerne-Wrapper">
+                    {book.gernes.map(gerne => (
+                      <span className="main-BooksCard-hover-gerne-font">
+                        <span className="main-BooksCard-hover-gerne-font">#</span>
+                        <span className="main-BooksCard-hover-gerne-font">{gerne.term}</span>
+                      </span>
+                    ))}
+                  </div>
+                  <ReactStars
+                    count={5}
+                    value={book.totalRating}
+                    edit={false}
+                    size={20}
+                    color1="#D8D8D8"
+                    color2="#FA604A"
+                  />
+                </div>
+              </div>
               <div className="books-title">{book.title}</div>
             </span>
           ))}

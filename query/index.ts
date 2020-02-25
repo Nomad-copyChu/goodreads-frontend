@@ -10,10 +10,10 @@ export const GET_BOOKS = gql`
         name
         photo
         description
-        books {
-          id
-          thumbnail
-        }
+      }
+      gernes {
+        id
+        term
       }
       thumbnail
       contents
@@ -26,6 +26,7 @@ export const GET_BOOKS = gql`
       readCount
       totalRating
       ratedUserNum
+      totalRating
       addUser {
         username
       }
