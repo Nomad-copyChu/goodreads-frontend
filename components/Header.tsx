@@ -75,18 +75,18 @@ const Header: React.FC = () => {
         </a>
       </Link>
       <div className="list">
-        <Link href="/bookList">
+        <Link href="/book" prefetch={false}>
           <a>도서목록</a>
         </Link>
-        <Link href="/authorList">
+        <Link href="/author" prefetch={false}>
           <a>작가목록</a>
         </Link>
-        <Link href="/quoteList">
+        <Link href="/quote" prefetch={false}>
           <a>명언목록</a>
         </Link>
       </div>
       <div className="log-info">
-        <Link href="/auth/register">
+        <Link href="/auth/register" prefetch={false}>
           <a>회원가입</a>
         </Link>
         <Link href="/auth/login">

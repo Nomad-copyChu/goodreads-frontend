@@ -8,7 +8,7 @@ import withApollo from "../lib/withApollo";
 import GlobalStyles from "../style/GlobalStyle";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { GET_USER } from "../query/user";
+import { GET_USER, GET_CACHE_USER } from "../query/user";
 
 interface IProps {
   apolloState: any;
@@ -25,7 +25,10 @@ class MyApp extends App<IProps> {
     //쿠키 받아오기
     const cookies = ctx && ctx.req && nextCookie(ctx);
     let userprops = null;
-    if (cookies) {
+    const { data } = await ctx.apolloClient.query({
+      query: GET_CACHE_USER
+    });
+    if (!data && cookies) {
       try {
         const { data } = await ctx.apolloClient.query({
           query: GET_USER,
