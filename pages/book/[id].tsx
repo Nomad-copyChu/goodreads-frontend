@@ -28,13 +28,17 @@ book.getInitialProps = async ({ apolloClient, query }: ApolloNextPageContext) =>
   /**
    * * 유저가 책에준 별점
    */
-  const { data: ratingData } = await apolloClient.query({
-    query: CHECK_RATING,
-    variables: {
-      bookId: bookData?.getBook.id
-    }
-  });
-
-  return { book: bookData?.getBook, rating: ratingData.checkRating };
+  try {
+    const { data: ratingData } = await apolloClient.query({
+      query: CHECK_RATING,
+      variables: {
+        bookId: bookData?.getBook?.id
+      }
+    });
+    return { book: bookData?.getBook, rating: ratingData.checkRating };
+  } catch (e) {
+    console.log(e.message);
+  }
+  return { book: bookData?.getBook };
 };
 export default book;
