@@ -21,8 +21,8 @@ const GetGernes: React.FC = () => {
   const { data } = useQuery<{ getGernes: Gerne[] }>(GET_GERNES);
   return (
     <Container>
-      {data?.getGernes?.map(gerne => (
-        <div className="flex">
+      {data?.getGernes?.map((gerne, index) => (
+        <div key={index} className="flex">
           <Link href="/gerne/[term]" as={`/gerne/${gerne.term}`}>
             <a className="tag">{gerne.term}</a>
           </Link>

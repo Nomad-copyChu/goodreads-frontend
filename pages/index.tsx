@@ -46,7 +46,7 @@ const Main = styled.div`
       display: none;
     }
   }
-  .main-BooksCard-hover {
+  .main-BooksCard-hover-background {
     position: absolute;
     width: 150px;
     height: 234px;
@@ -56,7 +56,7 @@ const Main = styled.div`
     :hover {
       opacity: 1;
     }
-    p {
+    .main-book-hover {
       display: flex;
       justify-content: space-around;
       align-items: center;
@@ -213,8 +213,8 @@ const index: NextPage<IProps> = ({ books, authors }) => {
             <span key={index}>
               <div className="main-booksCard-wrpper">
                 <BooksCard size="large" className="main-booksCard" src={book.thumbnail} alt="" />
-                <div className="main-BooksCard-hover">
-                  <p>
+                <div className="main-BooksCard-hover-background">
+                  <span className="main-book-hover">
                     <div className="main-BooksCard-hover-moreContent">
                       <Link href="/book/[id]" as={`/book/${book.id}`}>
                         <a className="main-BooksCard-hover-moreContent-font">더 알아보기</a>
@@ -227,8 +227,8 @@ const index: NextPage<IProps> = ({ books, authors }) => {
                       </div>
                     </div>
                     <div className="main-BooksCard-hover-gerne-Wrapper">
-                      {book.gernes.map(gerne => (
-                        <span className="main-BooksCard-hover-gerne-font">
+                      {book.gernes.map((gerne, index) => (
+                        <span key={index} className="main-BooksCard-hover-gerne-font">
                           <span className="main-BooksCard-hover-gerne-font">#</span>
                           <span className="main-BooksCard-hover-gerne-font">{gerne.term}</span>
                         </span>
@@ -243,7 +243,7 @@ const index: NextPage<IProps> = ({ books, authors }) => {
                       color2="#FA604A"
                     />
                     <div className="main-BooksCard-hover-totalRating">{book.totalRating.toFixed(2)}</div>
-                  </p>
+                  </span>
                 </div>
               </div>
               <div className="books-title">{book.title}</div>
