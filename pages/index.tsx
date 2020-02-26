@@ -48,13 +48,23 @@ const Main = styled.div`
   }
   .main-BooksCard-hover {
     position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
     width: 150px;
     height: 234px;
     background-color: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: 0.5s;
+    :hover {
+      opacity: 1;
+    }
+    p {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-direction: column;
+      margin-top: 40px;
+      width: 150px;
+      height: 170px;
+    }
   }
   .main-BooksCard-hover-moreContent {
     width: 91px;
@@ -80,13 +90,20 @@ const Main = styled.div`
   .main-BooksCard-hover-authorName-font {
     margin-right: 3px;
     color: white;
-    font-size: 15px;
+    font-size: 14px;
   }
   .main-BooksCard-hover-gerne-wrapper {
     margin-right: 2px;
   }
   .main-BooksCard-hover-gerne-font {
-    font-size: 12px;
+    margin-left: 2px;
+    span {
+      font-size: 12px;
+      color: white;
+    }
+  }
+  .main-BooksCard-hover-totalRating {
+    font-size: 14px;
     color: white;
   }
   .main-booksCard-wrpper {
@@ -197,33 +214,36 @@ const index: NextPage<IProps> = ({ books, authors }) => {
               <div className="main-booksCard-wrpper">
                 <BooksCard size="large" className="main-booksCard" src={book.thumbnail} alt="" />
                 <div className="main-BooksCard-hover">
-                  <div className="main-BooksCard-hover-moreContent">
-                    <Link href="/book">
-                      <a className="main-BooksCard-hover-moreContent-font">더 알아보기</a>
-                    </Link>
-                  </div>
-                  <div className="main-BooksCard-hover-authorName-wrapper">
-                    <div className="main-BooksCard-hover-authorName-font">by</div>
-                    <div className="main-BooksCard-hover-authorName-font">
-                      {book.authors.map(author => author.name)}
+                  <p>
+                    <div className="main-BooksCard-hover-moreContent">
+                      <Link href="/book/[id]" as={`/book/${book.id}`}>
+                        <a className="main-BooksCard-hover-moreContent-font">더 알아보기</a>
+                      </Link>
                     </div>
-                  </div>
-                  <div className="main-BooksCard-hover-gerne-Wrapper">
-                    {book.gernes.map(gerne => (
-                      <span className="main-BooksCard-hover-gerne-font">
-                        <span className="main-BooksCard-hover-gerne-font">#</span>
-                        <span className="main-BooksCard-hover-gerne-font">{gerne.term}</span>
-                      </span>
-                    ))}
-                  </div>
-                  <ReactStars
-                    count={5}
-                    value={book.totalRating}
-                    edit={false}
-                    size={20}
-                    color1="#D8D8D8"
-                    color2="#FA604A"
-                  />
+                    <div className="main-BooksCard-hover-authorName-wrapper">
+                      <div className="main-BooksCard-hover-authorName-font">by</div>
+                      <div className="main-BooksCard-hover-authorName-font">
+                        {book.authors.map(author => author.name)}
+                      </div>
+                    </div>
+                    <div className="main-BooksCard-hover-gerne-Wrapper">
+                      {book.gernes.map(gerne => (
+                        <span className="main-BooksCard-hover-gerne-font">
+                          <span className="main-BooksCard-hover-gerne-font">#</span>
+                          <span className="main-BooksCard-hover-gerne-font">{gerne.term}</span>
+                        </span>
+                      ))}
+                    </div>
+                    <ReactStars
+                      count={5}
+                      value={book.totalRating}
+                      edit={false}
+                      size={20}
+                      color1="#D8D8D8"
+                      color2="#FA604A"
+                    />
+                    <div className="main-BooksCard-hover-totalRating">{book.totalRating.toFixed(2)}</div>
+                  </p>
                 </div>
               </div>
               <div className="books-title">{book.title}</div>

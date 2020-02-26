@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import styled from "styled-components";
 import { useRouter } from "next/dist/client/router";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import isEmpty from "lodash/isEmpty";
 import MagicBook from "../../public/static/svg/maginBook.svg";
 import ShareArrow from "../../public/static/svg/share-arrow.svg";
