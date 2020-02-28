@@ -4,6 +4,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import styled from "styled-components";
 import { useRouter } from "next/dist/client/router";
 import isEmpty from "lodash/isEmpty";
+import TextareaAutosize from "react-textarea-autosize";
 import MagicBook from "../../public/static/svg/maginBook.svg";
 import ShareArrow from "../../public/static/svg/share-arrow.svg";
 import AddToShelfButton from "./AddToShelfButton";
@@ -11,6 +12,7 @@ import colors from "../../style/colors";
 import { Book } from "../../types";
 import useUser from "../../hooks/useUser";
 import useBook from "../../hooks/useBook";
+import Button from "../common/Button";
 
 const ReactStars = dynamic(import("react-stars"), { ssr: false });
 
@@ -155,6 +157,9 @@ const Container = styled.div`
   }
   .buy-book-wrapper {
     margin-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid ${colors.gray_500};
+
     h1 {
       font-size: 16px;
       font-weight: bold;
@@ -177,6 +182,34 @@ const Container = styled.div`
           background-color: ${colors.beige_500};
           text-decoration: none;
         }
+      }
+    }
+  }
+  .book-comments {
+    margin-top: 20px;
+    h1 {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    textarea {
+      margin-top: 12px;
+      width: 100%;
+      min-height: 80px;
+      border-radius: 5px;
+      border: 1px solid ${colors.gray_500};
+      background-color: transparent;
+      padding: 12px;
+      outline: none;
+      resize: none;
+      font-size: 14px;
+    }
+    .book-comment-button-wrapper {
+      display: flex;
+      margin-top: 8px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid ${colors.gray_500};
+      button {
+        margin: 0 0 0 auto;
       }
     }
   }
@@ -344,12 +377,15 @@ const BookDetail: React.FC<IProps> = ({ book, rating }) => {
                 <p>ISBN :</p>
                 <p>{book.isbn}</p>
               </div>
-              <div className="info-wrapper">
-                {!isEmpty(book.gernes) && <p>장르 :</p>}
-                {book.gernes.map((gerne, index) => (
-                  <span key={index}>{`#${gerne}`}</span>
-                ))}
-              </div>
+              {!isEmpty(book.gernes) && (
+                <div className="info-wrapper">
+                  <p>장르 :</p>
+                  {book.gernes.map((gerne, index) => (
+                    <span key={index}>{`#${gerne}`}</span>
+                  ))}
+                </div>
+              )}
+
               <div className="info-wrapper">
                 <p>출판사 :</p>
                 <p>{book.publisher}</p>
@@ -391,6 +427,15 @@ const BookDetail: React.FC<IProps> = ({ book, rating }) => {
                 >
                   국립 도서관
                 </a>
+              </div>
+            </div>
+            <div className="book-comments">
+              <h1>댓글</h1>
+              <TextareaAutosize />
+              <div className="book-comment-button-wrapper">
+                <Button onClick={() => console.log("h")} width="fit-content">
+                  추가하기
+                </Button>
               </div>
             </div>
           </div>

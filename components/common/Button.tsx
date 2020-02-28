@@ -47,7 +47,7 @@ const getColor = (color: Colors) => {
   }
 };
 
-const Container = styled.button<{ size: Sizes; color: Colors }>`
+const Container = styled.button<{ size: Sizes; color: Colors; width: string }>`
   width: 100%;
   border: 1px solid ${colors.beige_900};
   background-color: ${colors.beige_400};
@@ -60,8 +60,9 @@ const Container = styled.button<{ size: Sizes; color: Colors }>`
   &:hover {
     background-color: ${colors.beige_500};
   }
-  ${props => getSize(props.size)}
-  ${props => getColor(props.color)}
+  ${props => getSize(props.size)};
+  ${props => getColor(props.color)};
+  width: ${props => props.width};
   :disabled {
     color: ${colors.gray_300};
     background-color: ${colors.gray_400};
@@ -75,11 +76,12 @@ interface IProps {
   className?: string;
   color?: Colors;
   disabled?: boolean;
+  width?: string;
 }
 
-const Button: React.FC<IProps> = ({ size = "medium", onClick, className, children, color, disabled }) => {
+const Button: React.FC<IProps> = ({ size = "medium", onClick, className, children, color, disabled, width }) => {
   return (
-    <Container size={size} onClick={onClick} className={className} color={color} disabled={disabled}>
+    <Container size={size} onClick={onClick} className={className} color={color} disabled={disabled} width={width}>
       {children}
     </Container>
   );
