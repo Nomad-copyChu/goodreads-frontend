@@ -1,4 +1,6 @@
-import { Shelf } from "../types";
+import { useMutation } from "@apollo/react-hooks";
+import { Shelf, Comment } from "../types";
+import { COMMENT_BOOK } from "../query/comment";
 
 export default () => {
   /**
@@ -18,5 +20,15 @@ export default () => {
       }
     });
 
-  return { getShelvesName };
+  /**
+   * * 책 댓글달기
+   */
+  interface addCommentArguments {
+    bookId: string;
+    text: string;
+  }
+
+  const [addCommentMutation] = useMutation<{ commentBook: Comment }>(COMMENT_BOOK);
+
+  return { getShelvesName, addCommentMutation };
 };

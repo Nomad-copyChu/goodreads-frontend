@@ -38,15 +38,4 @@ export const GET_CACHE_USER = gql`
   }
 `;
 
-/**
- * * 선반에 추가하기
- */
-export const ADD_TO_SHELF = gql`
-  mutation addToShelf($shelfName: String!, $bookId: ID!) {
-    addToShelf(shelfName: $shelfName, bookId: $bookId) {
-      id
-    }
-  }
-`;
-
-export default { GET_USER, GET_CACHE_USER, ADD_TO_SHELF };
+export default { GET_USER, GET_CACHE_USER };

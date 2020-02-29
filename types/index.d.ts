@@ -34,6 +34,7 @@ export type Book = {
   gernes: Gerne[];
   totalRating: number;
   ratedUserNum: number;
+  avgRating: string;
   addUser: User[];
   createdAt: string;
   updatedAt: string;
@@ -41,6 +42,7 @@ export type Book = {
 
 export type Comment = {
   id: string;
+  user: User;
   book: Book[];
   text: string;
   createdAt: string;
@@ -126,7 +128,7 @@ export type User = {
   isAdmin: boolean;
   ratings: Rating[];
   ratingBooks: Book[];
-  bookAvgRating: Float;
+  bookAvgRating: string;
   bookComments: Comment[];
   shelves: Shelf[];
   likeQuotes: Quote[];

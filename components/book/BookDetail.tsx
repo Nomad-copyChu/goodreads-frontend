@@ -138,6 +138,10 @@ const Container = styled.div`
       align-items: center;
       margin-top: 8px;
     }
+    .book-gerne {
+      font-size: 14px;
+      color: ${colors.gray_800};
+    }
     form {
       display: flex;
       align-items: center;
@@ -207,9 +211,29 @@ const Container = styled.div`
       display: flex;
       margin-top: 8px;
       padding-bottom: 12px;
-      border-bottom: 1px solid ${colors.gray_500};
       button {
         margin: 0 0 0 auto;
+      }
+    }
+    .book-comment {
+      padding: 16px 0;
+      width: 100%;
+      border-top: 1px solid ${colors.gray_500};
+      .book-comment-user {
+        display: flex;
+      }
+      img {
+        width: 24px;
+        height: 24px;
+      }
+      h3 {
+        font-size: 14px;
+        margin-left: 12px;
+      }
+      p {
+        font-size: 12px;
+        margin-top: 8px;
+        color: ${colors.gray_800};
       }
     }
   }
@@ -293,8 +317,8 @@ interface IProps {
 }
 
 const BookDetail: React.FC<IProps> = ({ book, rating }) => {
-  const { user, isLogged, addToShelfMutation, rateBook } = useUser();
-  const { getShelvesName } = useBook();
+  const { user, isLogged, addToShelfMutation, rateBookMutation } = useUser();
+  const { getShelvesName, addCommentMutation } = useBook();
   /**
    * * 유저 선반 리스트
    */
@@ -308,11 +332,37 @@ const BookDetail: React.FC<IProps> = ({ book, rating }) => {
       { value: "읽음", label: "읽음" }
     ];
   }, []);
+
   /**
    * * 추가할 유저의 선반
    */
   const [shelf, setShelf] = useState(shelvesNames[0]);
+  /**
+   * * 로컬 원해요,읽는중,읽음 카운트
+   */
+  const [wantCount, setWantCount] = useState(book.wantCount);
+  const [readingCount, setReadingCount] = useState(book.readingCount);
+  const [readCount, setReadCount] = useState(book.readCount);
+
+  /**
+   * * 로컬 유저의 별점
+   */
   const [starCount, setStarCount] = useState(rating ? rating.count : 0);
+
+  /**
+   * * 로컬 평균별점 & 평가한 유저 수
+   */
+  const [avgStarCount, setAvgStarCount] = useState(book.avgRating);
+  const [staredCount, setStaredCount] = useState(book.ratedUserNum);
+
+  /**
+   * * 로컬 댓글 텍스트
+   */
+  const [commentList, setCommentList] = useState(book.comments);
+  /**
+   * * 로컬 유저의 추가할 댓글 텍스트
+   */
+  const [commentText, setCommentText] = useState("");
   const router = useRouter();
   return (
     <Container>
@@ -337,7 +387,16 @@ const BookDetail: React.FC<IProps> = ({ book, rating }) => {
                   try {
                     await addToShelfMutation({
                       variables: { shelfName: shelf.value, bookId: book.id }
-                    }).then(() => alert(`${shelf.value}선반에 추가하였습니다.`));
+                    }).then(() => {
+                      alert(`${shelf.label}선반에 추가하였습니다.`);
+                      if (shelf.value === "want") {
+                        setWantCount(count => count + 1);
+                      } else if (shelf.value === "reading") {
+                        setReadingCount(count => count + 1);
+                      } else if (shelf.value === "read") {
+                        setReadCount(count => count + 1);
+                      }
+                    });
                   } catch (e) {
                     alert(e.message);
                   }
@@ -347,22 +406,35 @@ const BookDetail: React.FC<IProps> = ({ book, rating }) => {
               }}
             />
             <div className="ratings">
-              <p>{`원해요 : ${book.wantCount}명`}</p>
-              <p>{`읽는중 : ${book.readingCount}명`}</p>
-              <p>{`읽음 : ${book.readCount}명`}</p>
+              <p>{`원해요 : ${wantCount}명`}</p>
+              <p>{`읽는중 : ${readingCount}명`}</p>
+              <p>{`읽음 : ${readCount}명`}</p>
               <div className="stars-wrapper">
                 <ReactStars
                   count={5}
                   value={starCount}
                   onChange={count => {
                     setStarCount(count);
-                    rateBook({ variables: { bookId: book.id, count } }).catch(e => alert(e.message));
+                    rateBookMutation({ variables: { bookId: book.id, count } })
+                      .then(() => {
+                        if (rating) {
+                          //평가한적이 있따면
+                          const newTotalCount = book.totalRating - rating.count + count;
+                          setAvgStarCount((newTotalCount / book.ratedUserNum).toFixed(2));
+                        } else {
+                          //평가한적이 없다면
+                          const newTotalCount = book.totalRating + count;
+                          setAvgStarCount((newTotalCount / book.ratedUserNum + 1).toFixed(2));
+                          setStaredCount(count => count + 1);
+                        }
+                      })
+                      .catch(e => alert(e.message));
                   }}
                   size={20}
                   color1={colors.gray_500}
                   color2={colors.yellow_700}
                 />
-                <p>0 (0명 투표함)</p>
+                <p>{`${avgStarCount} (${staredCount}명)`}</p>
               </div>
             </div>
           </div>
@@ -381,7 +453,7 @@ const BookDetail: React.FC<IProps> = ({ book, rating }) => {
                 <div className="info-wrapper">
                   <p>장르 :</p>
                   {book.gernes.map((gerne, index) => (
-                    <span key={index}>{`#${gerne}`}</span>
+                    <span key={index} className="book-gerne">{`#${gerne.term}`}</span>
                   ))}
                 </div>
               )}
@@ -431,12 +503,36 @@ const BookDetail: React.FC<IProps> = ({ book, rating }) => {
             </div>
             <div className="book-comments">
               <h1>댓글</h1>
-              <TextareaAutosize />
+              <TextareaAutosize value={commentText} onChange={e => setCommentText(e.target.value)} />
               <div className="book-comment-button-wrapper">
-                <Button onClick={() => console.log("h")} width="fit-content">
+                <Button
+                  onClick={() => {
+                    try {
+                      if (commentText === "") {
+                        throw Error("댓글을 입력해 주세요.");
+                      }
+                      addCommentMutation({ variables: { bookId: book.id, text: commentText } }).then(res => {
+                        setCommentList([{ ...res.data.commentBook }, ...commentList]);
+                        setCommentText("");
+                      });
+                    } catch (e) {
+                      alert(e.message);
+                    }
+                  }}
+                  width="fit-content"
+                >
                   추가하기
                 </Button>
               </div>
+              {commentList.map(comment => (
+                <div className="book-comment" key={comment.id}>
+                  <div className="book-comment-user">
+                    <img src={comment.user.profilePhoto} alt="" />
+                    <h3>{comment.user.username}</h3>
+                  </div>
+                  <p>{comment.text}</p>
+                </div>
+              ))}
             </div>
           </div>
           <div className="author-info-wrapper">

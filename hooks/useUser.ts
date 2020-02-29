@@ -1,5 +1,6 @@
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { GET_CACHE_USER, ADD_TO_SHELF } from "../query/user";
+import { GET_CACHE_USER } from "../query/user";
+import { ADD_TO_SHELF } from "../query/book";
 import { CacheUser } from "../types";
 import { RATE_BOOK } from "../query/rating";
 
@@ -14,7 +15,7 @@ export default () => {
   /**
    * * 책 평가하기
    */
-  const [rateBook] = useMutation(RATE_BOOK);
+  const [rateBookMutation] = useMutation(RATE_BOOK);
 
-  return { user: data?.user, isLogged: !!data?.user, addToShelfMutation, rateBook };
+  return { user: data?.user, isLogged: !!data?.user, addToShelfMutation, rateBookMutation };
 };

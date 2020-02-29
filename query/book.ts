@@ -1,5 +1,8 @@
 import { gql } from "apollo-boost";
 
+/**
+ * * 책 추가하기
+ */
 export const ADD_BOOK = gql`
   mutation addBook($bookInfos: AddBookInfos, $authors: [addBookAuthorInfos]) {
     addBook(bookInfos: $bookInfos, authors: $authors) {
@@ -7,6 +10,10 @@ export const ADD_BOOK = gql`
     }
   }
 `;
+
+/**
+ * * 책 하나 불러오기
+ */
 export const GET_BOOK = gql`
   query getBook($id: ID!) {
     getBook(id: $id) {
@@ -32,9 +39,17 @@ export const GET_BOOK = gql`
       wantCount
       readingCount
       readCount
+      totalRating
+      ratedUserNum
+      avgRating
       comments {
         id
         text
+        user {
+          id
+          username
+          profilePhoto
+        }
       }
       gernes {
         id
@@ -48,6 +63,17 @@ export const GET_BOOK = gql`
       }
       createdAt
       updatedAt
+    }
+  }
+`;
+
+/**
+ * * 선반에 책 추가하기
+ */
+export const ADD_TO_SHELF = gql`
+  mutation addToShelf($shelfName: String!, $bookId: ID!) {
+    addToShelf(shelfName: $shelfName, bookId: $bookId) {
+      id
     }
   }
 `;

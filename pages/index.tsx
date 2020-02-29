@@ -236,13 +236,13 @@ const index: NextPage<IProps> = ({ books, authors }) => {
                     </div>
                     <ReactStars
                       count={5}
-                      value={book.totalRating}
+                      value={parseFloat(book.avgRating)}
                       edit={false}
                       size={20}
                       color1="#D8D8D8"
                       color2="#FA604A"
                     />
-                    <div className="main-BooksCard-hover-totalRating">{book.totalRating.toFixed(2)}</div>
+                    <div className="main-BooksCard-hover-totalRating">{book.avgRating}</div>
                   </span>
                 </div>
               </div>
