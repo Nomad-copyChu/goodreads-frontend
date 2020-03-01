@@ -1,8 +1,8 @@
 import React from "react";
-import styled from "styled-components";
+import AddAuthor from "../../components/author/AddAuthor";
 
 const author: React.FC = () => {
-  return <div>hello world</div>;
+  return <AddAuthor />;
 };
 
 export default author;

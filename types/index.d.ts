@@ -12,6 +12,7 @@ export type Author = {
   photo: string;
   books: Book[];
   quotes: Quote[];
+  comments: AuthorComment[];
   createdAt: string;
   updatedAt: string;
 };
@@ -72,6 +73,15 @@ export type Gerne = {
   booksCount: number;
   createdAt?: string;
   updatedAt?: string;
+};
+
+export type AuthorComment = {
+  id: string;
+  author: Author;
+  user: User;
+  text: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type Profile = {

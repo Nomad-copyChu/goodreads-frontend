@@ -78,6 +78,7 @@ const Container = styled.div`
 interface IProps {
   placeholder?: string;
   onClick?: (selected: KakaoSearchResult) => void;
+  target: "title" | "isbn" | "publisher" | "person";
 }
 
 export type KakaoSearchResult = {
@@ -95,7 +96,7 @@ export type KakaoSearchResult = {
   url: string;
 };
 
-const SearchKakaoInput: React.FC<IProps> = ({ placeholder, onClick }) => {
+const SearchKakaoInput: React.FC<IProps> = ({ placeholder, onClick, target }) => {
   const [value, setValue] = useState("");
   const searchValue = useDebounce(value, 500);
   const [bookList, setBookList] = useState<KakaoSearchResult[]>([]);
@@ -105,7 +106,7 @@ const SearchKakaoInput: React.FC<IProps> = ({ placeholder, onClick }) => {
   const searchToKaKao = useCallback(async () => {
     if (searchValue !== "") {
       await axios
-        .get("https://dapi.kakao.com/v3/search/book?target=title", {
+        .get(`https://dapi.kakao.com/v3/search/book?target=${target}`, {
           headers: {
             Authorization: "KakaoAK c18fd9563bb5f1308b1995a43bd59c99"
           },

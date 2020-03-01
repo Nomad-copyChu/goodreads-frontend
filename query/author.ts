@@ -16,8 +16,8 @@ export const GET_AUTHORS_WITH_NAME = gql`
 `;
 
 export const GET_AUTHOR = gql`
-  query getAuthor($name: String) {
-    getAuthor(name: $name) {
+  query getAuthor($id: ID!) {
+    getAuthor(id: $id) {
       id
       name
       photo
@@ -26,6 +26,19 @@ export const GET_AUTHOR = gql`
         id
         title
         thumbnail
+      }
+      quotes {
+        id
+        term
+      }
+      comments {
+        id
+        text
+        user {
+          id
+          username
+          profilePhoto
+        }
       }
     }
   }
@@ -47,6 +60,19 @@ export const GET_AUTHORS = gql`
       quotes {
         id
         term
+      }
+    }
+  }
+`;
+export const COMMENT_AUTHOR = gql`
+  mutation commentAuthor($authorId: ID!, $text: String!) {
+    commentAuthor(authorId: $authorId, text: $text) {
+      id
+      text
+      user {
+        id
+        username
+        profilePhoto
       }
     }
   }
