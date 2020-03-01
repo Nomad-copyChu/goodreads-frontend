@@ -29,6 +29,8 @@ const Container = styled.div`
       img {
         width: 300px;
         height: 100%;
+        border: 1px solid ${colors.gray_500};
+        border-radius: 5px;
       }
       .author-detail {
         margin-left: 20px;
@@ -138,6 +140,7 @@ const AuthorDetail: React.FC<IProps> = ({ author }) => {
   const [commentList, setCommentList] = useState(author.comments);
   const [commentText, setCommentText] = useState("");
   const { addCommentMutation } = useAuthor();
+  console.log(author);
   return (
     <Container>
       <div className="author-infos-comments">
@@ -162,7 +165,7 @@ const AuthorDetail: React.FC<IProps> = ({ author }) => {
                   </span>
                 </p>
               )}
-              <Link href="/add/book/[id]" as={`/add/book/${author.id}`}>
+              <Link href="/add/book/[id]" as={`/add/author?${author.id}`}>
                 <a>...수정하기</a>
               </Link>
             </div>
@@ -193,8 +196,8 @@ const AuthorDetail: React.FC<IProps> = ({ author }) => {
             {commentList.map(comment => (
               <div className="author-comment">
                 <div className="author-comment-user">
-                  <img src={comment?.user?.profilePhoto} alt={comment.user.username} />
-                  <h3>{comment.user.username}</h3>
+                  <img src={comment?.user?.profilePhoto} alt={comment?.user?.username} />
+                  <h3>{comment.user?.username}</h3>
                 </div>
                 <p>{comment.text}</p>
               </div>
