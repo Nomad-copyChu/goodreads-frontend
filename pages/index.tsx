@@ -30,6 +30,7 @@ const Main = styled.div`
   scroll-behavior: smooth;
   @media (max-width: 870px) {
     padding: 20px;
+    width: 100%;
   }
   h2 {
     font-size: 21px;
@@ -42,9 +43,6 @@ const Main = styled.div`
     overflow-x: scroll;
     ::-webkit-scrollbar {
       display: none;
-    }
-    @media (max-width: 870px) {
-      width: 468px;
     }
   }
   .main-BooksCard-hover-background {
@@ -138,6 +136,9 @@ const Main = styled.div`
       -webkit-box-orient: vertical;
     }
   }
+  .main-author-info-wrapper {
+    display: flex;
+  }
   .author-photo {
     width: 140px;
     height: 100px;
@@ -145,7 +146,6 @@ const Main = styled.div`
     margin-left: 16px;
   }
   .author-name {
-    position: absolute;
     margin-top: 16px;
     margin-left: 16px;
   }
@@ -175,6 +175,7 @@ const Main = styled.div`
     display: flex;
     @media (max-width: 870px) {
       display: block;
+      width: 100%;
     }
   }
   .author-photo-small {
@@ -188,14 +189,19 @@ const Main = styled.div`
     width: 60%;
     display: flex;
     flex-direction: column;
-    @media (min-width: 870px) {
+    @media (max-width: 870px) {
       margin-left: 0px;
+      width: 100%;
     }
   }
   .main-tags-bestbook-wrapper {
     width: 45%;
     display: flex;
     justify-content: space-between;
+    @media (max-width: 870px) {
+      margin-left: 0px;
+      width: 100%;
+    }
   }
   .main-tags-title {
     font-size: 14px;
@@ -207,6 +213,7 @@ const Main = styled.div`
     width: 425px;
     height: 247px;
     @media (max-width: 870px) {
+      width: 100%;
       margin-bottom: 15px;
     }
   }
@@ -219,6 +226,7 @@ const Main = styled.div`
     margin-bottom: 10px;
     @media (max-width: 870px) {
       margin-bottom: 15px;
+      width: 100%;
     }
   }
   .main-bestbook-border {
@@ -343,28 +351,28 @@ const index: NextPage<IProps> = ({ books, authors }) => {
         </div>
         <h2>추천작가</h2>
         <div className="muti-box">
-          <div>
-            <div className="main-borderbox-author">
+          <div className="main-borderbox-author">
+            <div className="main-author-info-wrapper">
               <img className="author-photo" src={authors[0]?.photo} alt="" />
               <Link href="/author/[id]" as={`/author/${authors[0]?.id}`}>
                 <a className="author-name">{authors[0]?.name}</a>
               </Link>
-              <div className="main-author-booksfont">Books</div>
-              <div className="main-author-booklist">
-                <BooksCard size="small" src={books[0]?.thumbnail} alt="" />
-              </div>
+            </div>
+            <div className="main-author-booksfont">Books</div>
+            <div className="main-author-booklist">
+              <BooksCard size="small" src={books[0]?.thumbnail} alt="" />
             </div>
           </div>
           <div className="main-borderbox-author">
-            <div>
+            <div className="main-author-info-wrapper">
               <img className="author-photo" src={authors[1]?.photo} alt="" />
               <Link href="/author/[id]" as={`/author/${authors[1]?.id}`}>
                 <a className="author-name">{authors[1]?.name}</a>
               </Link>
-              <div className="main-author-booksfont">Books</div>
-              <div className="main-author-booklist">
-                <BooksCard size="small" src={books[1]?.thumbnail} alt="" />
-              </div>
+            </div>
+            <div className="main-author-booksfont">Books</div>
+            <div className="main-author-booklist">
+              <BooksCard size="small" src={books[1]?.thumbnail} alt="" />
             </div>
           </div>
         </div>
