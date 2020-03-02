@@ -4,6 +4,8 @@ import colors from "../style/colors";
 
 const Container = styled.div`
   position: relative;
+  margin-top: 40px;
+  border: 1px solid #d8d8d8;
   bottom: 0px;
   height: 67px;
   width: 100%;

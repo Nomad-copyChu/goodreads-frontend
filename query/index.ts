@@ -15,6 +15,9 @@ export const GET_BOOKS = gql`
         id
         term
       }
+      comments {
+        id
+      }
       thumbnail
       contents
       datetime
@@ -27,6 +30,7 @@ export const GET_BOOKS = gql`
       totalRating
       ratedUserNum
       totalRating
+      avgRating
       addUser {
         username
       }

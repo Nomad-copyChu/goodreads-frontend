@@ -7,9 +7,10 @@ import { Gerne } from "../../types";
 import colors from "../../style/colors";
 
 const Container = styled.div`
-  .main-tag {
-    margin-top: 2px;
+  height: 17px;
+  .flex {
     font-size: 12px;
+    margin-top: 2px;
   }
   span {
     margin-left: 2px;
@@ -24,7 +25,7 @@ const GetGernes: React.FC = () => {
       {data?.getGernes?.map((gerne, index) => (
         <div key={index} className="flex">
           <Link href="/gerne/[term]" as={`/gerne/${gerne.term}`}>
-            <a className="tag">{gerne.term}</a>
+            <a className="main-tag">{gerne.term}</a>
           </Link>
           <span>{`(${gerne.booksCount})`}</span>
         </div>

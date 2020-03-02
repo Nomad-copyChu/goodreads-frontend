@@ -12,7 +12,10 @@ const getSize = (size: Sizes) => {
         height: 234px;
       `;
     case "medium":
-      return css``;
+      return css`
+        width: 80px;
+        height: 113px;
+      `;
     case "small":
       return css`
         width: 60px;

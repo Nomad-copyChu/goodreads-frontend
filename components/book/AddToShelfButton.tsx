@@ -4,17 +4,21 @@ import OutsideClickHandler from "react-outside-click-handler";
 import colors from "../../style/colors";
 import ArrowIcon from "../../public/static/svg/select/select-down-errow.svg";
 
+type Size = "medium" | "large";
 const Container = styled.div`
   position: relative;
   width: 100%;
+  height: 32px;
   display: flex;
   background-color: ${colors.green_500};
   border-radius: 5px;
-  height: 32px;
   direction: flex;
   align-items: center;
   justify-content: space-around;
   cursor: pointer;
+  .medium-font-size {
+    font-size: 10px;
+  }
   .select-input {
     color: white;
     display: flex;
@@ -69,45 +73,59 @@ const Container = styled.div`
 
 interface IProps {
   value?: { value: string; label: string };
-  options: { value: string; label: string }[];
+  options?: { value: string; label: string }[];
   onClick?: () => void;
   onChange?: ({ value, label }: { value: string; label: string }) => void;
+  size: Size;
+  className?: string;
 }
 
 const AddToShelfButton: React.FC<IProps> = ({
   value = { value: "원해요", label: "원해요" },
   options,
   onClick,
-  onChange
+  onChange,
+  size,
+  className
 }) => {
   const [popupStatus, setPopupStatus] = useState(false);
-  return (
-    <Container role="button" onClick={() => onClick()}>
-      <div
-        className="select-input"
-        role="button"
-        onClick={e => {
-          e.stopPropagation();
-          setPopupStatus(!popupStatus);
-        }}
-      >
-        <p className="select-input-value">{value.label}</p>
-        <ArrowIcon className="arrow-icon" />
-        {popupStatus && (
-          <OutsideClickHandler onOutsideClick={() => setPopupStatus(false)}>
-            <ul className="popup-box">
-              {options.map((option, index) => (
-                <li key={index} onClick={() => onChange(option)}>
-                  {option.label}
-                </li>
-              ))}
-            </ul>
-          </OutsideClickHandler>
-        )}
-      </div>
-      <p>선반에 추가하기</p>
-    </Container>
-  );
+  if (size === "medium") {
+    return (
+      <Container role="button" onClick={() => onClick()} className={className}>
+        <p className="medium-font-size">선반에 추가하기</p>
+      </Container>
+    );
+  }
+  if (size === "large") {
+    return (
+      <Container role="button" onClick={() => onClick()} className={className}>
+        <div
+          className="select-input"
+          role="button"
+          onClick={e => {
+            e.stopPropagation();
+            setPopupStatus(!popupStatus);
+          }}
+        >
+          <p className="select-input-value">{value?.label}</p>
+          <ArrowIcon className="arrow-icon" />
+          {popupStatus && (
+            <OutsideClickHandler onOutsideClick={() => setPopupStatus(false)}>
+              <ul className="popup-box">
+                {options.map((option, index) => (
+                  <li key={index} onClick={() => onChange(option)}>
+                    {option.label}
+                  </li>
+                ))}
+              </ul>
+            </OutsideClickHandler>
+          )}
+        </div>
+        <p>선반에 추가하기</p>
+      </Container>
+    );
+  }
+  return null;
 };
 
 export default AddToShelfButton;

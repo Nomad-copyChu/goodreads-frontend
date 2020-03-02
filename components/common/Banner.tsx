@@ -16,33 +16,41 @@ const Container = styled.div`
   .Content {
     position: absolute;
     display: flex;
+    align-items: center;
     @media (max-width: 700px) {
-      display: block;
+      display: flex;
     }
   }
   .search {
     flex: 3 0 0;
-    align-self: stretch;
+    align-self: center;
     z-index: 2;
     width: 472px;
     height: 32px;
     margin: 0 auto;
     @media (max-width: 700px) {
+      z-index: 4;
       width: 300px;
+      align-self: center;
     }
   }
   .bannerText {
     flex: 3 0 0;
-    margin-right: 10px;
     width: 100%;
+    font-family: Hoefler Text;
     font-size: 50px;
     z-index: 3;
     p {
       color: white;
-      margin-bottom: 10px;
     }
     @media (max-width: 700px) {
+      position: absolute;
+      z-index: 1;
       font-size: 30px;
+      p {
+        margin-bottom: 20px;
+        margin-top: 15px;
+      }
     }
   }
 `;

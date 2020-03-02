@@ -35,7 +35,7 @@ export type Book = {
   gernes: Gerne[];
   totalRating: number;
   ratedUserNum: number;
-  avgRating: string;
+  avgRating: number;
   addUser: User[];
   createdAt: string;
   updatedAt: string;

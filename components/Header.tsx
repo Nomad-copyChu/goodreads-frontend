@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { NextPage } from "next";
 import Link from "next/link";
 import Logo from "../public/static/svg/goodreadsKr.svg";
 import colors from "../style/colors";
@@ -62,7 +63,7 @@ const Container = styled.div`
   }
 `;
 
-const Header: React.FC = () => {
+const Header: NextPage = () => {
   const [show, setShow] = useState(false);
   const toggleSidebar = () => {
     setShow(!show);
@@ -70,8 +71,8 @@ const Header: React.FC = () => {
   return (
     <Container>
       <Link href="/">
-        <a>
-          <Logo className="logo" />
+        <a className="logo">
+          <Logo />
         </a>
       </Link>
       <div className="list">
