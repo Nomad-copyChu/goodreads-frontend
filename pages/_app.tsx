@@ -55,12 +55,14 @@ class MyApp extends App<IProps> {
 
     return (
       <>
-        <Header />
         <GlobalStyles />
         <ApolloProvider client={apollo}>
-          <Component {...pageProps} />
+          <>
+            <Header />
+            <Component {...pageProps} />
+            <Footer />
+          </>
         </ApolloProvider>
-        <Footer />
       </>
     );
   }

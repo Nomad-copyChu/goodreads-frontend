@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { NextPage } from "next";
-import cookie from "js-cookie";
 import Link from "next/link";
 import Logo from "../public/static/svg/goodreadsKr.svg";
 import colors from "../style/colors";
@@ -63,6 +62,27 @@ const Container = styled.div`
       display: none;
     }
   }
+  .header-myProfile-Photo {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid ${colors.gray_300};
+  }
+  .login-info {
+    margin-left: auto;
+    margin-right: 153px;
+    display: flex;
+    align-items: center;
+    a {
+      :last-child {
+        margin-left: 0px;
+      }
+    }
+    @media (max-width: 700px) {
+      display: none;
+    }
+  }
 `;
 
 const Header: NextPage = () => {
@@ -70,11 +90,26 @@ const Header: NextPage = () => {
   const toggleSidebar = () => {
     setShow(!show);
   };
-  const { isLogged } = useUser();
-  const loginMaintain = () => {
-    // const isLoggedIn = cookie.get("Authorization");
-    if (isLogged === false) {
-      return (
+  const { isLogged, user } = useUser();
+  if (isLogged === false) {
+    return (
+      <Container>
+        <Link href="/">
+          <a className="logo">
+            <Logo />
+          </a>
+        </Link>
+        <div className="list">
+          <Link href="/book" prefetch={false}>
+            <a>도서목록</a>
+          </Link>
+          <Link href="/author" prefetch={false}>
+            <a>작가목록</a>
+          </Link>
+          <Link href="/quote" prefetch={false}>
+            <a>명언목록</a>
+          </Link>
+        </div>
         <div className="log-info">
           <Link href="/auth/register" prefetch={false}>
             <a>회원가입</a>
@@ -83,10 +118,10 @@ const Header: NextPage = () => {
             <a>로그인</a>
           </Link>
         </div>
-      );
-    }
-    return <div className="log-info">hi</div>;
-  };
+        <MenuIcon className="sidebar-icon" onClick={toggleSidebar} />
+      </Container>
+    );
+  }
   return (
     <Container>
       <Link href="/">
@@ -104,8 +139,20 @@ const Header: NextPage = () => {
         <Link href="/quote" prefetch={false}>
           <a>명언목록</a>
         </Link>
+        <Link href="/me/shelf" prefetch={false}>
+          <a>나의 선반</a>
+        </Link>
       </div>
-      {loginMaintain()}
+      <div className="login-info">
+        <Link href="/me/[id]" as={`/me/${user.username}`}>
+          <a>
+            <img className="header-myProfile-Photo" src={user.profilePhoto} alt="" />
+          </a>
+        </Link>
+        <Link href="/me/[id]" as={`/me/${user.username}`}>
+          <a>{user.username}</a>
+        </Link>
+      </div>
       <MenuIcon className="sidebar-icon" onClick={toggleSidebar} />
     </Container>
   );
