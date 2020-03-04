@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { NextPage } from "next";
+import cookie from "js-cookie";
 import Link from "next/link";
 import Logo from "../public/static/svg/goodreadsKr.svg";
 import colors from "../style/colors";
 import MenuIcon from "../public/static/svg/menu.svg";
+import useUser from "../hooks/useUser";
 
 const Container = styled.div`
   width: 100%;
@@ -68,6 +70,23 @@ const Header: NextPage = () => {
   const toggleSidebar = () => {
     setShow(!show);
   };
+  const { isLogged } = useUser();
+  const loginMaintain = () => {
+    // const isLoggedIn = cookie.get("Authorization");
+    if (isLogged === false) {
+      return (
+        <div className="log-info">
+          <Link href="/auth/register" prefetch={false}>
+            <a>회원가입</a>
+          </Link>
+          <Link href="/auth/login">
+            <a>로그인</a>
+          </Link>
+        </div>
+      );
+    }
+    return <div className="log-info">hi</div>;
+  };
   return (
     <Container>
       <Link href="/">
@@ -86,14 +105,7 @@ const Header: NextPage = () => {
           <a>명언목록</a>
         </Link>
       </div>
-      <div className="log-info">
-        <Link href="/auth/register" prefetch={false}>
-          <a>회원가입</a>
-        </Link>
-        <Link href="/auth/login">
-          <a>로그인</a>
-        </Link>
-      </div>
+      {loginMaintain()}
       <MenuIcon className="sidebar-icon" onClick={toggleSidebar} />
     </Container>
   );
