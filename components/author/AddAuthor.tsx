@@ -131,7 +131,7 @@ const Container = styled.div`
 `;
 
 interface IProps {
-  author: Author;
+  author?: Author;
 }
 
 const AddAuthor: React.FC<IProps> = ({ author }) => {
