@@ -4,7 +4,6 @@ import SearchInput from "./SearchInput";
 
 const Container = styled.div`
   display: flex;
-  margin: 0 auto;
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -16,7 +15,6 @@ const Container = styled.div`
   .Content {
     position: absolute;
     display: flex;
-    align-items: center;
     @media (max-width: 700px) {
       display: flex;
     }

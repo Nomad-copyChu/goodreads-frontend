@@ -4,6 +4,7 @@ const SEARCH = gql`
   query search($keyword: String!) {
     search(keyword: $keyword) {
       ... on Book {
+        id
         title
         authors {
           name
@@ -14,6 +15,7 @@ const SEARCH = gql`
         }
       }
       ... on Author {
+        id
         name
         photo
         gernes {
@@ -21,6 +23,7 @@ const SEARCH = gql`
         }
       }
       ... on User {
+        id
         username
         profilePhoto
       }

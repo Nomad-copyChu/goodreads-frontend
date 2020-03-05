@@ -11,6 +11,10 @@ import GetGernes from "../components/common/GetGernes";
 import { GET_AUTHORS } from "../query/author";
 import BooksCard from "../components/common/BooksCard";
 import AddToShelfButton from "../components/book/AddToShelfButton";
+import Reading from "../public/static/svg/readingLabel.svg";
+import Readed from "../public/static/svg/readedLabel.svg";
+import Noread from "../public/static/svg/noReadLabel.svg";
+import useUser from "../hooks/useUser";
 
 interface IProps {
   books: Book[];
@@ -23,9 +27,32 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
 `;
+const MainWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const Sidebar = styled.div`
+  .LabelWrapper {
+    margin-top: 70px;
+    margin-left: 12px;
+    position: absolute;
+  }
+  .bookLabel {
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    font-family: Roboto;
+    color: #aaaaaa;
+    font-size: 12px;
+  }
+`;
+
 const Main = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   overflow: auto;
-  margin: 0 auto;
   width: 870px;
   scroll-behavior: smooth;
   @media (max-width: 870px) {
@@ -299,10 +326,18 @@ const Main = styled.div`
 `;
 
 const index: NextPage<IProps> = ({ books, authors }) => {
-  return (
-    <Container>
-      <Banner />
-      <Main>
+  const { user, isLogged } = useUser();
+  const LoginBook = () => {
+    if (isLogged === true) {
+      return (
+        <div>
+          <h2>나의 선반 책들</h2>
+          <div className="books-slide">hello</div>
+        </div>
+      );
+    }
+    return (
+      <div>
         <h2>추천하는 도서</h2>
         <div className="books-slide">
           {books.map((book, index) => (
@@ -349,97 +384,133 @@ const index: NextPage<IProps> = ({ books, authors }) => {
             </span>
           ))}
         </div>
-        <h2>추천작가</h2>
-        <div className="muti-box">
-          <div className="main-borderbox-author">
-            <div className="main-author-info-wrapper">
-              <img className="author-photo" src={authors[0]?.photo} alt="" />
-              <Link href="/author/[id]" as={`/author/${authors[0]?.id}`}>
-                <a className="author-name">{authors[0]?.name}</a>
-              </Link>
+      </div>
+    );
+  };
+
+  const LoginLabel = () => {
+    if (isLogged === true) {
+      return (
+        <Sidebar>
+          <div className="LabelWrapper">
+            <div className="bookLabel">
+              <Readed />
+              다읽은책
             </div>
-            <div className="main-author-booksfont">Books</div>
-            <div className="main-author-booklist">
-              <BooksCard size="small" src={books[0]?.thumbnail} alt="" />
+            <div className="bookLabel">
+              <Reading />
+              읽고있는책
             </div>
-          </div>
-          <div className="main-borderbox-author">
-            <div className="main-author-info-wrapper">
-              <img className="author-photo" src={authors[1]?.photo} alt="" />
-              <Link href="/author/[id]" as={`/author/${authors[1]?.id}`}>
-                <a className="author-name">{authors[1]?.name}</a>
-              </Link>
-            </div>
-            <div className="main-author-booksfont">Books</div>
-            <div className="main-author-booklist">
-              <BooksCard size="small" src={books[1]?.thumbnail} alt="" />
+            <div className="bookLabel">
+              <Noread />
+              안읽는책
             </div>
           </div>
-        </div>
-        <h2>작가의 명언</h2>
-        <div className="main-quote-container">
-          <div className="main-quote-borderbox-wrapper">
-            <div className="main-borderbox-quote">
-              <img className="author-photo-small" src={books[2]?.authors[0]?.photo} alt="" />
-            </div>
-            <div className="main-borderbox-quote">
-              <img className="author-photo-small" src={books[2]?.authors[0]?.photo} alt="" />
-            </div>
-            <div className="main-borderbox-quote">
-              <img className="author-photo-small" src={books[2]?.authors[0]?.photo} alt="" />
-            </div>
-          </div>
-          <div className="main-tags-bestbook-wrapper">
-            <div>
-              <Link href="tags">
-                <a className="main-tags-title">Tags</a>
-              </Link>
-              <GetGernes />
-            </div>
-            <div className="main-bestbook-border">
-              <h3>이주의 배스트 책</h3>
-              <div className="border" />
-              <div className="main-bestbook-info">
-                <BooksCard size="medium" src={books[7]?.thumbnail} alt="" />
-                <div className="main-bestbook-column">
-                  <div>
-                    <Link href="/book/[id]" as={`/book/${books[7]?.id}`}>
-                      <a className="bestbook-title">{books[7]?.title}</a>
-                    </Link>
-                  </div>
-                  <div className="bestbook-author">
-                    <span>by</span>
-                    <Link href="/author/[id]" as={`/author/${books[7]?.authors.map(author => author.name)}`}>
-                      <a>{books[7]?.authors.map(author => author.name)}</a>
-                    </Link>
-                  </div>
-                  <div className="rating-text">
-                    <ReactStars
-                      count={5}
-                      edit={false}
-                      value={books[7]?.avgRating}
-                      size={12}
-                      color1="#D8D8D8"
-                      color2="#FA604A"
-                    />
-                    <span>{books[7]?.avgRating.toFixed(2)}</span>
-                  </div>
-                  <div className="rating-and-review">
-                    <Link href="/book/[id]" as={`/book/${books[7]?.id}`}>
-                      <a>{books[7].ratedUserNum} ratings</a>
-                    </Link>
-                    <Link href="/book/[id]" as={`/book/${books[7]?.id}`}>
-                      <a>{books[7].comments.length} review</a>
-                    </Link>
-                  </div>
-                  <AddToShelfButton className="shelfbutton" size="medium" />
-                </div>
+        </Sidebar>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <Container>
+      <Banner />
+      <MainWrapper>
+        <Main>
+          {LoginBook()}
+          <h2>추천작가</h2>
+          <div className="muti-box">
+            <div className="main-borderbox-author">
+              <div className="main-author-info-wrapper">
+                <img className="author-photo" src={authors[0]?.photo} alt="" />
+                <Link href="/author/[id]" as={`/author/${authors[0]?.id}`}>
+                  <a className="author-name">{authors[0]?.name}</a>
+                </Link>
               </div>
-              <div className="contents">{books[7].contents}</div>
+              <div className="main-author-booksfont">Books</div>
+              <div className="main-author-booklist">
+                <BooksCard size="small" src={books[0]?.thumbnail} alt="" />
+              </div>
+            </div>
+            <div className="main-borderbox-author">
+              <div className="main-author-info-wrapper">
+                <img className="author-photo" src={authors[1]?.photo} alt="" />
+                <Link href="/author/[id]" as={`/author/${authors[1]?.id}`}>
+                  <a className="author-name">{authors[1]?.name}</a>
+                </Link>
+              </div>
+              <div className="main-author-booksfont">Books</div>
+              <div className="main-author-booklist">
+                <BooksCard size="small" src={books[1]?.thumbnail} alt="" />
+              </div>
             </div>
           </div>
-        </div>
-      </Main>
+          <h2>작가의 명언</h2>
+          <div className="main-quote-container">
+            <div className="main-quote-borderbox-wrapper">
+              <div className="main-borderbox-quote">
+                <img className="author-photo-small" src={books[2]?.authors[0]?.photo} alt="" />
+              </div>
+              <div className="main-borderbox-quote">
+                <img className="author-photo-small" src={books[2]?.authors[0]?.photo} alt="" />
+              </div>
+              <div className="main-borderbox-quote">
+                <img className="author-photo-small" src={books[2]?.authors[0]?.photo} alt="" />
+              </div>
+            </div>
+            <div className="main-tags-bestbook-wrapper">
+              <div>
+                <Link href="tags">
+                  <a className="main-tags-title">Tags</a>
+                </Link>
+                <GetGernes />
+              </div>
+              <div className="main-bestbook-border">
+                <h3>이주의 배스트 책</h3>
+                <div className="border" />
+                <div className="main-bestbook-info">
+                  <BooksCard size="medium" src={books[7]?.thumbnail} alt="" />
+                  <div className="main-bestbook-column">
+                    <div>
+                      <Link href="/book/[id]" as={`/book/${books[7]?.id}`}>
+                        <a className="bestbook-title">{books[7]?.title}</a>
+                      </Link>
+                    </div>
+                    <div className="bestbook-author">
+                      <span>by</span>
+                      <Link href="/author/[id]" as={`/author/${books[7]?.authors.map(author => author.name)}`}>
+                        <a>{books[7]?.authors.map(author => author.name)}</a>
+                      </Link>
+                    </div>
+                    <div className="rating-text">
+                      <ReactStars
+                        count={5}
+                        edit={false}
+                        value={books[7]?.avgRating}
+                        size={12}
+                        color1="#D8D8D8"
+                        color2="#FA604A"
+                      />
+                      <span>{books[7]?.avgRating.toFixed(2)}</span>
+                    </div>
+                    <div className="rating-and-review">
+                      <Link href="/book/[id]" as={`/book/${books[7]?.id}`}>
+                        <a>{books[7].ratedUserNum} ratings</a>
+                      </Link>
+                      <Link href="/book/[id]" as={`/book/${books[7]?.id}`}>
+                        <a>{books[7].comments.length} review</a>
+                      </Link>
+                    </div>
+                    <AddToShelfButton className="shelfbutton" size="medium" />
+                  </div>
+                </div>
+                <div className="contents">{books[7].contents}</div>
+              </div>
+            </div>
+          </div>
+        </Main>
+        {LoginLabel()}
+      </MainWrapper>
     </Container>
   );
 };

@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import TextArea from "react-textarea-autosize";
 import dynamic from "next/dynamic";
 import isEmpty from "lodash/isEmpty";
@@ -260,8 +260,6 @@ const Container = styled.div`
 const AddBook: React.FC = () => {
   const state = useAddBook();
   const { fileUploadMuation } = useUpload();
-  const options = ["원해요", "읽는중", "읽음"];
-  const [shelf, setShelf] = useState(options[0]);
   //작가 이름들로 DB작가 조회하기
   const { data, refetch, loading } = useQuery(GET_AUTHORS_WITH_NAME, {
     skip: isEmpty(state.authors),
@@ -299,7 +297,7 @@ const AddBook: React.FC = () => {
   return (
     <Container>
       <div className="kakao-search-sbumit-wrapper">
-        <SearchKakaoInput onClick={state.onKakaoResultClick} target="title" />
+        <SearchKakaoInput onClick={state.onKakaoResultClick} />
         <div className="book-submit">
           <Button color="green" onClick={() => state.addBookMutation()}>
             책 등록하기
@@ -321,6 +319,7 @@ const AddBook: React.FC = () => {
               )}
             </div>
             <AddToShelfButton
+              size="large"
               options={[
                 { value: "원해요", label: "원해요" },
                 { value: "읽는중", label: "읽는중" },

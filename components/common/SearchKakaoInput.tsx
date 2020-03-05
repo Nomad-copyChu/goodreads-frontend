@@ -78,7 +78,7 @@ const Container = styled.div`
 interface IProps {
   placeholder?: string;
   onClick?: (selected: KakaoSearchResult) => void;
-  target: "title" | "isbn" | "publisher" | "person";
+  target?: "title" | "isbn" | "publisher" | "person";
 }
 
 export type KakaoSearchResult = {

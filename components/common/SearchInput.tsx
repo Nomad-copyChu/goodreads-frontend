@@ -149,7 +149,7 @@ const SearchInput: React.FC<IProps> = ({ placeholder, onClick }) => {
     variables: { keyword: serachValue },
     fetchPolicy: "network-only"
   });
-  const [popupStatus, setPoupStatus] = useState(false);
+  const [popupStatus, setPopupStatus] = useState(false);
   const results = data?.search.map((item, index) => {
     if ((item as Book).title) {
       //책이라면
@@ -160,7 +160,7 @@ const SearchInput: React.FC<IProps> = ({ placeholder, onClick }) => {
           role="presentation"
           onClick={() => {
             onClick(item);
-            setPoupStatus(false);
+            setPopupStatus(false);
           }}
         >
           <img src={(item as Book).thumbnail} alt="" />
@@ -185,7 +185,7 @@ const SearchInput: React.FC<IProps> = ({ placeholder, onClick }) => {
           role="presentation"
           onClick={() => {
             onClick(item);
-            setPoupStatus(false);
+            setPopupStatus(false);
           }}
         >
           <img src={(item as User).profilePhoto} alt="" />
@@ -202,7 +202,7 @@ const SearchInput: React.FC<IProps> = ({ placeholder, onClick }) => {
           role="presentation"
           onClick={() => {
             onClick(item);
-            setPoupStatus(false);
+            setPopupStatus(false);
           }}
         >
           <img src={(item as Author).photo} alt={(item as Author).name} />
@@ -217,11 +217,11 @@ const SearchInput: React.FC<IProps> = ({ placeholder, onClick }) => {
   });
   return (
     <Container>
-      <OutsideClickHandler onOutsideClick={() => setPoupStatus(false)}>
+      <OutsideClickHandler onOutsideClick={() => setPopupStatus(false)}>
         <Input
           value={value}
           onChange={e => setValue(e.target.value)}
-          onFocus={() => setPoupStatus(true)}
+          onFocus={() => setPopupStatus(true)}
           placeholder={placeholder}
         />
         <SearchIcon className="search-icon" />
