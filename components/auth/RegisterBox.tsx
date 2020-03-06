@@ -99,7 +99,7 @@ const LoginBox: React.FC = () => {
     try {
       const data = await registerMutation();
       const token = data?.data?.createUser;
-      console.log(token);
+      // console.log(token);
       if (token) {
         cookie.set("Authorization", token);
         router.push("/auth/register/success");

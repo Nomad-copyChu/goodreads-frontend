@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import OutsideClickHandler from "react-outside-click-handler";
 import isEmpty from "lodash/isEmpty";
+import { useRouter } from "next/dist/client/router";
 import SadIcon from "../../public/static/svg/sad.svg";
 import SearchIcon from "../../public/static/svg/search.svg";
 import Input from "./Input";
@@ -138,9 +139,9 @@ const Container = styled.div`
 export type SearchResult = Book | User | Author;
 interface IProps {
   placeholder?: string;
-  onClick?: (selected: SearchResult) => void;
+  // onClick?: (selected: SearchResult) => void;
 }
-const SearchInput: React.FC<IProps> = ({ placeholder, onClick }) => {
+const SearchInput: React.FC<IProps> = ({ placeholder /*onClick*/ }) => {
   const [value, setValue] = useState("");
   const serachValue = useDebounce(value, 500);
   const { data, loading } = useQuery<{ search: [SearchResult] }>(SEARCH, {
@@ -149,7 +150,9 @@ const SearchInput: React.FC<IProps> = ({ placeholder, onClick }) => {
     variables: { keyword: serachValue },
     fetchPolicy: "network-only"
   });
+
   const [popupStatus, setPopupStatus] = useState(false);
+  const router = useRouter();
   const results = data?.search.map((item, index) => {
     if ((item as Book).title) {
       //책이라면
@@ -158,8 +161,8 @@ const SearchInput: React.FC<IProps> = ({ placeholder, onClick }) => {
           key={index}
           className="book-result"
           role="presentation"
-          onClick={() => {
-            onClick(item);
+          onClick={async () => {
+            router.push(`/book/${(item as Book).id}`);
             setPopupStatus(false);
           }}
         >
@@ -184,7 +187,7 @@ const SearchInput: React.FC<IProps> = ({ placeholder, onClick }) => {
           className="result-user"
           role="presentation"
           onClick={() => {
-            onClick(item);
+            router.push(`/user/${(item as User).id}`);
             setPopupStatus(false);
           }}
         >
@@ -201,7 +204,7 @@ const SearchInput: React.FC<IProps> = ({ placeholder, onClick }) => {
           className="result-author"
           role="presentation"
           onClick={() => {
-            onClick(item);
+            router.push(`/author/${(item as Author).id}`);
             setPopupStatus(false);
           }}
         >
