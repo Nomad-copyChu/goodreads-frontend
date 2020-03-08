@@ -154,4 +154,5 @@ export type CacheUser = {
   profilePhoto: string;
   isAdmin: boolean;
   shelves: Shelf[];
+  displays: Display[];
 };

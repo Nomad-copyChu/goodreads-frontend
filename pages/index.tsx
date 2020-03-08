@@ -333,7 +333,7 @@ const index: NextPage<IProps> = ({ books, authors }) => {
       return (
         <div>
           <h2>나의 선반 책들</h2>
-          <div className="books-slide">hello</div>
+          <div className="books-slide">{user?.displays?.map(display => display.book.map(book => book.title))}</div>
         </div>
       );
     }
