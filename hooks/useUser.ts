@@ -16,6 +16,5 @@ export default () => {
    * * 책 평가하기
    */
   const [rateBookMutation] = useMutation(RATE_BOOK);
-
   return { user: data?.user, isLogged: !!data?.user, addToShelfMutation, rateBookMutation };
 };

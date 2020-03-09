@@ -53,7 +53,7 @@ export type Comment = {
 export type Display = {
   id: string;
   user: User[];
-  book: Book[];
+  book: Book;
   shelves: Shelf[];
   createdAt: string;
   updatedAt: string;
