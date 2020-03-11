@@ -1,10 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import ReactStars from "react-stars";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Book } from "../../types";
 
+const ReactStars = dynamic(import("react-stars"), { ssr: false });
+
 const Container = styled.div`
+  display: flex;
   .main-booksCard-wrpper {
     position: relative;
     display: flex;
@@ -80,6 +83,10 @@ const Container = styled.div`
 
   .main-booksCard {
     position: relative;
+    width: 150px;
+    height: 234px;
+  }
+  .main-booksCard-interval {
     margin-right: 20px;
   }
   .main-books-title {
@@ -110,12 +117,12 @@ const BookList: React.FC<IProps> = ({ books }) => {
         <span key={index}>
           <div className="main-booksCard-wrpper">
             <Link href="/book/[id]" as={`/book/${book.id}`}>
-              <a>
+              <a className="main-booksCard-interval">
                 <img className="main-booksCard" src={book.thumbnail} alt={book.title} />
               </a>
             </Link>
             <div className="main-BooksCard-hover-background">
-              <span className="main-book-hover">
+              <div className="main-book-hover">
                 <div className="main-BooksCard-hover-moreContent">
                   <Link href="/book/[id]" as={`/book/${book.id}`}>
                     <a className="main-BooksCard-hover-moreContent-font">더 알아보기</a>
@@ -139,7 +146,7 @@ const BookList: React.FC<IProps> = ({ books }) => {
                   color2="#FA604A"
                 />
                 <div className="main-BooksCard-hover-totalRating">{book?.avgRating?.toFixed(2)}</div>
-              </span>
+              </div>
             </div>
           </div>
           <div className="main-books-title">

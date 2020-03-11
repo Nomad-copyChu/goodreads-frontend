@@ -1,22 +1,87 @@
 import React from "react";
 import styled from "styled-components";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import ReactStars from "react-stars";
 import AddToShelfButton from "./AddToShelfButton";
 import colors from "../../style/colors";
 
+const ReactStars = dynamic(import("react-stars"), { ssr: false });
+
 const Container = styled.div`
-  width: 200px;
   padding: 8px;
+  width: 200px;
+  height: 284px;
+  border: 1px solid #d8d8d8;
+  box-sizing: border-box;
+  border-radius: 5px;
+  overflow: hidden;
   h3 {
     font-size: 16px;
     margin-bottom: 1px solid ${colors.gray_500};
   }
+  .border {
+    margin-top: 2px;
+    margin-bottom: 4px;
+    border: 1px solid #d8d8d8;
+    width: 185px;
+  }
   .main-bestbook-info {
+    display: flex;
     img {
       width: 80px;
       height: 113px;
     }
+    .main-bestbook-column {
+      margin-left: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+    .bestbook-title {
+      font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-wrap: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 1; /* ellipsis line */
+      -webkit-box-orient: vertical;
+    }
+    .bestbook-author {
+      font-size: 8px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-wrap: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 1; /* ellipsis line */
+      -webkit-box-orient: vertical;
+    }
+    .rating-text {
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+    }
+    .rating-and-review {
+      display: flex;
+      font-size: 10px;
+      a {
+        margin-right: 3px;
+      }
+    }
+    .shelfbutton {
+      height: 21px;
+    }
+  }
+  .contents {
+    margin-top: 9px;
+    width: 180px;
+    color: #aaaaaa;
+    font-size: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 8; /* ellipsis line */
+    -webkit-box-orient: vertical;
   }
 `;
 

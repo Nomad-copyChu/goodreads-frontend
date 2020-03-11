@@ -17,6 +17,7 @@ const Container = styled.div`
     display: flex;
     @media (max-width: 700px) {
       display: flex;
+      align-items: center;
     }
   }
   .search {

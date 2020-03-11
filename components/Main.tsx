@@ -9,6 +9,9 @@ import { Book, Author } from "../types";
 import useUser from "../hooks/useUser";
 import GetGernes from "./common/GetGernes";
 import BestBookThisWeek from "./book/BestBookThisWeek";
+import Want from "../public/static/svg/wantLabel.svg";
+import Reading from "../public/static/svg/readingLabel.svg";
+import Readed from "../public/static/svg/noReadLabel.svg";
 
 const Container = styled.div`
   display: flex;
@@ -132,7 +135,12 @@ const Main: React.FC<IProps> = ({ books, authors }) => {
       <MainWrapper>
         <div className="main-contents">
           {isLogged ? (
-            <LoggedBookList books={books} />
+            <div>
+              <h2>나의 선반 책들</h2>
+              <div className="books-slide">
+                <LoggedBookList books={books} />
+              </div>
+            </div>
           ) : (
             <div>
               <h2>추천하는 도서</h2>
@@ -143,9 +151,8 @@ const Main: React.FC<IProps> = ({ books, authors }) => {
           )}
           <h2>추천작가</h2>
           <div className="main-authors-warpper">
-            {authors.map(author => (
-              <MainAuthor author={author} key={author.id} />
-            ))}
+            <MainAuthor authors={authors} index={10} />
+            <MainAuthor authors={authors} index={9} />
           </div>
           <h2>작가의 명언</h2>
           <div className="main-quote-container">
@@ -171,22 +178,24 @@ const Main: React.FC<IProps> = ({ books, authors }) => {
             </div>
           </div>
         </div>
-        <Sidebar>
-          <div className="LabelWrapper">
-            <div className="bookLabel">
-              {/* <Readed /> */}
-              다읽은책
+        {isLogged ? (
+          <Sidebar>
+            <div className="LabelWrapper">
+              <div className="bookLabel">
+                <Want />
+                원하는책
+              </div>
+              <div className="bookLabel">
+                <Reading />
+                읽고있는책
+              </div>
+              <div className="bookLabel">
+                <Readed />
+                다읽은책
+              </div>
             </div>
-            <div className="bookLabel">
-              {/* <Reading /> */}
-              읽고있는책
-            </div>
-            <div className="bookLabel">
-              {/* <Noread /> */}
-              안읽는책
-            </div>
-          </div>
-        </Sidebar>
+          </Sidebar>
+        ) : null}
       </MainWrapper>
     </Container>
   );

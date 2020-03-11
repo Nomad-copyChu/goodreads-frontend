@@ -21,6 +21,9 @@ export const GET_USER = gql`
           title
           thumbnail
         }
+        shelves {
+          name
+        }
       }
     }
   }
@@ -46,6 +49,9 @@ export const GET_CACHE_USER = gql`
           id
           title
           thumbnail
+        }
+        shelves {
+          name
         }
       }
     }
