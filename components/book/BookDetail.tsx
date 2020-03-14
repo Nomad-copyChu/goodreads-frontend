@@ -379,6 +379,7 @@ const BookDetail: React.FC<IProps> = ({ book, rating }) => {
               )}
             </div>
             <AddToShelfButton
+              size="large"
               value={shelf}
               options={shelvesNames}
               onChange={value => setShelf(value)}
@@ -420,11 +421,11 @@ const BookDetail: React.FC<IProps> = ({ book, rating }) => {
                         if (rating) {
                           //평가한적이 있따면
                           const newTotalCount = book.totalRating - rating.count + count;
-                          setAvgStarCount((newTotalCount / book.ratedUserNum).toFixed(2));
+                          setAvgStarCount(newTotalCount / book.ratedUserNum);
                         } else {
                           //평가한적이 없다면
                           const newTotalCount = book.totalRating + count;
-                          setAvgStarCount((newTotalCount / book.ratedUserNum + 1).toFixed(2));
+                          setAvgStarCount(newTotalCount / book.ratedUserNum + 1);
                           setStaredCount(count => count + 1);
                         }
                       })

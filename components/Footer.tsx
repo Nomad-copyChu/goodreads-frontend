@@ -5,6 +5,9 @@ import colors from "../style/colors";
 const Container = styled.div`
   position: relative;
   bottom: 0px;
+  z-index: 3;
+  left: 0px;
+  border: 1px solid #d8d8d8;
   height: 67px;
   width: 100%;
   background-color: ${colors.beige_400};

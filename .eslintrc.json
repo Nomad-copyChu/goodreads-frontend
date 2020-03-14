@@ -35,7 +35,8 @@
     "no-alert": "off", //
     "linebreak-style": 0,
     "jsx-a11y/label-has-associated-control": 0,
-    "react/no-array-index-key": 0
+    "react/no-array-index-key": 0,
+    "react/jsx-one-expression-per-line": "off" //object 사용시 라인변경 off
   },
 
   "settings": {

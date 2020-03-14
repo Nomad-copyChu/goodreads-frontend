@@ -35,7 +35,7 @@ export type Book = {
   gernes: Gerne[];
   totalRating: number;
   ratedUserNum: number;
-  avgRating: string;
+  avgRating: number;
   addUser: User[];
   createdAt: string;
   updatedAt: string;
@@ -53,7 +53,7 @@ export type Comment = {
 export type Display = {
   id: string;
   user: User[];
-  book: Book[];
+  book: Book;
   shelves: Shelf[];
   createdAt: string;
   updatedAt: string;
@@ -154,4 +154,5 @@ export type CacheUser = {
   profilePhoto: string;
   isAdmin: boolean;
   shelves: Shelf[];
+  displays: Display[];
 };

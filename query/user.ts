@@ -15,6 +15,16 @@ export const GET_USER = gql`
         id
         name
       }
+      displays {
+        book {
+          id
+          title
+          thumbnail
+        }
+        shelves {
+          name
+        }
+      }
     }
   }
 `;
@@ -33,6 +43,16 @@ export const GET_CACHE_USER = gql`
       shelves {
         id
         name
+      }
+      displays {
+        book {
+          id
+          title
+          thumbnail
+        }
+        shelves {
+          name
+        }
       }
     }
   }

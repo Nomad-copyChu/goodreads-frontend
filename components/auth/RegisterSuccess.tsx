@@ -9,17 +9,17 @@ import BookIcon from "../../public/static/svg/registerSuccess/open-book.svg";
 import TeamIcon from "../../public/static/svg/registerSuccess/team.svg";
 
 const Container = styled.div`
+  position: relative;
+  min-height: 100vh;
   .content {
     width: 80%;
     margin: 40px auto;
-
     h1 {
       font-size: 60px;
     }
     .content-list {
       display: flex;
       justify-content: space-between;
-
       .content-item {
         display: flex;
         flex-direction: column;
@@ -72,7 +72,7 @@ const RegisterSuccess: React.FC = () => {
             <InkPenIcon />
             <p>나만의 작가를 찾아보세요!</p>
             <Link href="/authorList">
-              <a>도서 목록으로 가기&gt;</a>
+              <a>작가 목록으로 가기&gt;</a>
             </Link>
           </animated.div>
           <animated.div style={springs[2]} className="content-item">

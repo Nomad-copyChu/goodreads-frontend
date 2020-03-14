@@ -12,10 +12,10 @@ import { REGISTER_USER } from "../../query/auth";
 
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  position: relative;
+  position: absolute;
   .button {
     width: 108px;
     height: 32px;
@@ -63,8 +63,11 @@ const Container = styled.div`
     }
     .button-wrapper {
       margin-top: 12px;
-      width: 108px;
+      width: 110px;
       height: 32px;
+    }
+    .button-font {
+      font-size: 13px;
     }
     .register-text {
       display: flex;
@@ -96,7 +99,7 @@ const LoginBox: React.FC = () => {
     try {
       const data = await registerMutation();
       const token = data?.data?.createUser;
-      console.log(token);
+      // console.log(token);
       if (token) {
         cookie.set("Authorization", token);
         router.push("/auth/register/success");
@@ -122,7 +125,7 @@ const LoginBox: React.FC = () => {
           회원가입
         </Button>
         <div className="button-wrapper">
-          <Button color="github" onClick={() => router.push("/github")}>
+          <Button className="button-font" color="github" onClick={() => router.push("/github")}>
             깃허브 회원가입
           </Button>
         </div>

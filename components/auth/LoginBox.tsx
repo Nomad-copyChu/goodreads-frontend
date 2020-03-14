@@ -15,12 +15,11 @@ const Container = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  position: relative;
+  position: absolute;
   .button {
     width: 108px;
     height: 32px;
   }
-
   .login-box {
     position: relative;
     z-index: 10;
@@ -29,7 +28,6 @@ const Container = styled.div`
     border: 1px solid ${colors.gray_500};
     border-radius: 5px;
     width: 350px;
-    height: 400px;
     padding: 20px 40px;
     display: flex;
     flex-direction: column;

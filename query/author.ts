@@ -52,10 +52,12 @@ export const GET_AUTHORS = gql`
       photo
       gernes {
         id
+        term
       }
       description
       books {
         id
+        thumbnail
       }
       quotes {
         id
