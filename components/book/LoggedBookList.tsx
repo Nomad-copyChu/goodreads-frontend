@@ -1,99 +1,121 @@
 import React from "react";
 import Link from "next/link";
 import styled from "styled-components";
-import useUser from "../../hooks/useUser";
-import { Book } from "../../types";
+import isEmpty from "lodash/isEmpty";
 import Want from "../../public/static/svg/wantLabel.svg";
 import Reading from "../../public/static/svg/readingLabel.svg";
 import Read from "../../public/static/svg/noReadLabel.svg";
+import { Display } from "../../types/index";
+import MagicBook from "../../public/static/svg/maginBook.svg";
+import colors from "../../style/colors";
 
 const Container = styled.div`
   display: flex;
-  .main-booksCard-wrpper {
-    position: relative;
-    display: flex;
-    margin-top: 10px;
-  }
-  .main-booksCard {
+  .logged-book-card-wrapper {
     position: relative;
     width: 150px;
-    height: 234px;
-  }
-  .main-booksCard-interval {
     margin-right: 20px;
   }
-  .main-booksCard-Label {
+  .logged-book-card-thumbnail {
+    position: relative;
+    width: 100%;
+    height: 234px;
+    border: 1px solid ${colors.gray_500};
+    border-radius: 5px;
+  }
+
+  .logged-book-card-label {
     width: 25px;
     height: 40px;
   }
-  .booksCard-Label-overlay {
+  .logged-book-card-label-overlay {
     position: absolute;
-    margin-left: 114px;
-    margin-top: -10px;
+    top: 0;
+    margin-left: 120px;
+    margin-top: -2px;
   }
-  .main-books-title {
-    width: 141px;
-    height: 38px;
-    div {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #7b7164;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      word-wrap: break-word;
-      display: -webkit-box;
-      -webkit-line-clamp: 2; /* ellipsis line */
-      -webkit-box-orient: vertical;
+  .logged-book-card-title {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #7b7164;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* ellipsis line */
+    -webkit-box-orient: vertical;
+  }
+  .not-exist-logged-book-card-wrapper {
+    width: 150px;
+    margin-right: 20px;
+    height: 234px;
+    border: 1px solid ${colors.gray_500};
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 24px;
+    p {
+      text-align: center;
+      color: ${colors.gray_600};
     }
   }
 `;
 
 interface IProps {
-  books: Book[];
+  displays: Display[];
 }
-const LoggedBookList: React.FC<IProps> = ({ books }) => {
-  const { user } = useUser();
+const LoggedBookList: React.FC<IProps> = ({ displays }) => {
   return (
     <Container>
-      {user?.displays?.map((display, index) => (
-        <span key={index}>
-          <div className="main-booksCard-wrpper">
-            <Link href="/book/[id]" as={`/book/${display.book?.id}`}>
-              <a className="main-booksCard-interval">
-                <img className="main-booksCard" src={display.book?.thumbnail} alt={display.book?.title} />
-              </a>
-            </Link>
-            {display.shelves?.map((shelf, i) => {
-              switch (shelf?.name) {
-                case "want":
-                  return (
-                    <div key={i} className="booksCard-Label-overlay">
-                      <Want className="main-booksCard-Label" />
-                    </div>
-                  );
-                case "read":
-                  return (
-                    <div key={i} className="booksCard-Label-overlay">
-                      <Read className="main-booksCard-Label" />
-                    </div>
-                  );
-                case "reading":
-                  return (
-                    <div key={i} className="booksCard-Label-overlay">
-                      <Reading className="main-booksCard-Label" />
-                    </div>
-                  );
-                default:
-                  return null;
-              }
-            })}
-          </div>
-
-          <div className="main-books-title">
-            <div>{display.book.title}</div>
-          </div>
-        </span>
+      {displays?.map(display => (
+        <div className="logged-book-card-wrapper" key={display.id}>
+          <Link href="/book/[id]" as={`/book/${display.book?.id}`}>
+            <a>
+              <img className="logged-book-card-thumbnail" src={display.book?.thumbnail} alt={display.book?.title} />
+            </a>
+          </Link>
+          {display.shelves?.map((shelf, i) => {
+            switch (shelf?.name) {
+              case "want":
+                return (
+                  <div key={i} className="logged-book-card-label-overlay">
+                    <Want className="logged-book-card-Label" />
+                  </div>
+                );
+              case "read":
+                return (
+                  <div key={i} className="logged-book-card-label-overlay">
+                    <Read className="logged-book-card-Label" />
+                  </div>
+                );
+              case "reading":
+                return (
+                  <div key={i} className="logged-book-card-label-overlay">
+                    <Reading className="main-booksCard-Label" />
+                  </div>
+                );
+              default:
+                return null;
+            }
+          })}
+          <p className="logged-book-card-title">{display.book.title}</p>
+        </div>
       ))}
+      {isEmpty(displays) && (
+        <Link href="/add/book">
+          <a>
+            <div className="not-exist-logged-book-card-wrapper">
+              <MagicBook />
+              <p>
+                선반에 책을 추가해
+                <br />
+                보세요!!
+              </p>
+            </div>
+          </a>
+        </Link>
+      )}
     </Container>
   );
 };

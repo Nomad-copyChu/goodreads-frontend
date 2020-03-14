@@ -38,27 +38,27 @@ const Container = styled.div`
     height: 20px;
     cursor: pointer;
     fill: ${colors.black};
-    @media (min-width: 700px) {
+    @media (min-width: 801px) {
       display: none;
     }
   }
-  .list {
+  .header-list {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
     margin-left: 75px;
-    @media (max-width: 700px) {
+    @media (max-width: 800px) {
       display: none;
     }
   }
   .log-info {
     margin-left: auto;
-    margin-right: 33px;
     display: flex;
     align-items: center;
-    a {
-      :last-child {
-        margin: 0;
-      }
-    }
-    @media (max-width: 700px) {
+    margin-right: 20px;
+
+    @media (max-width: 800px) {
       display: none;
     }
   }
@@ -71,15 +71,10 @@ const Container = styled.div`
   }
   .login-info {
     margin-left: auto;
-    margin-right: 153px;
     display: flex;
     align-items: center;
-    a {
-      :last-child {
-        margin-left: 0px;
-      }
-    }
-    @media (max-width: 700px) {
+    margin-right: 20px;
+    @media (max-width: 800px) {
       display: none;
     }
   }
@@ -99,7 +94,7 @@ const Header: NextPage = () => {
             <Logo />
           </a>
         </Link>
-        <div className="list">
+        <div className="header-list">
           <Link href="/book" prefetch={false}>
             <a>도서목록</a>
           </Link>
@@ -109,14 +104,14 @@ const Header: NextPage = () => {
           <Link href="/quote" prefetch={false}>
             <a>명언목록</a>
           </Link>
-        </div>
-        <div className="log-info">
-          <Link href="/auth/register" prefetch={false}>
-            <a>회원가입</a>
-          </Link>
-          <Link href="/auth/login">
-            <a>로그인</a>
-          </Link>
+          <div className="log-info">
+            <Link href="/auth/register" prefetch={false}>
+              <a>회원가입</a>
+            </Link>
+            <Link href="/auth/login">
+              <a>로그인</a>
+            </Link>
+          </div>
         </div>
         <MenuIcon className="sidebar-icon" onClick={toggleSidebar} />
       </Container>
@@ -129,7 +124,7 @@ const Header: NextPage = () => {
           <Logo />
         </a>
       </Link>
-      <div className="list">
+      <div className="header-list">
         <Link href="/book" prefetch={false}>
           <a>도서목록</a>
         </Link>
@@ -142,17 +137,18 @@ const Header: NextPage = () => {
         <Link href="/me/shelf" prefetch={false}>
           <a>나의 선반</a>
         </Link>
+        <div className="login-info">
+          <Link href="/me/[id]" as={`/me/${user.username}`}>
+            <a>
+              <img className="header-myProfile-Photo" src={user.profilePhoto} alt="" />
+            </a>
+          </Link>
+          <Link href="/me/[id]" as={`/me/${user.username}`}>
+            <a>{user.username}</a>
+          </Link>
+        </div>
       </div>
-      <div className="login-info">
-        <Link href="/me/[id]" as={`/me/${user.username}`}>
-          <a>
-            <img className="header-myProfile-Photo" src={user.profilePhoto} alt="" />
-          </a>
-        </Link>
-        <Link href="/me/[id]" as={`/me/${user.username}`}>
-          <a>{user.username}</a>
-        </Link>
-      </div>
+
       <MenuIcon className="sidebar-icon" onClick={toggleSidebar} />
     </Container>
   );

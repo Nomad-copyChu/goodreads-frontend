@@ -6,50 +6,47 @@ const Container = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
-  align-items: center;
+  position: relative;
+  .overlay {
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.35);
+  }
   .background {
     height: 235px;
     width: 100%;
-    z-index: 0;
   }
   .Content {
     position: absolute;
-    display: flex;
-    @media (max-width: 700px) {
-      display: flex;
-      align-items: center;
-    }
-  }
-  .search {
-    flex: 3 0 0;
-    align-self: center;
-    z-index: 2;
-    width: 472px;
-    height: 32px;
-    margin: 0 auto;
-    @media (max-width: 700px) {
-      z-index: 4;
-      width: 300px;
-      align-self: center;
-    }
-  }
-  .bannerText {
-    flex: 3 0 0;
     width: 100%;
+    top: 70px;
+    z-index: 10;
+  }
+  .main-search-wrapper {
+    width: 407px;
+    margin: 0 auto;
+    @media (max-width: 440px) {
+      width: calc(100% - 40px);
+    }
+  }
+  .banner-text {
+    position: absolute;
     font-family: Hoefler Text;
+    top: 60px;
+    left: 90px;
     font-size: 50px;
-    z-index: 3;
+    line-height: 1.2;
+    z-index: 9;
+    @media (max-width: 1024px) {
+      top: 108px;
+      left: 30px;
+    }
+    @media (max-width: 440px) {
+      font-size: 32px;
+    }
     p {
       color: white;
-    }
-    @media (max-width: 700px) {
-      position: absolute;
-      z-index: 1;
-      font-size: 30px;
-      p {
-        margin-bottom: 20px;
-        margin-top: 15px;
-      }
     }
   }
 `;
@@ -57,17 +54,14 @@ const Container = styled.div`
 const Banner: React.FC = () => {
   return (
     <Container>
-      <img
-        className="background"
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTEXOq1t-AE6-FeMfma4C4ns2wXwY2DaDfF-G1pSltKGI03dwQU"
-        alt=""
-      />
+      <div className="overlay" />
+      <img className="background" src="/static/gif/main-banner-background.gif" alt="" />
+      <div className="banner-text">
+        <p>Meet you next</p>
+        <p>favorite book</p>
+      </div>
       <div className="Content">
-        <div className="bannerText">
-          <p>Meet you next</p>
-          <p>favorite book</p>
-        </div>
-        <div className="search">
+        <div className="main-search-wrapper">
           <SearchInput placeholder="궁금한 책을 검색하세요." />
         </div>
       </div>

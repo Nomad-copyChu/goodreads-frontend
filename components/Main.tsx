@@ -12,6 +12,7 @@ import BestBookThisWeek from "./book/BestBookThisWeek";
 import Want from "../public/static/svg/wantLabel.svg";
 import Reading from "../public/static/svg/readingLabel.svg";
 import Readed from "../public/static/svg/noReadLabel.svg";
+import responsive from "../style/responsive";
 
 const Container = styled.div`
   display: flex;
@@ -38,6 +39,9 @@ const MainWrapper = styled.div`
       font-size: 21px;
       margin-top: 30px;
       margin-bottom: 20px;
+      @media (max-width: ${responsive.small}) {
+        margin: 0 0 10px;
+      }
     }
     .books-slide {
       display: flex;
@@ -128,7 +132,7 @@ interface IProps {
 }
 
 const Main: React.FC<IProps> = ({ books, authors }) => {
-  const { isLogged } = useUser();
+  const { user, isLogged } = useUser();
   return (
     <Container>
       <Banner />
@@ -138,7 +142,7 @@ const Main: React.FC<IProps> = ({ books, authors }) => {
             <div>
               <h2>나의 선반 책들</h2>
               <div className="books-slide">
-                <LoggedBookList books={books} />
+                <LoggedBookList displays={user?.displays} />
               </div>
             </div>
           ) : (
@@ -151,8 +155,8 @@ const Main: React.FC<IProps> = ({ books, authors }) => {
           )}
           <h2>추천작가</h2>
           <div className="main-authors-warpper">
-            <MainAuthor authors={authors} index={10} />
-            <MainAuthor authors={authors} index={9} />
+            <MainAuthor author={authors[0]} />
+            <MainAuthor author={authors[1]} />
           </div>
           <h2>작가의 명언</h2>
           <div className="main-quote-container">

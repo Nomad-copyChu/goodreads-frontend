@@ -2,9 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { Author } from "../../types";
+import responsive from "../../style/responsive";
 
 const Container = styled.div`
   width: calc((100% - 24px) / 2);
+  @media (max-width: 870px) {
+    width: 100%;
+  }
   .main-borderbox-author {
     border: 1px solid #d8d8d8;
     box-sizing: border-box;
@@ -77,23 +81,22 @@ const Container = styled.div`
 `;
 
 interface IProps {
-  authors: Author[];
-  index: number;
+  author: Author;
 }
 
-const MainAuthor: React.FC<IProps> = ({ authors, index }) => {
+const MainAuthor: React.FC<IProps> = ({ author }) => {
   return (
     <Container>
       <div className="main-borderbox-author">
         <div className="main-author-info-wrapper">
-          <img className="author-photo" src={authors[index]?.photo} alt="" />
+          <img className="author-photo" src={author?.photo} alt="" />
           <div className="author-description-wrpper">
-            <Link href="/author/[id]" as={`/author/${authors[index]?.id}`}>
-              <a className="author-name">{authors[index]?.name}</a>
+            <Link href="/author/[id]" as={`/author/${author?.id}`}>
+              <a className="author-name">{author?.name}</a>
             </Link>
-            <p className="author-description">{authors[index]?.description}</p>
+            <p className="author-description">{author?.description}</p>
             <span className="author-gerne-wrapper">
-              {authors[index].gernes.map(gerne => (
+              {author.gernes.map(gerne => (
                 <div className="author-gerne" key={gerne.id}>
                   #{gerne.term}
                 </div>
@@ -103,7 +106,7 @@ const MainAuthor: React.FC<IProps> = ({ authors, index }) => {
         </div>
         <div className="main-author-booksfont">Books</div>
         <div className="main-author-booklist">
-          {authors[index]?.books.map(book => (
+          {author?.books.map(book => (
             <img className="main-author-booklist-thumbnail" src={book.thumbnail} alt="" key={book.id} />
           ))}
         </div>
