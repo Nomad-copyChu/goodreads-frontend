@@ -165,7 +165,7 @@ const AuthorDetail: React.FC<IProps> = ({ author }) => {
                   </span>
                 </p>
               )}
-              <Link href="/add/book/[id]" as={`/add/author?${author.id}`}>
+              <Link href="/add/book/[id]" as={`/add/author?id=${author.id}`}>
                 <a>...수정하기</a>
               </Link>
             </div>
