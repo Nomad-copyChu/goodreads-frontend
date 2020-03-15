@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import format from "date-fns/format";
 import { useRouter } from "next/dist/client/router";
@@ -12,17 +12,17 @@ type AddBookAuthorType = {
 };
 
 export default () => {
-  const [title, setTitle] = useState();
+  const [title, setTitle] = useState("");
   const [authors, setAuthors] = useState<string[]>([]);
   const [gernes, setGernes] = useState([]);
-  const [gerneInput, setGerneInput] = useState();
-  const [thumbnail, setThumbnail] = useState();
-  const [contents, setContents] = useState();
+  const [gerneInput, setGerneInput] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
+  const [contents, setContents] = useState("");
   const [datetime, setDatetime] = useState(null);
-  const [isbn, setIsbn] = useState();
-  const [price, setPrice] = useState();
-  const [publisher, setPublisher] = useState();
-  const [saleStatus, setSaleStatus] = useState();
+  const [isbn, setIsbn] = useState("");
+  const [price, setPrice] = useState("");
+  const [publisher, setPublisher] = useState("");
+  const [saleStatus, setSaleStatus] = useState("");
   const [authorsFromDB, setAuthorsFromDB] = useState<AddBookAuthorType[]>([]);
 
   const router = useRouter();
@@ -36,7 +36,7 @@ export default () => {
         contents,
         datetime,
         isbn,
-        price,
+        price: parseInt(price, 10),
         publisher,
         saleStatus
       },
@@ -57,7 +57,7 @@ export default () => {
     setContents(selected?.contents);
     setDatetime(format(new Date(selected?.datetime), "yyyy-MM-dd"));
     setIsbn(selected?.isbn.split(" ")[1]);
-    setPrice(selected?.price);
+    setPrice(`${selected?.price}`);
     setPublisher(selected?.publisher);
     setSaleStatus(selected?.status);
   };

@@ -96,7 +96,7 @@ const MainAuthor: React.FC<IProps> = ({ author }) => {
             </Link>
             <p className="author-description">{author?.description}</p>
             <span className="author-gerne-wrapper">
-              {author.gernes.map(gerne => (
+              {author?.gernes?.map(gerne => (
                 <div className="author-gerne" key={gerne.id}>
                   #{gerne.term}
                 </div>

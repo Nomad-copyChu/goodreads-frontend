@@ -205,8 +205,16 @@ const Container = styled.div`
     .author-infos {
       margin-top: 20px;
       .author-photo-name-wrapper {
+        position: relative;
         display: flex;
         align-items: center;
+        .plus-button {
+          position: absolute;
+          font-size: 32px;
+          display: block;
+          left: 15px;
+          color: ${colors.gray_700};
+        }
         .author-photo-input {
           position: absolute;
           width: 48px;
@@ -320,6 +328,8 @@ const AddBook: React.FC = () => {
             </div>
             <AddToShelfButton
               size="large"
+              onClick={() => alert("책을 추가해 주세요")}
+              onChange={() => console.log()}
               options={[
                 { value: "원해요", label: "원해요" },
                 { value: "읽는중", label: "읽는중" },
@@ -462,6 +472,7 @@ const AddBook: React.FC = () => {
             {state.authorsFromDB.map((author, index) => (
               <div className="author-infos" key={index}>
                 <div className="author-photo-name-wrapper">
+                  {!author.photo && <span className="plus-button">+</span>}
                   <input className="author-photo-input" type="file" onChange={e => changeAuthorPhoto(e, index)} />
                   <img src={author.photo || "  "} alt="" className="author-profile-photo" />
                   <p className="author-name">{author.name}</p>

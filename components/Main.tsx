@@ -178,7 +178,7 @@ const Main: React.FC<IProps> = ({ books, authors }) => {
                 </Link>
                 <GetGernes />
               </div>
-              <BestBookThisWeek books={books} index={7} />
+              {/* <BestBookThisWeek books={books} index={7} /> */}
             </div>
           </div>
         </div>
