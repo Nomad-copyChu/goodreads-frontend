@@ -8,6 +8,7 @@ import GET_GERNES from "../../query/gernes";
 import BestBookThisWeek from "../../components/book/BestBookThisWeek";
 
 const Container = styled.div`
+  display: flex;
   width: 100%;
   height: 100%;
   .side-menu {
@@ -46,6 +47,69 @@ const Container = styled.div`
       margin-bottom: 20px;
     }
   }
+  .book-list-Wrapper {
+    display: flex;
+    width: 100%;
+    margin-left: 42.5px;
+    h3 {
+      font-size: 21px;
+      margin-top: 60px;
+    }
+    .books-new {
+      width: 50%;
+      .new-book-list-wrapper {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        .new-book-list {
+          width: 150px;
+          margin-right: 20px;
+
+          .new-book-thumbnail {
+            margin-top: 20px;
+            height: 234px;
+          }
+          .new-book-title {
+            font-size: 15px;
+            color: #7b7164;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+            display: -webkit-box;
+            -webkit-line-clamp: 1; /* ellipsis line */
+            -webkit-box-orient: vertical;
+          }
+        }
+      }
+    }
+    .books-popular {
+      width: 50%;
+      .popular-book-list-wrapper {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        .popular-book-list {
+          width: 150px;
+          margin-right: 20px;
+
+          .popular-book-thumbnail {
+            height: 234px;
+            margin-top: 20px;
+          }
+          .popular-book-title {
+            font-size: 15px;
+            color: #7b7164;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+            display: -webkit-box;
+            -webkit-line-clamp: 1; /* ellipsis line */
+            -webkit-box-orient: vertical;
+          }
+        }
+      }
+    }
+  }
 `;
 interface IProps {
   books: Book[];
@@ -74,9 +138,33 @@ const index: NextPage<IProps> = ({ gernes, books }) => {
         ))}
         <div className="division-border" />
         <div className="bestbook-Wrapper">
-          <BestBookThisWeek books={books} index={7} className="bestbook" />
-          <BestBookThisWeek books={books} index={8} className="bestbook" />
-          <BestBookThisWeek books={books} index={9} className="bestbook" />
+          <BestBookThisWeek books={books} index={1} className="bestbook" />
+          <BestBookThisWeek books={books} index={2} className="bestbook" />
+          <BestBookThisWeek books={books} index={3} className="bestbook" />
+        </div>
+      </div>
+      <div className="book-list-Wrapper">
+        <div className="books-new">
+          <h3>새로나온책</h3>
+          <div className="new-book-list-wrapper">
+            {books.map((book, i) => (
+              <div key={i} className="new-book-list">
+                <img src={book.thumbnail} alt="" className="new-book-thumbnail" />
+                <div className="new-book-title">{book.title}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="books-popular">
+          <h3>인기있는책</h3>
+          <div className="popular-book-list-wrapper">
+            {books.map((book, i) => (
+              <div key={i} className="popular-book-list">
+                <img src={book.thumbnail} alt="" className="popular-book-thumbnail" />
+                <div className="popular-book-title">{book.title}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </Container>

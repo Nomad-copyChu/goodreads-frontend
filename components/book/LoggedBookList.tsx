@@ -15,6 +15,7 @@ const Container = styled.div`
     position: relative;
     width: 150px;
     margin-right: 20px;
+    margin-top: 10px;
   }
   .logged-book-card-thumbnail {
     position: relative;
@@ -24,7 +25,7 @@ const Container = styled.div`
     border-radius: 5px;
   }
 
-  .logged-book-card-label {
+  .logged-book-card-Label {
     width: 25px;
     height: 40px;
   }
@@ -32,7 +33,7 @@ const Container = styled.div`
     position: absolute;
     top: 0;
     margin-left: 120px;
-    margin-top: -2px;
+    margin-top: -10px;
   }
   .logged-book-card-title {
     margin-top: 10px;
@@ -92,7 +93,7 @@ const LoggedBookList: React.FC<IProps> = ({ displays }) => {
               case "reading":
                 return (
                   <div key={i} className="logged-book-card-label-overlay">
-                    <Reading className="main-booksCard-Label" />
+                    <Reading className="logged-book-card-Label" />
                   </div>
                 );
               default:

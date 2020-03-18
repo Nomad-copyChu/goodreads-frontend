@@ -131,10 +131,10 @@ const BestBookThisWeek: React.FC<IProps> = ({ books, index, className }) => {
           </div>
           <div className="rating-and-review">
             <Link href="/book/[id]" as={`/book/${books[index]?.id}`}>
-              <a>{books[index].ratedUserNum} ratings</a>
+              <a>{books[index]?.ratedUserNum} ratings</a>
             </Link>
             <Link href="/book/[id]" as={`/book/${books[index]?.id}`}>
-              <a>{books[index].comments.length} review</a>
+              <a>{books[index]?.comments.length} review</a>
             </Link>
           </div>
           <AddToShelfButton
@@ -144,7 +144,7 @@ const BestBookThisWeek: React.FC<IProps> = ({ books, index, className }) => {
           />
         </div>
       </div>
-      <div className="contents">{books[index].contents}</div>
+      <div className="contents">{books[index]?.contents}</div>
     </Container>
   );
 };
