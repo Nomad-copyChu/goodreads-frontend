@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { NextPage } from "next";
+import OutsideClickHandler from "react-outside-click-handler";
 import Link from "next/link";
 import Logo from "../public/static/svg/goodreadsKr.svg";
 import colors from "../style/colors";
@@ -44,7 +45,6 @@ const Container = styled.div`
   }
   .header-list {
     display: flex;
-    width: 100%;
     justify-content: space-between;
     align-items: center;
     margin-left: 75px;
@@ -62,14 +62,20 @@ const Container = styled.div`
       display: none;
     }
   }
-  .header-myProfile-Photo {
+  .header-my-profile {
+    display: flex;
+  }
+  .header-my-profile-photo {
     cursor: pointer;
     width: 30px;
     height: 30px;
     border-radius: 50%;
     border: 1px solid ${colors.gray_300};
   }
+  .header-my-profile-username {
+  }
   .login-info {
+    position: relative;
     margin-left: auto;
     display: flex;
     align-items: center;
@@ -93,6 +99,13 @@ const Container = styled.div`
       z-index: 1;
     }
   }
+  .header-logged-popup-menu {
+    top: 30px;
+    left: 0;
+    position: absolute;
+    z-index: 10;
+    width: 100px;
+  }
 `;
 
 const Header: NextPage = () => {
@@ -100,56 +113,9 @@ const Header: NextPage = () => {
   const toggleSidebar = () => {
     setShow(!show);
   };
-  const dropDown = () => {
-    document.getElementById("dropmenu").classList.toggle("show");
-  };
-  const closeDropdown = () => {
-    window.onclick = event => {
-      if (!event.target.matches(".droplink")) {
-        const dropdowns = document.getElementsByClassName("dropdown-content");
-        const i = 0;
-        while (i < dropdowns.length) {
-          const openDropdown = dropdowns[i];
-          if (openDropdown.classList.contains("show")) {
-            openDropdown.classList.remove("show");
-          }
-        }
-      }
-    };
-  };
 
   const { isLogged, user } = useUser();
-  if (isLogged === false) {
-    return (
-      <Container>
-        <Link href="/">
-          <a className="logo">
-            <Logo />
-          </a>
-        </Link>
-        <div className="header-list">
-          <Link href="/book" prefetch={false}>
-            <a>도서목록</a>
-          </Link>
-          <Link href="/author" prefetch={false}>
-            <a>작가목록</a>
-          </Link>
-          <Link href="/quote" prefetch={false}>
-            <a>명언목록</a>
-          </Link>
-          <div className="log-info">
-            <Link href="/auth/register" prefetch={false}>
-              <a>회원가입</a>
-            </Link>
-            <Link href="/auth/login">
-              <a>로그인</a>
-            </Link>
-          </div>
-        </div>
-        <MenuIcon className="sidebar-icon" onClick={toggleSidebar} />
-      </Container>
-    );
-  }
+
   return (
     <Container>
       <Link href="/">
@@ -167,25 +133,54 @@ const Header: NextPage = () => {
         <Link href="/quote" prefetch={false}>
           <a>명언목록</a>
         </Link>
-        <Link href="/me/shelf" prefetch={false}>
-          <a>나의 선반</a>
-        </Link>
-        <div className="login-info">
-          <Link href="/me/[id]" as={`/me/${user.id}`}>
-            <a>
-              <img className="header-myProfile-Photo" src={user.profilePhoto} alt="" />
-            </a>
+        {isLogged && (
+          <Link href="/me/shelf" prefetch={false}>
+            <a>나의 선반</a>
           </Link>
-          <div className="dropdownWrapper">
-            <a href="#" onClick={() => dropDown}>
-              {user.username}
-            </a>
-            <div id="dropmenu" className="dropdown-content">
-              <a href="#home">Home</a>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
+      {isLogged ? (
+        <div className="login-info">
+          <OutsideClickHandler
+            onOutsideClick={() => {
+              if (show) {
+                setShow(false);
+              }
+            }}
+          >
+            <div
+              role="button"
+              onClick={() => {
+                setShow(!show);
+                console.log("hi");
+              }}
+              className="header-my-profile"
+            >
+              <img className="header-my-profile-photo" src={user.profilePhoto} alt="" />
+              <p className="header-my-profile-username">{user.username}</p>
+            </div>
+            {show && (
+              <div className="header-logged-popup-menu">
+                <ul>
+                  <li>드롭다운</li>
+                  <li>설정</li>
+                  <li>추가하기</li>
+                  <li>로그아웃</li>
+                </ul>
+              </div>
+            )}
+          </OutsideClickHandler>
+        </div>
+      ) : (
+        <div className="log-info">
+          <Link href="/auth/register" prefetch={false}>
+            <a>회원가입</a>
+          </Link>
+          <Link href="/auth/login">
+            <a>로그인</a>
+          </Link>
+        </div>
+      )}
       <MenuIcon className="sidebar-icon" onClick={toggleSidebar} />
     </Container>
   );
