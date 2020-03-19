@@ -69,8 +69,8 @@ interface IProps {
 const LoggedBookList: React.FC<IProps> = ({ displays }) => {
   return (
     <Container>
-      {displays?.map(display => (
-        <div className="logged-book-card-wrapper" key={display.id}>
+      {displays?.map((display, i) => (
+        <div className="logged-book-card-wrapper" key={i}>
           <Link href="/book/[id]" as={`/book/${display.book?.id}`}>
             <a>
               <img className="logged-book-card-thumbnail" src={display.book?.thumbnail} alt={display.book?.title} />

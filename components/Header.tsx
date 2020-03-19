@@ -77,6 +77,21 @@ const Container = styled.div`
     @media (max-width: 800px) {
       display: none;
     }
+    .show {
+      display: block;
+    }
+    .dropdownWrapper {
+      position: relative;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f1f1f1;
+      min-width: 160px;
+      overflow: auto;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
   }
 `;
 
@@ -85,6 +100,24 @@ const Header: NextPage = () => {
   const toggleSidebar = () => {
     setShow(!show);
   };
+  const dropDown = () => {
+    document.getElementById("dropmenu").classList.toggle("show");
+  };
+  const closeDropdown = () => {
+    window.onclick = event => {
+      if (!event.target.matches(".droplink")) {
+        const dropdowns = document.getElementsByClassName("dropdown-content");
+        const i = 0;
+        while (i < dropdowns.length) {
+          const openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains("show")) {
+            openDropdown.classList.remove("show");
+          }
+        }
+      }
+    };
+  };
+
   const { isLogged, user } = useUser();
   if (isLogged === false) {
     return (
@@ -138,17 +171,21 @@ const Header: NextPage = () => {
           <a>나의 선반</a>
         </Link>
         <div className="login-info">
-          <Link href="/me/[id]" as={`/me/${user.username}`}>
+          <Link href="/me/[id]" as={`/me/${user.id}`}>
             <a>
               <img className="header-myProfile-Photo" src={user.profilePhoto} alt="" />
             </a>
           </Link>
-          <Link href="/me/[id]" as={`/me/${user.username}`}>
-            <a>{user.username}</a>
-          </Link>
+          <div className="dropdownWrapper">
+            <a href="#" onClick={() => dropDown}>
+              {user.username}
+            </a>
+            <div id="dropmenu" className="dropdown-content">
+              <a href="#home">Home</a>
+            </div>
+          </div>
         </div>
       </div>
-
       <MenuIcon className="sidebar-icon" onClick={toggleSidebar} />
     </Container>
   );
