@@ -13,7 +13,9 @@ export const GET_USER = gql`
       bookAvgRating
       isAdmin
       profile {
-        username
+        user {
+          id
+        }
         age
         gender
         bio

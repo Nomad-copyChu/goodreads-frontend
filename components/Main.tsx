@@ -141,14 +141,14 @@ const Main: React.FC<IProps> = ({ books, authors }) => {
           {isLogged ? (
             <div>
               <h2>나의 선반 책들</h2>
-              <div className="books-slide" key={123}>
+              <div className="books-slide">
                 <LoggedBookList displays={user?.displays} />
               </div>
             </div>
           ) : (
             <div>
               <h2>추천하는 도서</h2>
-              <div className="books-slide" key={456}>
+              <div className="books-slide">
                 <BookList books={books} />
               </div>
             </div>

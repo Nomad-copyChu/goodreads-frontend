@@ -425,7 +425,7 @@ const BookDetail: React.FC<IProps> = ({ book, rating }) => {
                         } else {
                           //평가한적이 없다면
                           const newTotalCount = book.totalRating + count;
-                          setAvgStarCount(newTotalCount / book.ratedUserNum + 1);
+                          setAvgStarCount(newTotalCount / (book.ratedUserNum + 1));
                           setStaredCount(count => count + 1);
                         }
                       })
