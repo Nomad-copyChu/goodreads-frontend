@@ -2,11 +2,18 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { NextPage } from "next";
 import OutsideClickHandler from "react-outside-click-handler";
+import { useRouter } from "next/router";
+import cookie from "js-cookie";
 import Link from "next/link";
 import Logo from "../public/static/svg/goodreadsKr.svg";
 import colors from "../style/colors";
 import MenuIcon from "../public/static/svg/menu.svg";
 import useUser from "../hooks/useUser";
+import Dashboard from "../public/static/svg/dashboard.svg";
+import Setting from "../public/static/svg/settings.svg";
+import Question from "../public/static/svg/question.svg";
+import Add from "../public/static/svg/add.svg";
+import Loggedout from "../public/static/svg/loggedout.svg";
 
 const Container = styled.div`
   width: 100%;
@@ -73,6 +80,9 @@ const Container = styled.div`
     border: 1px solid ${colors.gray_300};
   }
   .header-my-profile-username {
+    cursor: pointer;
+    margin-right: 130px;
+    margin-left: 12px;
   }
   .login-info {
     position: relative;
@@ -83,28 +93,38 @@ const Container = styled.div`
     @media (max-width: 800px) {
       display: none;
     }
-    .show {
-      display: block;
-    }
-    .dropdownWrapper {
-      position: relative;
-    }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f1f1f1;
-      min-width: 160px;
-      overflow: auto;
-      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-      z-index: 1;
-    }
   }
   .header-logged-popup-menu {
-    top: 30px;
+    top: 40px;
     left: 0;
     position: absolute;
     z-index: 10;
-    width: 100px;
+    width: 161px;
+    height: 171px;
+    background: #f4f1ea;
+    border: 1px solid #d8d8d8;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+  }
+  .header-logged-popup-item-Wrapper {
+    cursor: pointer;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 33px;
+    :hover {
+      background: #ede6d6;
+    }
+  }
+  .header-logged-popup-item-emoticon {
+    margin-left: 4px;
+  }
+  .header-logged-popup-item-font {
+    position: absolute;
+    margin-left: 46px;
+    color: #6a5949;
   }
 `;
 
@@ -113,8 +133,12 @@ const Header: NextPage = () => {
   const toggleSidebar = () => {
     setShow(!show);
   };
-
+  const router = useRouter();
   const { isLogged, user } = useUser();
+  const toggleLoggedOut = () => {
+    cookie.set("Authorization", "");
+    window.location.href = "/";
+  };
 
   return (
     <Container>
@@ -152,7 +176,6 @@ const Header: NextPage = () => {
               role="button"
               onClick={() => {
                 setShow(!show);
-                console.log("hi");
               }}
               className="header-my-profile"
             >
@@ -162,10 +185,26 @@ const Header: NextPage = () => {
             {show && (
               <div className="header-logged-popup-menu">
                 <ul>
-                  <li>드롭다운</li>
-                  <li>설정</li>
-                  <li>추가하기</li>
-                  <li>로그아웃</li>
+                  <li className="header-logged-popup-item-Wrapper" onClick={() => router.push(`/me/${user.id}`)}>
+                    <Dashboard />
+                    <div className="header-logged-popup-item-font">대쉬보드</div>
+                  </li>
+                  <li className="header-logged-popup-item-Wrapper">
+                    <Setting className="header-logged-popup-item-emoticon" />
+                    <div className="header-logged-popup-item-font">설정</div>
+                  </li>
+                  <li className="header-logged-popup-item-Wrapper">
+                    <Question className="header-logged-popup-item-emoticon" />
+                    <div className="header-logged-popup-item-font">Q&A</div>
+                  </li>
+                  <li className="header-logged-popup-item-Wrapper">
+                    <Add className="header-logged-popup-item-emoticon" />
+                    <div className="header-logged-popup-item-font">추가하기</div>
+                  </li>
+                  <li className="header-logged-popup-item-Wrapper" onClick={() => toggleLoggedOut()}>
+                    <Loggedout className="header-logged-popup-item-emoticon" />
+                    <div className="header-logged-popup-item-font">로그아웃</div>
+                  </li>
                 </ul>
               </div>
             )}
