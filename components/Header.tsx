@@ -27,7 +27,7 @@ const Container = styled.div`
     cursor: pointer;
     margin-left: 72px;
     @media (max-width: 600px) {
-      margin-left: 20px;
+      margin-left: 50px;
     }
   }
   a {
@@ -106,6 +106,10 @@ const Container = styled.div`
     box-sizing: border-box;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 5px;
+    @media (max-width: 800px) {
+      top: 24px;
+      left: -128px;
+    }
   }
   .header-logged-popup-item-Wrapper {
     cursor: pointer;
@@ -126,10 +130,27 @@ const Container = styled.div`
     margin-left: 46px;
     color: #6a5949;
   }
+  .header-logout-popup-menu {
+    top: 24px;
+    left: -128px;
+    position: absolute;
+    z-index: 10;
+    width: 161px;
+    height: 171px;
+    background: #f4f1ea;
+    border: 1px solid #d8d8d8;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+  }
 `;
 
 const Header: NextPage = () => {
   const [show, setShow] = useState(false);
+  const [iconShow, setIconShow] = useState(false);
+  const toggleIcon = () => {
+    setIconShow(!iconShow);
+  };
   const toggleSidebar = () => {
     setShow(!show);
   };
@@ -139,7 +160,34 @@ const Header: NextPage = () => {
     cookie.set("Authorization", "");
     window.location.href = "/";
   };
-
+  const PopupMenu = () => {
+    return (
+      <div className="header-logged-popup-menu">
+        <ul>
+          <li className="header-logged-popup-item-Wrapper" onClick={() => router.push(`/me/${user.id}`)}>
+            <Dashboard />
+            <div className="header-logged-popup-item-font">대쉬보드</div>
+          </li>
+          <li className="header-logged-popup-item-Wrapper">
+            <Setting className="header-logged-popup-item-emoticon" />
+            <div className="header-logged-popup-item-font">설정</div>
+          </li>
+          <li className="header-logged-popup-item-Wrapper">
+            <Question className="header-logged-popup-item-emoticon" />
+            <div className="header-logged-popup-item-font">Q&A</div>
+          </li>
+          <li className="header-logged-popup-item-Wrapper">
+            <Add className="header-logged-popup-item-emoticon" />
+            <div className="header-logged-popup-item-font">추가하기</div>
+          </li>
+          <li className="header-logged-popup-item-Wrapper" onClick={() => toggleLoggedOut()}>
+            <Loggedout className="header-logged-popup-item-emoticon" />
+            <div className="header-logged-popup-item-font">로그아웃</div>
+          </li>
+        </ul>
+      </div>
+    );
+  };
   return (
     <Container>
       <Link href="/">
@@ -172,42 +220,11 @@ const Header: NextPage = () => {
               }
             }}
           >
-            <div
-              role="button"
-              onClick={() => {
-                setShow(!show);
-              }}
-              className="header-my-profile"
-            >
+            <div role="button" onClick={toggleSidebar} className="header-my-profile">
               <img className="header-my-profile-photo" src={user.profilePhoto} alt="" />
               <p className="header-my-profile-username">{user.username}</p>
             </div>
-            {show && (
-              <div className="header-logged-popup-menu">
-                <ul>
-                  <li className="header-logged-popup-item-Wrapper" onClick={() => router.push(`/me/${user.id}`)}>
-                    <Dashboard />
-                    <div className="header-logged-popup-item-font">대쉬보드</div>
-                  </li>
-                  <li className="header-logged-popup-item-Wrapper">
-                    <Setting className="header-logged-popup-item-emoticon" />
-                    <div className="header-logged-popup-item-font">설정</div>
-                  </li>
-                  <li className="header-logged-popup-item-Wrapper">
-                    <Question className="header-logged-popup-item-emoticon" />
-                    <div className="header-logged-popup-item-font">Q&A</div>
-                  </li>
-                  <li className="header-logged-popup-item-Wrapper">
-                    <Add className="header-logged-popup-item-emoticon" />
-                    <div className="header-logged-popup-item-font">추가하기</div>
-                  </li>
-                  <li className="header-logged-popup-item-Wrapper" onClick={() => toggleLoggedOut()}>
-                    <Loggedout className="header-logged-popup-item-emoticon" />
-                    <div className="header-logged-popup-item-font">로그아웃</div>
-                  </li>
-                </ul>
-              </div>
-            )}
+            {show && PopupMenu()}
           </OutsideClickHandler>
         </div>
       ) : (
@@ -220,7 +237,51 @@ const Header: NextPage = () => {
           </Link>
         </div>
       )}
-      <MenuIcon className="sidebar-icon" onClick={toggleSidebar} />
+      <div className="sidebar-icon">
+        {isLogged ? (
+          <OutsideClickHandler
+            onOutsideClick={() => {
+              if (iconShow) {
+                setIconShow(false);
+              }
+            }}
+          >
+            <MenuIcon onClick={toggleIcon} />
+            {iconShow && PopupMenu()}
+          </OutsideClickHandler>
+        ) : (
+          <OutsideClickHandler
+            onOutsideClick={() => {
+              if (iconShow) {
+                setIconShow(false);
+              }
+            }}
+          >
+            <MenuIcon onClick={toggleIcon} />
+            {iconShow && (
+              <div className="header-logout-popup-menu">
+                <ul>
+                  <li className="header-logged-popup-item-Wrapper" onClick={() => router.push("/book")}>
+                    <a>도서목록</a>
+                  </li>
+                  <li className="header-logged-popup-item-Wrapper" onClick={() => router.push("/author")}>
+                    <a>작가목록</a>
+                  </li>
+                  <li className="header-logged-popup-item-Wrapper" onClick={() => router.push("/quote")}>
+                    <a>명언목록</a>
+                  </li>
+                  <li className="header-logged-popup-item-Wrapper" onClick={() => router.push("/auth/register")}>
+                    <a>회원가입</a>
+                  </li>
+                  <li className="header-logged-popup-item-Wrapper" onClick={() => router.push("/auth/login")}>
+                    <a>로그인</a>
+                  </li>
+                </ul>
+              </div>
+            )}
+          </OutsideClickHandler>
+        )}
+      </div>
     </Container>
   );
 };

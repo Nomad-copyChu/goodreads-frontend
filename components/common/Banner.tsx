@@ -20,7 +20,7 @@ const Container = styled.div`
   .Content {
     position: absolute;
     top: 70px;
-    z-index: 10;
+    z-index: 9;
   }
   .main-search-wrapper {
     width: 407px;
