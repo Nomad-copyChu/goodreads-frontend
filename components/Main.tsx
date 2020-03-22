@@ -124,6 +124,9 @@ const Sidebar = styled.div`
     color: #aaaaaa;
     font-size: 12px;
   }
+  @media (max-width: ${responsive.medium}) {
+    display: none;
+  }
 `;
 
 interface IProps {
@@ -178,7 +181,7 @@ const Main: React.FC<IProps> = ({ books, authors }) => {
                 </Link>
                 <GetGernes />
               </div>
-              <BestBookThisWeek books={books} index={2} />
+              <BestBookThisWeek book={books[2]} />
             </div>
           </div>
         </div>

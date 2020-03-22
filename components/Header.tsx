@@ -14,6 +14,7 @@ import Setting from "../public/static/svg/settings.svg";
 import Question from "../public/static/svg/question.svg";
 import Add from "../public/static/svg/add.svg";
 import Loggedout from "../public/static/svg/loggedout.svg";
+import responsive from "../style/responsive";
 
 const Container = styled.div`
   width: 100%;
@@ -58,6 +59,9 @@ const Container = styled.div`
     @media (max-width: 800px) {
       display: none;
     }
+    a {
+      white-space: pre;
+    }
   }
   .log-info {
     margin-left: auto;
@@ -71,6 +75,7 @@ const Container = styled.div`
   }
   .header-my-profile {
     display: flex;
+    align-items: center;
   }
   .header-my-profile-photo {
     cursor: pointer;
@@ -83,6 +88,10 @@ const Container = styled.div`
     cursor: pointer;
     margin-right: 130px;
     margin-left: 12px;
+    white-space: pre;
+    @media (max-width: ${responsive.medium}) {
+      margin-right: 50px;
+    }
   }
   .login-info {
     position: relative;

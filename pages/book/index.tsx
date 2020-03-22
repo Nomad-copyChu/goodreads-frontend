@@ -138,9 +138,9 @@ const index: NextPage<IProps> = ({ gernes, books }) => {
         ))}
         <div className="division-border" />
         <div className="bestbook-Wrapper">
-          <BestBookThisWeek books={books} index={1} className="bestbook" />
-          <BestBookThisWeek books={books} index={2} className="bestbook" />
-          <BestBookThisWeek books={books} index={3} className="bestbook" />
+          <BestBookThisWeek book={books[1]} className="bestbook" />
+          <BestBookThisWeek book={books[2]} className="bestbook" />
+          <BestBookThisWeek book={books[3]} className="bestbook" />
         </div>
       </div>
       <div className="book-list-Wrapper">

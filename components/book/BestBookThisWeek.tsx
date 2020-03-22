@@ -17,6 +17,7 @@ const Container = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   overflow: hidden;
+  flex-shrink: 0;
   h3 {
     font-size: 16px;
     margin-bottom: 1px solid ${colors.gray_500};
@@ -94,57 +95,48 @@ const Container = styled.div`
   }
 `;
 interface IProps {
-  books: Book[];
-  index: number;
+  book: Book;
   className?: string;
 }
 
-const BestBookThisWeek: React.FC<IProps> = ({ books, index, className }) => {
+const BestBookThisWeek: React.FC<IProps> = ({ book, className }) => {
+  console.log(book);
   return (
     <Container className={className}>
       <h3>이주의 배스트 책</h3>
       <div className="border" />
       <div className="main-bestbook-info">
-        <img className="booksCard" src={books[index]?.thumbnail} alt="" />
+        <img className="booksCard" src={book.thumbnail} alt="" />
         <div className="main-bestbook-column">
           <div>
-            <Link href="/book/[id]" as="/book/">
-              <a className="bestbook-title">{books[index]?.title}</a>
+            <Link href="/book/[id]" as={`/book/${book.id}`}>
+              <a className="bestbook-title">{book.title}</a>
             </Link>
           </div>
           <div className="bestbook-author">
             <span>by</span>
-            <Link href="/author/[id]" as="/author/">
-              <a>{books[index]?.authors.map(author => author.name)}</a>
-            </Link>
+            {book.authors.map(author => (
+              <Link href="/author/[id]" as={`/author/${author.id}`}>
+                <a key={author.id}>{author.name}</a>
+              </Link>
+            ))}
           </div>
           <div className="rating-text">
-            <ReactStars
-              count={5}
-              edit={false}
-              value={books[index]?.avgRating}
-              size={12}
-              color1="#D8D8D8"
-              color2="#FA604A"
-            />
-            <span>{books[index]?.avgRating.toFixed(2)}</span>
+            <ReactStars count={5} edit={false} value={book.avgRating} size={12} color1="#D8D8D8" color2="#FA604A" />
+            <span>{book.avgRating.toFixed(2)}</span>
           </div>
           <div className="rating-and-review">
-            <Link href="/book/[id]" as={`/book/${books[index]?.id}`}>
-              <a>{books[index]?.ratedUserNum} ratings</a>
+            <Link href="/book/[id]" as={`/book/${book.id}`}>
+              <a>{book.ratedUserNum} ratings</a>
             </Link>
-            <Link href="/book/[id]" as={`/book/${books[index]?.id}`}>
-              <a>{books[index]?.comments.length} review</a>
+            <Link href="/book/[id]" as={`/book/${book.id}`}>
+              <a>{book.comments.length} review</a>
             </Link>
           </div>
-          <AddToShelfButton
-            className="shelfbutton"
-            onClick={() => Router.push(`/book/${books[index]?.id}`)}
-            size="medium"
-          />
+          <AddToShelfButton className="shelfbutton" onClick={() => Router.push(`/book/${book.id}`)} size="medium" />
         </div>
       </div>
-      <div className="contents">{books[index]?.contents}</div>
+      <div className="contents">{book.contents}</div>
     </Container>
   );
 };

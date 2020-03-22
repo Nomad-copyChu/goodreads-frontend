@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import SearchInput from "./SearchInput";
+import responsive from "../../style/responsive";
 
 const Container = styled.div`
   display: flex;
@@ -17,10 +18,13 @@ const Container = styled.div`
     height: 235px;
     width: 100%;
   }
-  .Content {
+  .content {
     position: absolute;
     top: 70px;
     z-index: 10;
+    @media (max-width: ${responsive.small}) {
+      width: 100%;
+    }
   }
   .main-search-wrapper {
     width: 407px;
@@ -59,7 +63,7 @@ const Banner: React.FC = () => {
         <p>Meet you next</p>
         <p>favorite book</p>
       </div>
-      <div className="Content">
+      <div className="content">
         <div className="main-search-wrapper">
           <SearchInput placeholder="궁금한 책을 검색하세요." />
         </div>
