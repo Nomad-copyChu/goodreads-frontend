@@ -151,6 +151,8 @@ export type CacheUser = {
   email: string;
   password: string;
   username: string;
+  bookAvgRating: string;
+  profile: Profile;
   profilePhoto: string;
   isAdmin: boolean;
   shelves: Shelf[];

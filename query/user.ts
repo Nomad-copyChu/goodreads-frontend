@@ -10,7 +10,18 @@ export const GET_USER = gql`
       email
       username
       profilePhoto
+      bookAvgRating
       isAdmin
+      profile {
+        user {
+          id
+        }
+        age
+        gender
+        bio
+        interests
+        favoriteBook
+      }
       shelves {
         id
         name
@@ -39,7 +50,16 @@ export const GET_CACHE_USER = gql`
       email
       username
       profilePhoto
+      bookAvgRating
       isAdmin
+      profile {
+        username
+        age
+        gender
+        bio
+        interests
+        favoriteBook
+      }
       shelves {
         id
         name

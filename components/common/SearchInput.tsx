@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import OutsideClickHandler from "react-outside-click-handler";
@@ -139,18 +139,18 @@ const Container = styled.div`
 export type SearchResult = Book | User | Author;
 interface IProps {
   placeholder?: string;
-  // onClick?: (selected: SearchResult) => void;
+  onClick?: (selected: SearchResult) => void;
 }
-const SearchInput: React.FC<IProps> = ({ placeholder /*onClick*/ }) => {
+const SearchInput: React.FC<IProps> = ({ placeholder }) => {
   const [value, setValue] = useState("");
   const serachValue = useDebounce(value, 500);
+
   const { data, loading } = useQuery<{ search: [SearchResult] }>(SEARCH, {
-    skip: value === "",
-    pollInterval: 2000,
+    skip: serachValue === "" || value === "",
     variables: { keyword: serachValue },
     fetchPolicy: "network-only"
   });
-
+  const searchLoading = useMemo(() => value !== serachValue || loading, [value, serachValue, loading]);
   const [popupStatus, setPopupStatus] = useState(false);
   const router = useRouter();
   const results = data?.search.map((item, index) => {
@@ -230,19 +230,19 @@ const SearchInput: React.FC<IProps> = ({ placeholder /*onClick*/ }) => {
         <SearchIcon className="search-icon" />
         {popupStatus && (
           <div className="serach-result-popup">
-            {loading && <img src="/static/gif/bookgif.gif" alt="" className="search-loading" />}
-            {value === "" && (
+            {searchLoading && <img src="/static/gif/bookgif.gif" alt="" className="search-loading" />}
+            {!searchLoading && value === "" && (
               <div className="no-search-input">
                 <p>검색어를 입력해주세요</p>
               </div>
             )}
-            {!loading && !!data && isEmpty(data?.search) && (
+            {!searchLoading && !!data && isEmpty(data?.search) && (
               <div className="no-search-result">
                 <SadIcon />
                 <p>{`${value}검색결과가 없습니다. ㅠㅠ`}</p>
               </div>
             )}
-            {!loading && results}
+            {!searchLoading && results}
           </div>
         )}
       </OutsideClickHandler>

@@ -19,7 +19,6 @@ const Container = styled.div`
   }
   .Content {
     position: absolute;
-    width: 100%;
     top: 70px;
     z-index: 10;
   }
