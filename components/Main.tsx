@@ -5,7 +5,7 @@ import Banner from "./common/Banner";
 import LoggedBookList from "./book/LoggedBookList";
 import BookList from "./book/BookList";
 import MainAuthor from "./author/MainAuthor";
-import { Book, Author } from "../types";
+import { Book, Author, Quote } from "../types";
 import useUser from "../hooks/useUser";
 import GetGernes from "./common/GetGernes";
 import BestBookThisWeek from "./book/BestBookThisWeek";
@@ -13,6 +13,7 @@ import Want from "../public/static/svg/wantLabel.svg";
 import Reading from "../public/static/svg/readingLabel.svg";
 import Readed from "../public/static/svg/noReadLabel.svg";
 import responsive from "../style/responsive";
+import QuoteCard from "./quote/QuoteCard";
 
 const Container = styled.div`
   display: flex;
@@ -51,7 +52,13 @@ const MainWrapper = styled.div`
         display: none;
       }
     }
-
+    .main-quote-tags-best-wrapper {
+      display: flex;
+      justify-content: space-between;
+      @media (max-width: ${responsive.medium}) {
+        flex-direction: column;
+      }
+    }
     .main-authors-warpper {
       display: flex;
       justify-content: space-between;
@@ -74,9 +81,11 @@ const MainWrapper = styled.div`
       height: 73px;
     }
     .main-quote-borderbox-wrapper {
-      width: 60%;
       display: flex;
       flex-direction: column;
+      .quote-card-wrapper {
+        margin-bottom: 8px;
+      }
       @media (max-width: 870px) {
         margin-left: 0px;
         width: 100%;
@@ -89,6 +98,7 @@ const MainWrapper = styled.div`
       @media (max-width: 870px) {
         margin-left: 0px;
         width: 100%;
+        justify-content: flex-start;
       }
     }
     .main-tags-title {
@@ -107,6 +117,9 @@ const MainWrapper = styled.div`
         width: 100%;
       }
     }
+  }
+  .best-book-this-week-wrapper {
+    margin-left: 20px;
   }
 `;
 
@@ -132,9 +145,10 @@ const Sidebar = styled.div`
 interface IProps {
   books: Book[];
   authors: Author[];
+  quotes: Quote[];
 }
 
-const Main: React.FC<IProps> = ({ books, authors }) => {
+const Main: React.FC<IProps> = ({ books, authors, quotes }) => {
   const { user, isLogged } = useUser();
   return (
     <Container>
@@ -162,16 +176,14 @@ const Main: React.FC<IProps> = ({ books, authors }) => {
             <MainAuthor author={authors[1]} />
           </div>
           <h2>작가의 명언</h2>
-          <div className="main-quote-container">
-            <div className="main-quote-borderbox-wrapper">
-              <div className="main-borderbox-quote">
-                <img className="author-photo-small" src={books[2]?.authors[0]?.photo} alt="" />
-              </div>
-              <div className="main-borderbox-quote">
-                <img className="author-photo-small" src={books[2]?.authors[0]?.photo} alt="" />
-              </div>
-              <div className="main-borderbox-quote">
-                <img className="author-photo-small" src={books[2]?.authors[0]?.photo} alt="" />
+          <div className="main-quote-tags-best-wrapper">
+            <div className="main-quote-container">
+              <div className="main-quote-borderbox-wrapper">
+                {quotes.map(quote => (
+                  <div className="quote-card-wrapper">
+                    <QuoteCard quote={quote} key={quote.id} />
+                  </div>
+                ))}
               </div>
             </div>
             <div className="main-tags-bestbook-wrapper">
@@ -181,7 +193,9 @@ const Main: React.FC<IProps> = ({ books, authors }) => {
                 </Link>
                 <GetGernes />
               </div>
-              <BestBookThisWeek book={books[2]} />
+              <div className="best-book-this-week-wrapper">
+                <BestBookThisWeek book={books[2]} />
+              </div>
             </div>
           </div>
         </div>

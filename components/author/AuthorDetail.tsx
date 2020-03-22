@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import TextareaAutosize from "react-textarea-autosize";
 import Link from "next/link";
-import format from "date-fns/format";
 import isEmpty from "lodash/isEmpty";
 import Button from "../common/Button";
 import { Author } from "../../types";
 import colors from "../../style/colors";
 import useAuthor from "../../hooks/useAuthor";
 import QuoteCard from "../quote/QuoteCard";
+import responsive from "../../style/responsive";
 
 const Container = styled.div`
   width: 1083px;
@@ -16,25 +16,43 @@ const Container = styled.div`
   margin: auto;
   margin-top: 60px;
   justify-content: space-between;
-
+  @media (max-width: 760px) {
+    margin-top: 0;
+  }
+  @media (max-width: 460px) {
+    flex-direction: column;
+  }
+  @media (max-width: ${responsive.medium}) {
+    width: 100%;
+    padding: 20px;
+  }
   .author-infos-comments {
     width: 575px;
+    @media (max-width: 460px) {
+      width: 100%;
+    }
     .author-infos {
       width: 100%;
     }
     .author-photo-detail {
       width: 100%;
-      height: 215px;
       position: relative;
       display: flex;
+      @media (max-width: 760px) {
+        flex-direction: column;
+      }
       img {
-        width: 300px;
-        height: 100%;
+        width: 100%;
+        max-height: 215px;
         border: 1px solid ${colors.gray_500};
         border-radius: 5px;
       }
       .author-detail {
+        width: 280px;
         margin-left: 20px;
+        @media (max-width: 760px) {
+          margin: 0;
+        }
         h1 {
           font-size: 16px;
           font-weight: bold;
@@ -110,6 +128,13 @@ const Container = styled.div`
   }
   .author-books-quotes {
     width: 468px;
+    @media (max-width: ${responsive.medium}) {
+      width: fit-content;
+      margin-left: 20px;
+    }
+    @media (max-width: ${responsive.small}) {
+      margin: 0;
+    }
     h2 {
       font-size: 21px;
     }
@@ -117,6 +142,19 @@ const Container = styled.div`
       margin: 20px 0;
       flex-wrap: wrap;
       display: flex;
+      @media (max-width: 770px) {
+        justify-content: space-between;
+        .author-book {
+          margin-right: 0 !important;
+        }
+      }
+      @media (max-width: 770px) {
+        justify-content: flex-start;
+        .author-book {
+          margin-right: 20px !important;
+        }
+      }
+
       .author-book {
         width: 120px;
         margin-right: 30px;
@@ -144,7 +182,6 @@ const AuthorDetail: React.FC<IProps> = ({ author }) => {
   const [commentList, setCommentList] = useState(author.comments);
   const [commentText, setCommentText] = useState("");
   const { addCommentMutation } = useAuthor();
-  console.log(author);
   return (
     <Container>
       <div className="author-infos-comments">
@@ -157,7 +194,7 @@ const AuthorDetail: React.FC<IProps> = ({ author }) => {
                 <p>
                   장르 :
                   {author.gernes.map(gerne => (
-                    <span key={gerne.id}>gerne.term</span>
+                    <span key={gerne.id}>#{gerne.term} </span>
                   ))}
                 </p>
               )}
@@ -165,11 +202,11 @@ const AuthorDetail: React.FC<IProps> = ({ author }) => {
                 <p>
                   출생 :
                   <span>
-                    {`${format(new Date(author.born), "yyyy.MM.dd")}~${format(new Date(author.died), "yyyy.MM.dd")}`}
+                    {author.born} ~ {author.died}
                   </span>
                 </p>
               )}
-              <Link href="/add/book/[id]" as={`/add/author?id=${author.id}`}>
+              <Link href="/add/author/[id]" as={`/add/author/${author.id}`}>
                 <a>...수정하기</a>
               </Link>
             </div>
@@ -186,7 +223,6 @@ const AuthorDetail: React.FC<IProps> = ({ author }) => {
                       throw Error("댓글을 입력해 주세요.");
                     }
                     addCommentMutation({ variables: { authorId: author.id, text: commentText } }).then(res => {
-                      console.log(res);
                       setCommentList([{ ...res.data.commentAuthor }, ...commentList]);
                       setCommentText("");
                     });
@@ -214,7 +250,7 @@ const AuthorDetail: React.FC<IProps> = ({ author }) => {
         <h2>작가의 책들</h2>
         <div className="author-books">
           {author.books.map(book => (
-            <div className="author-book">
+            <div className="author-book" key={book.id}>
               <img src={book.thumbnail} alt="" />
               {book.title}
             </div>
@@ -223,7 +259,7 @@ const AuthorDetail: React.FC<IProps> = ({ author }) => {
         <div className="author-no-book" />
         <h3>작가의 명언</h3>
         {author.quotes.map(quote => (
-          <QuoteCard quote={quote} />
+          <QuoteCard quote={quote} key={quote.id} />
         ))}
       </div>
     </Container>

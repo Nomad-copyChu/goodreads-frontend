@@ -116,8 +116,8 @@ const BestBookThisWeek: React.FC<IProps> = ({ book, className }) => {
           <div className="bestbook-author">
             <span>by</span>
             {book.authors.map(author => (
-              <Link href="/author/[id]" as={`/author/${author.id}`}>
-                <a key={author.id}>{author.name}</a>
+              <Link href="/author/[id]" as={`/author/${author.id}`} key={author.id}>
+                <a>{author.name}</a>
               </Link>
             ))}
           </div>

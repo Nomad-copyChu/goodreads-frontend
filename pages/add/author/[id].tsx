@@ -1,8 +1,8 @@
 import React from "react";
 import { NextPage } from "next";
-import { ApolloNextPageContext, Author } from "../../types";
-import { GET_AUTHOR } from "../../query/author";
-import EditAuthor from "../../components/author/EditAuthor";
+import { ApolloNextPageContext, Author } from "../../../types";
+import { GET_AUTHOR } from "../../../query/author";
+import EditAuthor from "../../../components/author/EditAuthor";
 
 interface IProps {
   author?: Author;

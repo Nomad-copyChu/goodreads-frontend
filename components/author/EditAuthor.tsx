@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 import TextareaAutosize from "react-textarea-autosize";
 import Button from "../common/Button";
 import { Author } from "../../types";
@@ -167,21 +168,23 @@ interface IProps {
 
 const EditAuthor: React.FC<IProps> = ({ author }) => {
   const [commentText, setCommentText] = useState("");
-  const [authorPhoto, setAuthorPhoto] = useState(author.photo);
+  const [authorPhoto, setAuthorPhoto] = useState(author?.photo);
   const [authorDescription, setAuthorDescription] = useState(author.description || "");
   const [gerneInput, setGerneInput] = useState("");
   const [authorGernes, setAuthorGernes] = useState<string[]>(author.gernes?.map(gerne => gerne.term) || []);
   const [authorBorn, setAuthorBorn] = useState(author.born || "");
-  const [authorDied, setAuthorDied] = useState(author.died);
+  const [authorDied, setAuthorDied] = useState(author.died || "");
 
   const { editAuthorMutation } = useAuthor();
   const { fileUploadMuation } = useUpload();
-  console.log(author);
   const addGerne = e => {
     e.preventDefault();
     setAuthorGernes(gerne => [...gerne, gerneInput]);
     setGerneInput("");
   };
+
+  const router = useRouter();
+
   return (
     <Container>
       <div className="author-infos-comments">
@@ -213,8 +216,13 @@ const EditAuthor: React.FC<IProps> = ({ author }) => {
                       }
                     }
                   })
-                    .then(() => alert("정보를 수정하였습니다."))
-                    .catch(e => alert(e.message));
+                    .then(() => {
+                      alert("정보를 수정하였습니다.");
+                      router.push("/author/[id]", `/author/${author.id}`);
+                    })
+                    .catch(e => {
+                      alert(e.message);
+                    });
                 }}
                 className="edit-author-submit-button"
               >
@@ -295,7 +303,7 @@ const EditAuthor: React.FC<IProps> = ({ author }) => {
         <div className="author-no-book" />
         <h3>작가의 명언</h3>
         {author.quotes.map(quote => (
-          <QuoteCard quote={quote} />
+          <QuoteCard quote={quote} key={quote.id} />
         ))}
       </div>
     </Container>

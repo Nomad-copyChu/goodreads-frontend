@@ -31,6 +31,15 @@ export const GET_AUTHOR = gql`
       quotes {
         id
         term
+        author {
+          id
+          name
+          photo
+        }
+        tags {
+          id
+          term
+        }
       }
       comments {
         id
