@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import Router from "next/router";
 import AddToShelfButton from "./AddToShelfButton";
-import colors from "../../style/colors";
 import { Book } from "../../types";
 
 const ReactStars = dynamic(import("react-stars"), { ssr: false });
@@ -17,9 +16,8 @@ const Container = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   overflow: hidden;
-  h3 {
+  .title {
     font-size: 16px;
-    margin-bottom: 1px solid ${colors.gray_500};
   }
   .border {
     margin-top: 2px;
@@ -102,7 +100,7 @@ interface IProps {
 const BestBookThisWeek: React.FC<IProps> = ({ books, index, className }) => {
   return (
     <Container className={className}>
-      <h3>이주의 배스트 책</h3>
+      <div className="title">이주의 배스트 책</div>
       <div className="border" />
       <div className="main-bestbook-info">
         <img className="booksCard" src={books[index]?.thumbnail} alt="" />

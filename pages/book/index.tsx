@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { useState } from "react";
 import Link from "next/link";
 import SearchInput from "../../components/common/SearchInput";
@@ -9,24 +9,7 @@ import GET_GERNES from "../../query/gernes";
 import BestBookThisWeek from "../../components/book/BestBookThisWeek";
 import colors from "../../style/colors";
 import Nav from "../../public/static/svg/navigation.svg";
-
-type MenuType = "menu" | "nav";
-
-const getMenuType = (menutype: MenuType) => {
-  switch (menutype) {
-    case "menu":
-      return css`
-        display: flex;
-        position: relative;
-      `;
-    case "nav":
-      return css`
-        width: 0px;
-      `;
-    default:
-      return null;
-  }
-};
+import Close from "../../public/static/svg/xmark.svg";
 
 const Container = styled.div`
   display: flex;
@@ -42,7 +25,6 @@ const Container = styled.div`
     border: 1px solid #d6d0c4;
     height: 100%;
     display: flex;
-    transition: 0.5s;
     background-color: ${colors.beige_700};
     flex-direction: column;
     ::-webkit-scrollbar-thumb {
@@ -52,36 +34,57 @@ const Container = styled.div`
       position: absolute;
       display: none;
     }
-    .side-menu-contents {
-      .search {
-        margin-top: 60px;
-        width: 254px;
-        border-radius: 5px;
-      }
-      h2 {
-        margin-top: 24px;
-        margin-bottom: 24px;
-      }
-      .gerne-wrapper {
-        display: flex;
-        flex-direction: column;
-        .gerne-interval {
-          margin-bottom: 20px;
-        }
-      }
-      .division-border {
-        width: 240px;
-        border: 1px solid #d6d0c4;
-        display: flex;
-        margin-bottom: 24px;
-      }
-      .bestbook {
-        background-color: ${colors.beige_400};
+  }
+  .nav-menu {
+    width: 300px;
+    z-index: 10px;
+    position: absolute;
+    overflow-y: auto;
+    padding-left: 24px;
+    border: 1px solid #d6d0c4;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: 0.5s;
+    background-color: ${colors.beige_700};
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    @media (min-width: 1110px) {
+      position: absolute;
+      display: none;
+    }
+  }
+  .side-menu-contents {
+    .search {
+      margin-top: 60px;
+      width: 254px;
+      border-radius: 5px;
+    }
+    h2 {
+      margin-top: 24px;
+      margin-bottom: 24px;
+    }
+    .gerne-wrapper {
+      display: flex;
+      flex-direction: column;
+      .gerne-interval {
         margin-bottom: 20px;
       }
     }
+    .division-border {
+      width: 240px;
+      border: 1px solid #d6d0c4;
+      /* display: flex; */
+      margin-bottom: 24px;
+    }
+    .bestbook {
+      background-color: ${colors.beige_400};
+      margin-bottom: 20px;
+    }
   }
   .book-list-Wrapper {
+    position: relative;
     display: flex;
     width: 100%;
     height: 100%;
@@ -174,6 +177,16 @@ const Container = styled.div`
       display: none;
     }
   }
+  .navigation-close {
+    position: absolute;
+    right: 0;
+    margin-top: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    @media (min-width: 1110px) {
+      display: none;
+    }
+  }
 `;
 
 interface IProps {
@@ -193,25 +206,26 @@ const index: NextPage<IProps> = ({ gernes, books }) => {
       })
       .slice(0, 6);
     return (
-      <div>
-        <div className="side-menu-contents">
-          <div className="search">
-            <SearchInput placeholder="궁금한 책을 검색하세요." />
+      <div className="side-menu-contents">
+        <div role="button" onClick={() => setShow(!show)}>
+          <Close className="navigation-close" />
+        </div>
+        <div className="search">
+          <SearchInput placeholder="궁금한 책을 검색하세요." />
+        </div>
+        <h2>인기있는 장르</h2>
+        {max.map((gerne, index) => (
+          <div key={index} className="gerne-wrapper">
+            <Link href="/gerne">
+              <a className="gerne-interval">#{gerne.term}</a>
+            </Link>
           </div>
-          <h2>인기있는 장르</h2>
-          {max.map((gerne, index) => (
-            <div key={index} className="gerne-wrapper">
-              <Link href="/gerne">
-                <a className="gerne-interval">#{gerne.term}</a>
-              </Link>
-            </div>
-          ))}
-          <div className="division-border" />
-          <div>
-            <BestBookThisWeek books={books} index={1} className="bestbook" />
-            <BestBookThisWeek books={books} index={2} className="bestbook" />
-            <BestBookThisWeek books={books} index={3} className="bestbook" />
-          </div>
+        ))}
+        <div className="division-border" />
+        <div>
+          <BestBookThisWeek books={books} index={1} className="bestbook" />
+          <BestBookThisWeek books={books} index={2} className="bestbook" />
+          <BestBookThisWeek books={books} index={3} className="bestbook" />
         </div>
       </div>
     );
@@ -219,14 +233,10 @@ const index: NextPage<IProps> = ({ gernes, books }) => {
   return (
     <Container>
       <div className="side-menu">{SideMenu()}</div>
-      {/* <div role="button" className="navigation">
-        <Nav onClick={toggleSidebar} />
-        {show && SideMenu()}
-      </div> */}
       <div className="book-list-Wrapper">
-        <div role="button" className="navigation">
-          <Nav onClick={toggleSidebar} />
-          {show && SideMenu()}
+        <div role="button">
+          <Nav onClick={toggleSidebar} className="navigation" />
+          {show && <div className="nav-menu">{SideMenu()}</div>}
         </div>
         <div className="books-new">
           <h3>새로나온책</h3>
