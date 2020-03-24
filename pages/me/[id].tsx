@@ -100,7 +100,6 @@ const ToggleButton = styled.div<{ fill: boolean }>`
 
 const me: NextPage = () => {
   const { isLogged, user } = useUser();
-  // console.log(user.bookAvgRating);
   const [profileShow, setProfileShow] = useState(false);
   const [booklistShow, setBooklistShow] = useState(false);
   const [commentShow, setCommentShow] = useState(false);
@@ -218,10 +217,10 @@ const me: NextPage = () => {
             </div>
             <h3>읽는중</h3>
             {user.displays.map(display =>
-              display.shelves.map(shelve => {
+              display.shelves.map((shelve, i) => {
                 if (shelve.name === "reading") {
                   return (
-                    <div>
+                    <div key={i}>
                       <img src={display.book.thumbnail} alt="" />
                       <div>{display.book.title}</div>
                     </div>
@@ -232,10 +231,10 @@ const me: NextPage = () => {
             )}
             <h3>다읽음</h3>
             {user.displays.map(display =>
-              display.shelves.map(shelve => {
+              display.shelves.map((shelve, i) => {
                 if (shelve.name === "read") {
                   return (
-                    <div>
+                    <div key={i}>
                       <img src={display.book.thumbnail} alt="" />
                       <div>{display.book.title}</div>
                     </div>
