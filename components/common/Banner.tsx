@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import SearchInput from "./SearchInput";
-import responsive from "../../style/responsive";
 
 const Container = styled.div`
   display: flex;
@@ -18,35 +17,47 @@ const Container = styled.div`
     height: 235px;
     width: 100%;
   }
-  .content {
+  .main-search-wrapper {
     position: absolute;
-    top: 70px;
+    align-self: center;
     z-index: 9;
   }
-  .main-search-wrapper {
+  .main-search {
     width: 407px;
     margin: 0 auto;
-    @media (max-width: 440px) {
-      width: calc(100% - 40px);
+    @media (max-width: 1434px) {
+      width: 307px;
+    }
+    @media (max-width: 376px) {
+      width: 257px;
     }
   }
   .banner-text {
     position: absolute;
     font-family: Hoefler Text;
     top: 60px;
-    left: 90px;
-    font-size: 50px;
+    left: 180px;
     line-height: 1.2;
     z-index: 9;
-    @media (max-width: 1024px) {
-      top: 108px;
-      left: 30px;
+    font-size: 50px;
+    @media (max-width: 1434px) {
+      top: 60px;
+      left: 100px;
     }
-    @media (max-width: 440px) {
+    @media (max-width: 1270px) {
+      top: 60px;
+      left: 50px;
+    }
+    @media (max-width: 1173px) {
       font-size: 32px;
+      align-self: center;
+      left: auto;
     }
     p {
       color: white;
+      @media (max-width: 1173px) {
+        margin-bottom: 40px;
+      }
     }
   }
 `;
@@ -60,8 +71,8 @@ const Banner: React.FC = () => {
         <p>Meet you next</p>
         <p>favorite book</p>
       </div>
-      <div className="content">
-        <div className="main-search-wrapper">
+      <div className="main-search-wrapper">
+        <div className="main-search">
           <SearchInput placeholder="궁금한 책을 검색하세요." />
         </div>
       </div>
