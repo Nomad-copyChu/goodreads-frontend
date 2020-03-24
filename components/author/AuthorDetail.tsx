@@ -179,7 +179,7 @@ interface IProps {
 }
 
 const AuthorDetail: React.FC<IProps> = ({ author }) => {
-  const [commentList, setCommentList] = useState(author.comments);
+  const [commentList, setCommentList] = useState(author?.comments);
   const [commentText, setCommentText] = useState("");
   const { addCommentMutation } = useAuthor();
   return (
@@ -187,18 +187,18 @@ const AuthorDetail: React.FC<IProps> = ({ author }) => {
       <div className="author-infos-comments">
         <div className="author-infos">
           <div className="author-photo-detail">
-            <img src={author.photo} alt="" />
+            <img src={author?.photo} alt="" />
             <div className="author-detail">
-              <h1>{author.name}</h1>
-              {!isEmpty(author.gernes) && (
+              <h1>{author?.name}</h1>
+              {!isEmpty(author?.gernes) && (
                 <p>
                   장르 :
-                  {author.gernes.map(gerne => (
+                  {author?.gernes.map(gerne => (
                     <span key={gerne.id}>#{gerne.term} </span>
                   ))}
                 </p>
               )}
-              {author.born && (
+              {author?.born && (
                 <p>
                   출생 :
                   <span>
@@ -206,12 +206,12 @@ const AuthorDetail: React.FC<IProps> = ({ author }) => {
                   </span>
                 </p>
               )}
-              <Link href="/add/author/[id]" as={`/add/author/${author.id}`}>
+              <Link href="/add/author/[id]" as={`/add/author/${author?.id}`}>
                 <a>...수정하기</a>
               </Link>
             </div>
           </div>
-          <div className="author-description">{author.description || "작가의 소개가 없습니다. :("}</div>
+          <div className="author-description">{author?.description || "작가의 소개가 없습니다. :("}</div>
           <div className="author-comments">
             <h3>댓글</h3>
             <TextareaAutosize value={commentText} onChange={e => setCommentText(e.target.value)} />

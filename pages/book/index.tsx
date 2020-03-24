@@ -25,10 +25,9 @@ const Container = styled.div`
     border: 1px solid #d6d0c4;
     height: 100%;
     display: flex;
-    background-color: ${colors.beige_700};
     flex-direction: column;
-    ::-webkit-scrollbar-thumb {
-      border-radius: 10px;
+    ::-webkit-scrollbar {
+      display: none;
     }
     @media (max-width: 1110px) {
       position: absolute;
@@ -46,7 +45,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     transition: 0.5s;
-    background-color: ${colors.beige_700};
+    background-color: #f4f1ea;
     ::-webkit-scrollbar {
       display: none;
     }
@@ -97,8 +96,8 @@ const Container = styled.div`
       margin-left: 42.5px;
       width: 50%;
       overflow-y: auto;
-      ::-webkit-scrollbar-thumb {
-        border-radius: 10px;
+      ::-webkit-scrollbar {
+        display: none;
       }
       .new-book-list-wrapper {
         width: 100%;
@@ -134,8 +133,8 @@ const Container = styled.div`
       margin-left: 42.5px;
       width: 50%;
       overflow-y: auto;
-      ::-webkit-scrollbar-thumb {
-        border-radius: 10px;
+      ::-webkit-scrollbar {
+        display: none;
       }
       .popular-book-list-wrapper {
         width: 100%;

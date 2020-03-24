@@ -44,7 +44,7 @@ export type Book = {
 export type Comment = {
   id: string;
   user: User;
-  book: Book[];
+  book?: Book;
   text: string;
   createdAt: string;
   updatedAt: string;
@@ -157,4 +157,5 @@ export type CacheUser = {
   isAdmin: boolean;
   shelves: Shelf[];
   displays: Display[];
+  bookComments: Comment[];
 };

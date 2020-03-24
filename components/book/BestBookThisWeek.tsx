@@ -97,7 +97,6 @@ interface IProps {
 }
 
 const BestBookThisWeek: React.FC<IProps> = ({ book, className }) => {
-  console.log(book);
   return (
     <Container className={className}>
       <div className="title">이주의 배스트 책</div>

@@ -179,8 +179,8 @@ const Main: React.FC<IProps> = ({ books, authors, quotes }) => {
           <div className="main-quote-tags-best-wrapper">
             <div className="main-quote-container">
               <div className="main-quote-borderbox-wrapper">
-                {quotes.map(quote => (
-                  <div className="quote-card-wrapper">
+                {quotes.map((quote, i) => (
+                  <div key={i} className="quote-card-wrapper">
                     <QuoteCard quote={quote} key={quote.id} />
                   </div>
                 ))}

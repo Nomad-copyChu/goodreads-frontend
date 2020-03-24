@@ -33,6 +33,13 @@ export const GET_USER = gql`
           name
         }
       }
+      bookComments {
+        book {
+          id
+          thumbnail
+        }
+        text
+      }
     }
   }
 `;
@@ -69,6 +76,13 @@ export const GET_CACHE_USER = gql`
         shelves {
           name
         }
+      }
+      bookComments {
+        book {
+          id
+          thumbnail
+        }
+        text
       }
     }
   }

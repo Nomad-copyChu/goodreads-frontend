@@ -588,7 +588,7 @@ const BookDetail: React.FC<IProps> = ({ book, rating }) => {
             <div className="author-infos" key={index}>
               <div className="author-photo-name-wrapper">
                 <img src={author.photo || "  "} alt="" className="author-profile-photo" />
-                <Link href="/author/[id]" as={`/author/${author.name}`}>
+                <Link href="/author/[id]" as={`/author/${author.id}`}>
                   <a className="author-name">{author.name}</a>
                 </Link>
               </div>
