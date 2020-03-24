@@ -2,7 +2,6 @@ import React from "react";
 import { NextPage } from "next";
 import AuthorDetail from "../../components/author/AuthorDetail";
 import { ApolloNextPageContext, Author as AuthorType } from "../../types";
-import { GET_BOOK } from "../../query/book";
 import { GET_AUTHOR } from "../../query/author";
 
 interface IProps {

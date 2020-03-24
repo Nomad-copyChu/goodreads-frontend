@@ -19,7 +19,7 @@ const Container = styled.div`
   }
   .serach-result-popup {
     height: 250px;
-    z-index: 1;
+    z-index: 10;
     border: 1px solid ${colors.woody_500};
     border-radius: 5px;
     position: absolute;

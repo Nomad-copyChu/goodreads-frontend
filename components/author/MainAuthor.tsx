@@ -2,12 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { Author } from "../../types";
-import responsive from "../../style/responsive";
 
 const Container = styled.div`
   width: calc((100% - 24px) / 2);
   @media (max-width: 870px) {
     width: 100%;
+    &:last-child {
+      display: none;
+    }
   }
   .main-borderbox-author {
     border: 1px solid #d8d8d8;
@@ -104,10 +106,14 @@ const MainAuthor: React.FC<IProps> = ({ author }) => {
             </span>
           </div>
         </div>
-        <div className="main-author-booksfont">Books</div>
+        <div className="main-author-booksfont">{author?.name}의 책들</div>
         <div className="main-author-booklist">
           {author?.books.map(book => (
-            <img className="main-author-booklist-thumbnail" src={book.thumbnail} alt="" key={book.id} />
+            <Link href="/book/[id]" as={`/book/${book.id} `} key={book.id}>
+              <a>
+                <img className="main-author-booklist-thumbnail" src={book.thumbnail} alt="" />
+              </a>
+            </Link>
           ))}
         </div>
       </div>

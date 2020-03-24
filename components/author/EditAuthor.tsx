@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 import TextareaAutosize from "react-textarea-autosize";
-import Link from "next/link";
-import isEmpty from "lodash/isEmpty";
 import Button from "../common/Button";
 import { Author } from "../../types";
 import colors from "../../style/colors";
-import useAuthor from "../../hooks/useAuthor";
 import QuoteCard from "../quote/QuoteCard";
-import responsive from "../../style/responsive";
+import Input from "../common/Input";
+import useUpload from "../../hooks/useUpload";
+import useAuthor from "../../hooks/useAuthor";
 
 const Container = styled.div`
   width: 1083px;
@@ -16,43 +16,44 @@ const Container = styled.div`
   margin: auto;
   margin-top: 60px;
   justify-content: space-between;
-  @media (max-width: 760px) {
-    margin-top: 0;
-  }
-  @media (max-width: 460px) {
-    flex-direction: column;
-  }
-  @media (max-width: ${responsive.medium}) {
-    width: 100%;
-    padding: 20px;
+  .edit-author-submit-button {
+    position: absolute;
+    right: 0;
+    top: 8px;
+    width: 72px;
   }
   .author-infos-comments {
     width: 575px;
-    @media (max-width: 460px) {
-      width: 100%;
-    }
     .author-infos {
       width: 100%;
     }
     .author-photo-detail {
       width: 100%;
+      height: 215px;
       position: relative;
       display: flex;
-      @media (max-width: 760px) {
-        flex-direction: column;
-      }
-      img {
-        width: 100%;
-        max-height: 215px;
-        border: 1px solid ${colors.gray_500};
-        border-radius: 5px;
-      }
-      .author-detail {
-        width: 280px;
-        margin-left: 20px;
-        @media (max-width: 760px) {
-          margin: 0;
+      .author-photo-wrapper {
+        position: relative;
+        img {
+          width: 300px;
+          height: 100%;
+          border: 1px solid ${colors.gray_500};
+          border-radius: 5px;
         }
+        input {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          cursor: pointer;
+        }
+      }
+
+      .author-detail {
+        width: 100%;
+        margin-left: 20px;
         h1 {
           font-size: 16px;
           font-weight: bold;
@@ -78,6 +79,13 @@ const Container = styled.div`
       margin-top: 20px;
       min-height: 200px;
       width: 100%;
+      border-radius: 5px;
+      border: 1px solid ${colors.gray_500};
+      background-color: transparent;
+      padding: 12px;
+      outline: none;
+      resize: none;
+      font-size: 14px;
     }
     .author-comments {
       margin-top: 16px;
@@ -128,13 +136,6 @@ const Container = styled.div`
   }
   .author-books-quotes {
     width: 468px;
-    @media (max-width: ${responsive.medium}) {
-      width: fit-content;
-      margin-left: 20px;
-    }
-    @media (max-width: ${responsive.small}) {
-      margin: 0;
-    }
     h2 {
       font-size: 21px;
     }
@@ -142,19 +143,6 @@ const Container = styled.div`
       margin: 20px 0;
       flex-wrap: wrap;
       display: flex;
-      @media (max-width: 770px) {
-        justify-content: space-between;
-        .author-book {
-          margin-right: 0 !important;
-        }
-      }
-      @media (max-width: 770px) {
-        justify-content: flex-start;
-        .author-book {
-          margin-right: 20px !important;
-        }
-      }
-
       .author-book {
         width: 120px;
         margin-right: 30px;
@@ -178,63 +166,119 @@ interface IProps {
   author: Author;
 }
 
-const AuthorDetail: React.FC<IProps> = ({ author }) => {
-  const [commentList, setCommentList] = useState(author.comments);
+const EditAuthor: React.FC<IProps> = ({ author }) => {
   const [commentText, setCommentText] = useState("");
-  const { addCommentMutation } = useAuthor();
+  const [authorPhoto, setAuthorPhoto] = useState(author?.photo);
+  const [authorDescription, setAuthorDescription] = useState(author.description || "");
+  const [gerneInput, setGerneInput] = useState("");
+  const [authorGernes, setAuthorGernes] = useState<string[]>(author.gernes?.map(gerne => gerne.term) || []);
+  const [authorBorn, setAuthorBorn] = useState(author.born || "");
+  const [authorDied, setAuthorDied] = useState(author.died || "");
+
+  const { editAuthorMutation } = useAuthor();
+  const { fileUploadMuation } = useUpload();
+  const addGerne = e => {
+    e.preventDefault();
+    setAuthorGernes(gerne => [...gerne, gerneInput]);
+    setGerneInput("");
+  };
+
+  const router = useRouter();
+
   return (
     <Container>
       <div className="author-infos-comments">
         <div className="author-infos">
           <div className="author-photo-detail">
-            <img src={author.photo} alt="" />
+            <div className="author-photo-wrapper">
+              <img src={authorPhoto} alt="" />
+              <input
+                type="file"
+                onChange={async e => {
+                  const file = e.target.files[0];
+                  const { data } = await fileUploadMuation({ variables: { file } });
+                  setAuthorPhoto(data?.singleUpload);
+                }}
+              />
+            </div>
             <div className="author-detail">
+              <Button
+                color="green"
+                onClick={() => {
+                  editAuthorMutation({
+                    variables: {
+                      authorId: author.id,
+                      editAuthorArgs: {
+                        born: authorBorn,
+                        died: authorDied,
+                        gernes: authorGernes,
+                        description: authorDescription
+                      }
+                    }
+                  })
+                    .then(() => {
+                      alert("정보를 수정하였습니다.");
+                      router.push("/author/[id]", `/author/${author.id}`);
+                    })
+                    .catch(e => {
+                      alert(e.message);
+                    });
+                }}
+                className="edit-author-submit-button"
+              >
+                수정하기
+              </Button>
               <h1>{author.name}</h1>
-              {!isEmpty(author.gernes) && (
-                <p>
-                  장르 :
-                  {author.gernes.map(gerne => (
-                    <span key={gerne.id}>#{gerne.term} </span>
-                  ))}
-                </p>
-              )}
-              {author.born && (
-                <p>
-                  출생 :
-                  <span>
-                    {author.born} ~ {author.died}
-                  </span>
-                </p>
-              )}
-              <Link href="/add/author/[id]" as={`/add/author/${author.id}`}>
-                <a>...수정하기</a>
-              </Link>
+              <p>
+                장르 :
+                {authorGernes.map((gerne, index) => (
+                  <span key={index}>{`#${gerne} `}</span>
+                ))}
+              </p>
+              <form onSubmit={addGerne}>
+                <Input
+                  color="transparent"
+                  value={gerneInput}
+                  type="text"
+                  onChange={e => setGerneInput(e.target.value)}
+                  placeholder="장르를 엔터로 추가해 주세요"
+                />
+              </form>
+              <p>출생 :</p>
+              <Input
+                placeholder="ex) 1990년 6월"
+                color="transparent"
+                value={authorBorn}
+                onChange={e => setAuthorBorn(e.target.value)}
+              />
+              ~
+              <Input
+                color="transparent"
+                value={authorDied}
+                onChange={e => setAuthorDied(e.target.value)}
+                placeholder="ex) 1994년 6월"
+              />
             </div>
           </div>
-          <div className="author-description">{author.description || "작가의 소개가 없습니다. :("}</div>
+          <TextareaAutosize
+            className="author-description"
+            value={authorDescription}
+            onChange={e => setAuthorDescription(e.target.value)}
+            placeholder="작가 소개"
+          />
           <div className="author-comments">
             <h3>댓글</h3>
             <TextareaAutosize value={commentText} onChange={e => setCommentText(e.target.value)} />
             <div className="author-comment-button-wrapper">
               <Button
                 onClick={() => {
-                  try {
-                    if (commentText === "") {
-                      throw Error("댓글을 입력해 주세요.");
-                    }
-                    addCommentMutation({ variables: { authorId: author.id, text: commentText } }).then(res => {
-                      setCommentList([{ ...res.data.commentAuthor }, ...commentList]);
-                      setCommentText("");
-                    });
-                  } catch (e) {
-                    alert(e.message);
-                  }
+                  alert("수정하기 에서는 댓글을 추가 할수 없습니다.");
                 }}
               >
                 추가하기
               </Button>
             </div>
-            {commentList.map(comment => (
+            {author.comments.map(comment => (
               <div className="author-comment" key={comment.id}>
                 <div className="author-comment-user">
                   <img src={comment?.user?.profilePhoto} alt={comment?.user?.username} />
@@ -266,4 +310,4 @@ const AuthorDetail: React.FC<IProps> = ({ author }) => {
   );
 };
 
-export default AuthorDetail;
+export default EditAuthor;

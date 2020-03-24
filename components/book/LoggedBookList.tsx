@@ -15,7 +15,6 @@ const Container = styled.div`
     position: relative;
     width: 150px;
     margin-right: 20px;
-    margin-top: 10px;
   }
   .logged-book-card-thumbnail {
     position: relative;
@@ -31,7 +30,7 @@ const Container = styled.div`
   }
   .logged-book-card-label-overlay {
     position: absolute;
-    top: 0;
+    top: 9px;
     margin-left: 120px;
     margin-top: -10px;
   }
