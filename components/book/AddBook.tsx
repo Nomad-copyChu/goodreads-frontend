@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import React, { useEffect } from "react";
 import TextArea from "react-textarea-autosize";
 import dynamic from "next/dynamic";
@@ -17,6 +16,7 @@ import AddToShelfButton from "./AddToShelfButton";
 import colors from "../../style/colors";
 import DatePicker from "../common/DatePicker";
 import { GET_AUTHORS_WITH_NAME } from "../../query/author";
+import responsive from "../../style/responsive";
 
 const ReactStars = dynamic(import("react-stars"), { ssr: false });
 
@@ -24,11 +24,26 @@ const Container = styled.div`
   margin-top: 20px;
   position: relative;
   .book-wrapper {
+    width: fit-content;
     display: flex;
+    margin: 60px auto;
+    z-index: 9;
+    @media (max-width: 670px) {
+      flex-direction: column;
+      margin: 0 auto;
+      width: 100%;
+    }
+    @media (max-width: ${responsive.small}) {
+      padding: 20px;
+    }
   }
   .kakao-search-sbumit-wrapper {
     width: 385px;
     margin: auto;
+    @media (max-width: 670px) {
+      width: calc(100% - 140px);
+      margin: 0 20px;
+    }
     .book-submit {
       position: absolute;
       display: flex;
@@ -104,7 +119,13 @@ const Container = styled.div`
   .book-infos {
     width: 385px;
     margin-left: 30px;
-
+    @media (max-width: 670px) {
+      margin: 0;
+      margin-top: 20px;
+    }
+    @media (max-width: ${responsive.small}) {
+      width: 100%;
+    }
     .title-share {
       display: flex;
       justify-content: space-between;
@@ -199,6 +220,76 @@ const Container = styled.div`
   .author-info-wrapper {
     width: 280px;
     margin-left: 40px;
+    @media (max-width: ${responsive.medium}) {
+      display: none;
+    }
+    .author-title {
+      font-size: 21px;
+    }
+    .author-infos {
+      margin-top: 20px;
+      .author-photo-name-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        .plus-button {
+          position: absolute;
+          font-size: 32px;
+          display: block;
+          left: 15px;
+          color: ${colors.gray_700};
+        }
+        .author-photo-input {
+          position: absolute;
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          cursor: pointer;
+          opacity: 0;
+        }
+        .author-profile-photo {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          border: 1px solid ${colors.gray_300};
+        }
+        .author-name {
+          margin-left: 20px;
+          span {
+            font-size: 16px;
+            color: ${colors.blue_green};
+            margin-right: 4px;
+          }
+        }
+      }
+      .author-description {
+        width: 100%;
+        margin-top: 20px;
+        width: 100%;
+        border: 0;
+        outline: none;
+        font-size: 16px;
+        min-height: 180px;
+        width: 100%;
+        resize: none;
+        background-color: transparent;
+      }
+      .author-books {
+        font-size: 21px;
+        margin-top: 20px;
+      }
+      .author-other-book {
+        img {
+          width: 60px;
+          margin-top: 12px;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
+  .mobile-author-info-wrapper {
+    width: 280px;
+    margin-bottom: 18px;
     .author-title {
       font-size: 21px;
     }
@@ -377,6 +468,20 @@ const AddBook: React.FC = () => {
               onChange={e => state.setContents(e.target.value)}
               placeholder="책 소개..."
             />
+            <div className="mobile-author-info-wrapper">
+              <h1 className="author-title">작가</h1>
+              {loading && "loading..."}
+              {state.authorsFromDB.map((author, index) => (
+                <div className="author-infos" key={index}>
+                  <div className="author-photo-name-wrapper">
+                    {!author.photo && <span className="plus-button">+</span>}
+                    <input className="author-photo-input" type="file" onChange={e => changeAuthorPhoto(e, index)} />
+                    <img src={author.photo || "  "} alt="" className="author-profile-photo" />
+                    <p className="author-name">{author.name}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
             <div className="sub-infos">
               <h3>More</h3>
               <div className="info-wrapper">

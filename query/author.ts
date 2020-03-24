@@ -17,6 +17,12 @@ export const GET_AUTHOR = gql`
       name
       photo
       description
+      born
+      died
+      gernes {
+        id
+        term
+      }
       books {
         id
         title
@@ -25,6 +31,15 @@ export const GET_AUTHOR = gql`
       quotes {
         id
         term
+        author {
+          id
+          name
+          photo
+        }
+        tags {
+          id
+          term
+        }
       }
       comments {
         id
@@ -71,6 +86,14 @@ export const COMMENT_AUTHOR = gql`
         username
         profilePhoto
       }
+    }
+  }
+`;
+
+export const EDIT_AUTHOR = gql`
+  mutation editAuthor($authorId: ID!, $editAuthorArgs: EditAuthorArgs) {
+    editAuthor(authorId: $authorId, editAuthorArgs: $editAuthorArgs) {
+      id
     }
   }
 `;

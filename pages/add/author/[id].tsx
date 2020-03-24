@@ -1,15 +1,15 @@
 import React from "react";
 import { NextPage } from "next";
-import AddAuthor from "../../components/author/AddAuthor";
-import { ApolloNextPageContext, Author } from "../../types";
-import { GET_AUTHOR } from "../../query/author";
+import { ApolloNextPageContext, Author } from "../../../types";
+import { GET_AUTHOR } from "../../../query/author";
+import EditAuthor from "../../../components/author/EditAuthor";
 
 interface IProps {
   author?: Author;
 }
 
 const author: NextPage<IProps> = ({ author }) => {
-  return <AddAuthor author={author} />;
+  return <EditAuthor author={author} />;
 };
 
 author.getInitialProps = async ({ query, apolloClient }: ApolloNextPageContext) => {

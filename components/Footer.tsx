@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import colors from "../style/colors";
+import responsive from "../style/responsive";
 
 const Container = styled.div`
   position: relative;
@@ -41,6 +42,9 @@ const Design = styled.div`
   align-items: center;
   font-size: 12px;
   color: ${colors.gray_600};
+  @media (max-width: ${responsive.small}) {
+    display: none;
+  }
 `;
 
 const Footer: React.FC = () => {
