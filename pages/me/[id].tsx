@@ -14,30 +14,57 @@ import colors from "../../style/colors";
 const ReactStars = dynamic(import("react-stars"), { ssr: false });
 
 const Container = styled.div`
+  min-height: 100vh;
   display: flex;
   .dashboard-photo-button-wrapper {
+    margin-top: 82px;
     margin-left: 180px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    @media (max-width: 1150px) {
+      margin-left: 100px;
+    }
+    @media (max-width: 800px) {
+      margin-top: 0px;
+      margin-left: 0px;
+    }
     .dashboard-photo {
       width: 160px;
       height: 160px;
-      margin-top: 82px;
+
       margin-bottom: 16px;
       border-radius: 50%;
+      @media (max-width: 1150px) {
+        width: 100px;
+        height: 100px;
+      }
+      @media (max-width: 800px) {
+        width: 40px;
+        height: 40px;
+      }
     }
   }
   .dashboard-userinfo-wrapper {
     margin-top: 102px;
     margin-left: 50px;
+    @media (max-width: 800px) {
+      margin-top: 0px;
+      margin-left: 20px;
+    }
     .userinfo-name {
       font-size: 21px;
       margin-bottom: 8px;
+      @media (max-width: 1150px) {
+        font-size: 14px;
+      }
     }
     .userinfo-email {
       color: #767676;
       font-size: 16px;
+      @media (max-width: 1150px) {
+        font-size: 12px;
+      }
     }
     .userinfo-avgRating-wrapper {
       display: flex;
@@ -48,6 +75,9 @@ const Container = styled.div`
       margin-top: 3px;
       margin-left: 16px;
       font-size: 14px;
+      @media (max-width: 1150px) {
+        font-size: 11px;
+      }
     }
     .userinfo-border {
       border: 1px solid #d8d8d8;
@@ -60,10 +90,17 @@ const Container = styled.div`
       }
     }
     .userinfo-shelve-wrapper {
+      overflow-y: auto;
+      ::-webkit-scrollbar {
+        display: none;
+      }
       h3 {
         font-weight: 700;
         font-size: 21px;
         color: ${colors.woody_600};
+        @media (max-width: 1150px) {
+          font-size: 15px;
+        }
       }
       .userinfo-shelve-bookWrapper {
         margin-top: 10px;
@@ -80,6 +117,10 @@ const Container = styled.div`
           height: 180px;
           box-sizing: border-box;
           border-radius: 5px;
+          @media (max-width: 1150px) {
+            width: 100px;
+            height: 150px;
+          }
         }
         .userinfo-shelve-title {
           width: 120px;
@@ -94,11 +135,19 @@ const Container = styled.div`
       }
     }
     .userinfo-comment-wrapper {
+      /* height: 630px; */
+      overflow-y: auto;
+      ::-webkit-scrollbar {
+        display: none;
+      }
       width: 474px;
       h3 {
         font-weight: 700;
         font-size: 21px;
         color: ${colors.woody_600};
+        @media (max-width: 1150px) {
+          font-size: 15px;
+        }
       }
       .userinfo-comment-contents {
         display: flex;
@@ -140,10 +189,18 @@ const Container = styled.div`
       }
     }
     .userinfo-quote-wapper {
+      /* height: 630px; */
+      overflow-y: auto;
+      ::-webkit-scrollbar {
+        display: none;
+      }
       h3 {
         font-weight: 700;
         font-size: 21px;
         color: ${colors.woody_600};
+        @media (max-width: 1150px) {
+          font-size: 15px;
+        }
       }
       .userinfo-quote {
         display: flex;
@@ -163,15 +220,33 @@ const ToggleButton = styled.div<{ buttoncolor: boolean }>`
   border: 2px solid #b9ad99;
   box-sizing: border-box;
   border-radius: 5px;
+  .togglebutton-svg {
+    @media (max-width: 1150px) {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  @media (max-width: 1150px) {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 15px;
+  }
   cursor: pointer;
   background-color: ${props => (props?.buttoncolor ? "white" : "transparent")};
   .button-Quote {
     position: absolute;
+    @media (max-width: 1150px) {
+      width: 16px;
+      height: 16px;
+    }
   }
   p {
     color: #b9ad99;
     font-family: Noto Sans KR;
     font-size: 12px;
+    @media (max-width: 1150px) {
+      font-size: 10px;
+    }
   }
 `;
 
@@ -241,16 +316,16 @@ const me: NextPage = () => {
       <div className="dashboard-photo-button-wrapper">
         <img src={user?.profilePhoto} alt={user?.username} className="dashboard-photo" />
         <ToggleButton role="button" onClick={toggleProfile} buttoncolor={toggleColor(profileShow)}>
-          <ButtonProfile />
+          <ButtonProfile className="togglebutton-svg" />
         </ToggleButton>
         <ToggleButton role="button" onClick={toggleBooklist} buttoncolor={toggleColor(booklistShow)}>
-          <ButtonBooklist />
+          <ButtonBooklist className="togglebutton-svg" />
         </ToggleButton>
         <ToggleButton role="button" onClick={toggleComment} buttoncolor={toggleColor(commentShow)}>
-          <Buttoncomment />
+          <Buttoncomment className="togglebutton-svg" />
         </ToggleButton>
         <ToggleButton role="button" onClick={toggleBookAdd} buttoncolor={toggleColor(bookaddShow)}>
-          <ButtonBookadd />
+          <ButtonBookadd className="togglebutton-svg" />
         </ToggleButton>
         <ToggleButton role="button" onClick={toggleQuote} buttoncolor={toggleColor(QuoteShow)}>
           <ButtonQoute className="button-Quote" />
@@ -261,10 +336,9 @@ const me: NextPage = () => {
         <div className="userinfo-name">{user?.username}</div>
         <div className="userinfo-email">{user?.email}</div>
         <div className="userinfo-avgRating-wrapper">
-          <ReactStars count={5} edit={false} value={3.5} size={20} color1="#D8D8D8" color2="#FA604A" />
+          <ReactStars count={5} edit={false} value={3.5} size={14} color1="#D8D8D8" color2="#FA604A" />
           <div className="userinfo-avgRating">3.5</div>
         </div>
-        {/* <div className="userinfo-border" /> */}
         {profileShow && (
           <div className="userinfo-profile-note">
             <p>나이:{user.profile?.age}</p>

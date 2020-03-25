@@ -4,12 +4,12 @@ import colors from "../style/colors";
 import responsive from "../style/responsive";
 
 const Container = styled.div`
-  position: relative;
-  bottom: 0px;
+  /* position: relative; */
+  bottom: 0;
   z-index: 3;
-  left: 0px;
+  left: 0;
   border: 1px solid #d8d8d8;
-  height: 67px;
+  padding: 5px;
   width: 100%;
   background-color: ${colors.beige_400};
   display: flex;
@@ -20,12 +20,20 @@ const Connect = styled.div`
   color: ${colors.gray_800};
   margin-top: 7px;
   margin-left: 30px;
+  @media (max-width: 400px) {
+    margin-left: 10px;
+    font-size: 12px;
+  }
 `;
 
 const Mail = styled.div`
   color: ${colors.gray_600};
   font-size: 12px;
   margin-top: 12px;
+  @media (max-width: 400px) {
+    font-size: 8px;
+    margin-top: 5px;
+  }
 `;
 
 const Column = styled.div`

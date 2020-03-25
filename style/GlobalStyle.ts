@@ -57,7 +57,7 @@ const GlobalStyles = createGlobalStyle`
   body {
     font-family: Noto Sans CJK KR,Noto Sans KR;
     background-color:${colors.beige_400};
-    height: 100vh;
+    min-height: 100vh;
     line-height:1.4;
     ::-webkit-scrollbar {
       display: none;
