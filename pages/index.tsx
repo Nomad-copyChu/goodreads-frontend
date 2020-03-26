@@ -34,7 +34,6 @@ index.getInitialProps = async (ctx: ApolloNextPageContext) => {
       fetchPolicy: "network-only"
     })
   ]);
-  console.log(quoteData, "Data");
   return { books: bookData?.data?.getBooks, authors: authorData?.data?.getAuthors, quotes: quoteData?.data?.getQuotes };
 };
 

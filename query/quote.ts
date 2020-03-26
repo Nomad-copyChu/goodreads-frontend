@@ -18,4 +18,18 @@ export const GET_QUOTES = gql`
   }
 `;
 
+export const ADD_QUOTE = gql`
+  mutation addQuote($term: term, $tags: [tags], $authorName: authorName) {
+    addQuote(term: $term, tags: $tags, authorName: $authorName) {
+      term
+      author {
+        name
+      }
+      tags {
+        term
+      }
+    }
+  }
+`;
+
 export default GET_QUOTES;

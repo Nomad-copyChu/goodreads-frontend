@@ -185,7 +185,7 @@ const Header: NextPage = () => {
             <Question className="header-logged-popup-item-emoticon" />
             <div className="header-logged-popup-item-font">Q&A</div>
           </li>
-          <li className="header-logged-popup-item-Wrapper">
+          <li className="header-logged-popup-item-Wrapper" onClick={() => router.push("/add")}>
             <Add className="header-logged-popup-item-emoticon" />
             <div className="header-logged-popup-item-font">추가하기</div>
           </li>

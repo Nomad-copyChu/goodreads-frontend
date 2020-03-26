@@ -157,7 +157,6 @@ const Container = styled.div`
       outline: none;
       font-size: 16px;
       min-height: 180px;
-      width: 100%;
       resize: none;
       background-color: transparent;
     }
@@ -436,7 +435,7 @@ const AddBook: React.FC = () => {
                   count={5}
                   value={0}
                   onChange={e => console.log(e)}
-                  size={20}
+                  size={19}
                   color1="#D8D8D8"
                   color2="#F5A523"
                 />
