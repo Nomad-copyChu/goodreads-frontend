@@ -41,7 +41,7 @@ const MainWrapper = styled.div`
       margin-top: 30px;
       margin-bottom: 20px;
       @media (max-width: ${responsive.small}) {
-        margin: 0 0 10px;
+        margin: 10px 0 10px;
       }
     }
     .books-slide {
@@ -92,7 +92,8 @@ const MainWrapper = styled.div`
       }
     }
     .main-tags-bestbook-wrapper {
-      width: 45%;
+      width: 100%;
+      max-width: 467px;
       display: flex;
       justify-content: space-between;
       @media (max-width: 870px) {

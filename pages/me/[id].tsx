@@ -7,16 +7,19 @@ import useUser from "../../hooks/useUser";
 import ButtonProfile from "../../public/static/svg/userprofile.svg";
 import ButtonBooklist from "../../public/static/svg/userbooklist.svg";
 import Buttoncomment from "../../public/static/svg/usercomment.svg";
-import ButtonBookadd from "../../public/static/svg/userBookAdd.svg";
-import ButtonQoute from "../../public/static/svg/userquote.svg";
+import QuoteMenuIcon from "../../public/static/svg/me/quote-text-svg.svg";
+import AddBookIcon from "../../public/static/svg/userBookAdd.svg";
 import colors from "../../style/colors";
+import { ApolloNextPageContext, User } from "../../types";
+import { GET_USER_WITH_ID } from "../../query/user";
+import UserComments from "../../components/me/UserComments";
 
 const ReactStars = dynamic(import("react-stars"), { ssr: false });
 
 const Container = styled.div`
   min-height: 100vh;
   display: flex;
-  .dashboard-photo-button-wrapper {
+  .dashboard-photo-menus-wrapper {
     margin-top: 82px;
     margin-left: 180px;
     display: flex;
@@ -42,6 +45,56 @@ const Container = styled.div`
       @media (max-width: 800px) {
         width: 40px;
         height: 40px;
+      }
+    }
+    .dashboard-menu-list {
+      display: flex;
+      flex-direction: column;
+      li {
+        width: 66px;
+        height: 66px;
+        margin-top: 20px;
+        border-radius: 5px;
+        border: 2px solid ${colors.woody_500};
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:hover {
+          border-color: ${colors.black};
+          svg {
+            path {
+              fill: ${colors.black};
+            }
+          }
+        }
+      }
+
+      .togglebutton-svg {
+        @media (max-width: 1150px) {
+          width: 20px;
+          height: 20px;
+        }
+      }
+      @media (max-width: 1150px) {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 15px;
+      }
+      cursor: pointer;
+      .button-Quote {
+        position: absolute;
+        @media (max-width: 1150px) {
+          width: 16px;
+          height: 16px;
+        }
+      }
+      p {
+        color: #b9ad99;
+        font-family: Noto Sans KR;
+        font-size: 12px;
+        @media (max-width: 1150px) {
+          font-size: 10px;
+        }
       }
     }
   }
@@ -89,7 +142,7 @@ const Container = styled.div`
         margin-bottom: 10px;
       }
     }
-    .userinfo-shelve-wrapper {
+    .userinfo-shelf-wrapper {
       overflow-y: auto;
       ::-webkit-scrollbar {
         display: none;
@@ -102,7 +155,7 @@ const Container = styled.div`
           font-size: 15px;
         }
       }
-      .userinfo-shelve-bookWrapper {
+      .userinfo-shelf-bookWrapper {
         margin-top: 10px;
         margin-left: 32px;
         display: flex;
@@ -111,7 +164,7 @@ const Container = styled.div`
         ::-webkit-scrollbar {
           display: none;
         }
-        .userinfo-shelve-thumbnail {
+        .userinfo-shelf-thumbnail {
           margin-right: 16px;
           width: 120px;
           height: 180px;
@@ -122,7 +175,7 @@ const Container = styled.div`
             height: 150px;
           }
         }
-        .userinfo-shelve-title {
+        .userinfo-shelf-title {
           width: 120px;
           font-size: 15px;
           overflow: hidden;
@@ -210,98 +263,15 @@ const Container = styled.div`
   }
 `;
 
-const ToggleButton = styled.div<{ buttoncolor: boolean }>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 66px;
-  height: 66px;
-  margin-bottom: 30px;
-  border: 2px solid #b9ad99;
-  box-sizing: border-box;
-  border-radius: 5px;
-  .togglebutton-svg {
-    @media (max-width: 1150px) {
-      width: 20px;
-      height: 20px;
-    }
-  }
-  @media (max-width: 1150px) {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 15px;
-  }
-  cursor: pointer;
-  background-color: ${props => (props?.buttoncolor ? "white" : "transparent")};
-  .button-Quote {
-    position: absolute;
-    @media (max-width: 1150px) {
-      width: 16px;
-      height: 16px;
-    }
-  }
-  p {
-    color: #b9ad99;
-    font-family: Noto Sans KR;
-    font-size: 12px;
-    @media (max-width: 1150px) {
-      font-size: 10px;
-    }
-  }
-`;
+interface IProps {
+  user: User;
+}
 
-const me: NextPage = () => {
-  const { isLogged, user } = useUser();
-  const [profileShow, setProfileShow] = useState(false);
-  const [booklistShow, setBooklistShow] = useState(false);
-  const [commentShow, setCommentShow] = useState(false);
-  const [bookaddShow, setBookaddShow] = useState(false);
-  const [QuoteShow, setQuoteShow] = useState(false);
-  const toggleColor = (key: boolean) => {
-    if (key) {
-      return true;
-    }
-    return false;
-  };
-  const toggleProfile = () => {
-    setProfileShow(!profileShow);
-    setBooklistShow(false);
-    setCommentShow(false);
-    setBookaddShow(false);
-    setQuoteShow(false);
-  };
+type ProfileFoucsedStatus = "profile" | "shelves" | "comments" | "addBooks" | "quotes";
 
-  const toggleBooklist = () => {
-    setProfileShow(false);
-    setBooklistShow(!booklistShow);
-    setCommentShow(false);
-    setBookaddShow(false);
-    setQuoteShow(false);
-  };
-
-  const toggleComment = () => {
-    setProfileShow(false);
-    setBooklistShow(false);
-    setCommentShow(!commentShow);
-    setBookaddShow(false);
-    setQuoteShow(false);
-  };
-
-  const toggleBookAdd = () => {
-    setProfileShow(false);
-    setBooklistShow(false);
-    setCommentShow(false);
-    setBookaddShow(!bookaddShow);
-    setQuoteShow(false);
-  };
-
-  const toggleQuote = () => {
-    setProfileShow(false);
-    setBooklistShow(false);
-    setCommentShow(false);
-    setBookaddShow(false);
-    setQuoteShow(!QuoteShow);
-  };
+const me: NextPage<IProps> = ({ user }) => {
+  const [focusedStatus, setFocusedStatus] = useState<ProfileFoucsedStatus>("profile");
+  console.log(user);
   const genderTranslation = () => {
     if (user.profile?.gender === "MALE") {
       return "남";
@@ -313,24 +283,25 @@ const me: NextPage = () => {
   };
   return (
     <Container>
-      <div className="dashboard-photo-button-wrapper">
+      <div className="dashboard-photo-menus-wrapper">
         <img src={user?.profilePhoto} alt={user?.username} className="dashboard-photo" />
-        <ToggleButton role="button" onClick={toggleProfile} buttoncolor={toggleColor(profileShow)}>
-          <ButtonProfile className="togglebutton-svg" />
-        </ToggleButton>
-        <ToggleButton role="button" onClick={toggleBooklist} buttoncolor={toggleColor(booklistShow)}>
-          <ButtonBooklist className="togglebutton-svg" />
-        </ToggleButton>
-        <ToggleButton role="button" onClick={toggleComment} buttoncolor={toggleColor(commentShow)}>
-          <Buttoncomment className="togglebutton-svg" />
-        </ToggleButton>
-        <ToggleButton role="button" onClick={toggleBookAdd} buttoncolor={toggleColor(bookaddShow)}>
-          <ButtonBookadd className="togglebutton-svg" />
-        </ToggleButton>
-        <ToggleButton role="button" onClick={toggleQuote} buttoncolor={toggleColor(QuoteShow)}>
-          <ButtonQoute className="button-Quote" />
-          <p>Quote</p>
-        </ToggleButton>
+        <ul className="dashboard-menu-list">
+          <li role="presentation" onClick={() => setFocusedStatus("profile")}>
+            <ButtonProfile className="togglebutton-svg" />
+          </li>
+          <li role="presentation" onClick={() => setFocusedStatus("shelves")}>
+            <ButtonBooklist className="togglebutton-svg" />
+          </li>
+          <li role="presentation" onClick={() => setFocusedStatus("profile")}>
+            <Buttoncomment className="togglebutton-svg" />
+          </li>
+          <li role="presentation" onClick={() => setFocusedStatus("comments")}>
+            <AddBookIcon className="togglebutton-svg" />
+          </li>
+          <li role="presentation" onClick={() => setFocusedStatus("quotes")}>
+            <QuoteMenuIcon className="togglebutton-svg" />
+          </li>
+        </ul>
       </div>
       <div className="dashboard-userinfo-wrapper">
         <div className="userinfo-name">{user?.username}</div>
@@ -339,111 +310,19 @@ const me: NextPage = () => {
           <ReactStars count={5} edit={false} value={3.5} size={14} color1="#D8D8D8" color2="#FA604A" />
           <div className="userinfo-avgRating">3.5</div>
         </div>
-        {profileShow && (
-          <div className="userinfo-profile-note">
-            <p>나이:{user.profile?.age}</p>
-            <p>성별:{genderTranslation()}</p>
-            <p>흥미:{user.profile?.interests}</p>
-            <p>좋아하는 책:{user.profile?.favoriteBook}</p>
-            <p>자기소개:{user.profile?.bio}</p>
-          </div>
-        )}
-        {booklistShow && (
-          <div className="userinfo-shelve-wrapper">
-            <h3>원해요</h3>
-            <div className="userinfo-shelve-bookWrapper">
-              {user.displays.map(display =>
-                display.shelves.map((shelve, i) => {
-                  if (shelve.name === "want") {
-                    return (
-                      <div key={i}>
-                        <Link href="/book/[id]" as={`/book/${display.book.id}`}>
-                          <a>
-                            <img className="userinfo-shelve-thumbnail" src={display.book.thumbnail} alt="" />
-                          </a>
-                        </Link>
-                        <div className="userinfo-shelve-title">{display.book.title}</div>
-                      </div>
-                    );
-                  }
-                  return null;
-                })
-              )}
-            </div>
-            <h3>읽는중</h3>
-            <div className="userinfo-shelve-bookWrapper">
-              {user.displays.map(display =>
-                display.shelves.map((shelve, i) => {
-                  if (shelve.name === "reading") {
-                    return (
-                      <div key={i}>
-                        <Link href="/book/[id]" as={`/book/${display.book.id}`}>
-                          <a>
-                            <img className="userinfo-shelve-thumbnail" src={display.book.thumbnail} alt="" />
-                          </a>
-                        </Link>
-                        <div className="userinfo-shelve-title">{display.book.title}</div>
-                      </div>
-                    );
-                  }
-                  return null;
-                })
-              )}
-            </div>
-            <h3>다읽음</h3>
-            <div className="userinfo-shelve-bookWrapper">
-              {user.displays.map(display =>
-                display.shelves.map((shelve, i) => {
-                  if (shelve.name === "read") {
-                    return (
-                      <div key={i}>
-                        <Link href="/book/[id]" as={`/book/${display.book.id}`}>
-                          <a>
-                            <img className="userinfo-shelve-thumbnail" src={display.book.thumbnail} alt="" />
-                          </a>
-                        </Link>
-                        <div className="userinfo-shelve-title">{display.book.title}</div>
-                      </div>
-                    );
-                  }
-                  return null;
-                })
-              )}
-            </div>
-          </div>
-        )}
-        {commentShow && (
-          <div className="userinfo-comment-wrapper">
-            <h3>내가 쓴 댓글들</h3>
-            <div className="userinfo-comment-contents">
-              {user.bookComments.map((comment, i) => (
-                <div key={i}>
-                  <div className="userinfo-border" />
-                  <div className="userinfo-comment-bookthumbnail-wapper">
-                    <img className="userinfo-comment-bookthumbnail" src={comment.book.thumbnail} alt="" />
-                    <div className="userinfo-comment-info">
-                      <div className="userinfo-comment-userinfo">
-                        <img className="userinfo-comment-photo" src={user.profilePhoto} alt="" />
-                        <span>{user.username}</span>
-                      </div>
-                      <p className="userinfo-comment-text">{comment.text}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-              <div className="userinfo-border" />
-            </div>
-          </div>
-        )}
-        {QuoteShow && (
-          <div className="userinfo-quote-wapper">
-            <h3>내가 좋아하는 명언들</h3>
-            <div className="userinfo-quote">{/* {} */}</div>
-          </div>
-        )}
+        {/* {focusedStatus === "profile" && <UserProfile profile={}/>}
+        {focusedStatus === "shelves" && <UserShelves user={user.fp}  s/>}
+        {focusedStatus === "comments" && <UserComments user={user} />}
+        {focusedStatus === "quotes " && <UserQuotes />} */}
       </div>
     </Container>
   );
 };
 
 export default me;
+
+me.getInitialProps = async ({ query, apolloClient }: ApolloNextPageContext) => {
+  const { id } = query;
+  const { data } = await apolloClient.query({ query: GET_USER_WITH_ID, variables: { userId: id } });
+  return { user: data?.getUserWithId };
+};
