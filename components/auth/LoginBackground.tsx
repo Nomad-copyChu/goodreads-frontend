@@ -1,13 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import LoginBox from "./LoginBox";
 
 const Container = styled.div`
   width: 100%;
   height: 100vh;
   position: relative;
   @media (max-height: 795px) {
-    height: 795px;
+    height: 100vmin;
   }
   .login-background {
     position: relative;
@@ -23,9 +22,17 @@ const Container = styled.div`
     font-weight: bold;
     font-size: 60px;
     z-index: 4;
+    /* @media (max-height: 795px) {
+      font-size: 24px;
+      margin-top: 10px;
+      margin-left: 100px;
+    } */
     p {
       color: white;
       margin-bottom: 18px;
+      /* @media (max-height: 795px) {
+        margin-bottom: 0px;
+      } */
     }
   }
 `;

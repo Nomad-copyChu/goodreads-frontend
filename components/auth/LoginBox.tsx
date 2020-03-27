@@ -32,6 +32,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 320px;
+
     h1 {
       margin: 25px 0px;
       font-size: 21px;

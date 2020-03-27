@@ -5,6 +5,7 @@ import InkPen from "../../public/static/svg/registerSuccess/ink-pen.svg";
 import colors from "../../style/colors";
 
 const Container = styled.div`
+  height: 100vh;
   .card-list {
     margin-top: 200px;
     width: 100%;

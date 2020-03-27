@@ -116,9 +116,9 @@ const quote: NextPage<IProps> = ({ quotes }) => {
           <Input
             color="transparent"
             className="authorName-input"
-            value={state.name}
+            value={state.authorName}
             type="text"
-            onChange={e => state.setName(e.target.value)}
+            onChange={e => state.setAuthorName(e.target.value)}
             placeholder="작가 이름"
             width="100%"
           />
@@ -138,7 +138,6 @@ quote.getInitialProps = async (ctx: ApolloNextPageContext) => {
       fetchPolicy: "network-only"
     })
   ]);
-  // console.log(quoteData, "Data");
   return { quotes: quoteData?.data?.getQuotes };
 };
 

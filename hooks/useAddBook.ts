@@ -47,6 +47,7 @@ export default () => {
       }))
     },
     onCompleted: data => {
+      alert("책이 추가되었습니다.");
       router.push("/book/[id]", `/book/${data.addBook.id}`);
     }
   });

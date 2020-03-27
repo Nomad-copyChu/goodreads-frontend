@@ -5,7 +5,7 @@ import { ADD_QUOTE } from "../query/quote";
 
 export default () => {
   const [term, setTerm] = useState("");
-  const [name, setName] = useState("");
+  const [authorName, setAuthorName] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [likeCount, setLikeCount] = useState(0);
 
@@ -14,12 +14,10 @@ export default () => {
   const [addQuoteMutation, { error: addQuoteMutationError }] = useMutation(ADD_QUOTE, {
     variables: {
       term,
-      author: {
-        name
-      },
       tags: tags.map((term: string) => ({
         term
-      }))
+      })),
+      authorName
     },
     onCompleted: () => {
       router.push("/add/quote");
@@ -27,11 +25,11 @@ export default () => {
   });
   return {
     term,
-    name,
+    authorName,
     tags,
     likeCount,
     setTerm,
-    setName,
+    setAuthorName,
     setTags,
     setLikeCount,
     addQuoteMutation,

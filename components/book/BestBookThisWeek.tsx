@@ -102,37 +102,37 @@ const BestBookThisWeek: React.FC<IProps> = ({ book, className }) => {
       <div className="title">이주의 배스트 책</div>
       <div className="border" />
       <div className="main-bestbook-info">
-        <img className="booksCard" src={book.thumbnail} alt="" />
+        <img className="booksCard" src={book?.thumbnail} alt="" />
         <div className="main-bestbook-column">
           <div>
-            <Link href="/book/[id]" as={`/book/${book.id}`}>
-              <a className="bestbook-title">{book.title}</a>
+            <Link href="/book/[id]" as={`/book/${book?.id}`}>
+              <a className="bestbook-title">{book?.title}</a>
             </Link>
           </div>
           <div className="bestbook-author">
             <span>by</span>
-            {book.authors.map(author => (
+            {book?.authors.map(author => (
               <Link href="/author/[id]" as={`/author/${author.id}`} key={author.id}>
                 <a>{author.name}</a>
               </Link>
             ))}
           </div>
           <div className="rating-text">
-            <ReactStars count={5} edit={false} value={book.avgRating} size={12} color1="#D8D8D8" color2="#FA604A" />
-            <span>{book.avgRating.toFixed(2)}</span>
+            <ReactStars count={5} edit={false} value={book?.avgRating} size={12} color1="#D8D8D8" color2="#FA604A" />
+            <span>{book?.avgRating.toFixed(2)}</span>
           </div>
           <div className="rating-and-review">
-            <Link href="/book/[id]" as={`/book/${book.id}`}>
-              <a>{book.ratedUserNum} ratings</a>
+            <Link href="/book/[id]" as={`/book/${book?.id}`}>
+              <a>{book?.ratedUserNum} ratings</a>
             </Link>
-            <Link href="/book/[id]" as={`/book/${book.id}`}>
-              <a>{book.comments.length} review</a>
+            <Link href="/book/[id]" as={`/book/${book?.id}`}>
+              <a>{book?.comments.length} review</a>
             </Link>
           </div>
-          <AddToShelfButton className="shelfbutton" onClick={() => Router.push(`/book/${book.id}`)} size="medium" />
+          <AddToShelfButton className="shelfbutton" onClick={() => Router.push(`/book/${book?.id}`)} size="medium" />
         </div>
       </div>
-      <div className="contents">{book.contents}</div>
+      <div className="contents">{book?.contents}</div>
     </Container>
   );
 };

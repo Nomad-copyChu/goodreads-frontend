@@ -395,7 +395,7 @@ const AddBook: React.FC = () => {
   return (
     <Container>
       <div className="kakao-search-sbumit-wrapper">
-        <SearchKakaoInput onClick={state.onKakaoResultClick} />
+        <SearchKakaoInput onClick={state.onKakaoResultClick} placeholder="추가할 책을 검색해주세요." />
         <div className="book-submit">
           <Button color="green" onClick={() => state.addBookMutation()}>
             책 등록하기
