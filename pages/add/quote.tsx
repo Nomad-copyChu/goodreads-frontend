@@ -10,6 +10,7 @@ import colors from "../../style/colors";
 import Logo from "../../public/static/svg/goodreadsKr.svg";
 import useAddQuote from "../../hooks/useAddQuote";
 import Input from "../../components/common/Input";
+import Button from "../../components/common/Button";
 
 const Container = styled.div`
   height: 100vh;
@@ -33,8 +34,13 @@ const Container = styled.div`
         font-weight: 550;
       }
       .add-quote-card-wrapper {
+        height: 382px;
+        overflow-y: auto;
         display: flex;
         flex-direction: column;
+        ::-webkit-scrollbar {
+          display: none;
+        }
         .add-quote-card {
           margin-bottom: 8px;
         }
@@ -75,6 +81,13 @@ const Container = styled.div`
       .authorName-input {
         margin-bottom: 15px;
       }
+      .quote-tag-form {
+        margin-bottom: 16px;
+      }
+      .quote-submit-wrapper {
+        width: 74px;
+        margin: 0 0 0 auto;
+      }
     }
   }
 `;
@@ -88,7 +101,7 @@ const quote: NextPage<IProps> = ({ quotes }) => {
   return (
     <Container>
       <div className="add-quote-search">
-        <SearchInput placeholder="책을 검색하세요" />
+        <SearchInput placeholder="궁금한 작가를 검색하세요." />
       </div>
       <div className="add-quote-contents">
         <div className="add-quote-anotherQuote">
@@ -123,6 +136,32 @@ const quote: NextPage<IProps> = ({ quotes }) => {
             width="100%"
           />
           <h5>태그</h5>
+          <form onSubmit={state.addTags} className="quote-tag-form">
+            {state.tags.map((tag, i) => (
+              <span key={i}>{`#${tag}`}</span>
+            ))}
+            <Input
+              color="transparent"
+              value={state.tagInput}
+              type="text"
+              onChange={e => state.setTagInput(e.target.value)}
+              placeholder="엔터로 추가해 주세요"
+            />
+          </form>
+          <div className="quote-submit-wrapper">
+            <Button
+              color="green"
+              onClick={async () => {
+                try {
+                  await state.addQuoteMutation();
+                } catch (e) {
+                  alert(e.message);
+                }
+              }}
+            >
+              추가하기
+            </Button>
+          </div>
         </div>
       </div>
     </Container>

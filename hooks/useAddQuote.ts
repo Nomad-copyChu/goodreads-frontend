@@ -7,6 +7,7 @@ export default () => {
   const [term, setTerm] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState("");
   const [likeCount, setLikeCount] = useState(0);
 
   const router = useRouter();
@@ -14,15 +15,19 @@ export default () => {
   const [addQuoteMutation, { error: addQuoteMutationError }] = useMutation(ADD_QUOTE, {
     variables: {
       term,
-      tags: tags.map((term: string) => ({
-        term
-      })),
-      authorName
+      authorName,
+      tags
     },
     onCompleted: () => {
+      alert("명언이 추가되었습니다.");
       router.push("/add/quote");
     }
   });
+  const addTags = e => {
+    e.preventDefault();
+    setTags(tags => [...tags, tagInput]);
+    setTagInput("");
+  };
   return {
     term,
     authorName,
@@ -33,6 +38,9 @@ export default () => {
     setTags,
     setLikeCount,
     addQuoteMutation,
-    addQuoteMutationError
+    addQuoteMutationError,
+    addTags,
+    tagInput,
+    setTagInput
   };
 };

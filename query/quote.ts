@@ -19,7 +19,7 @@ export const GET_QUOTES = gql`
 `;
 
 export const ADD_QUOTE = gql`
-  mutation addQuote($term: term, $tags: [tags], $authorName: authorName) {
+  mutation addQuote($term: String!, $tags: [String], $authorName: String!) {
     addQuote(term: $term, tags: $tags, authorName: $authorName) {
       term
       author {
