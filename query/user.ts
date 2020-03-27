@@ -3,7 +3,7 @@ import { gql } from "apollo-boost";
 /**
  * * 로그인 한 유저 불러오기
  */
-export const GET_USER = gql`
+export const GET_LOGGED_USER = gql`
   query getUser {
     getUser {
       id
@@ -88,4 +88,48 @@ export const GET_CACHE_USER = gql`
   }
 `;
 
-export default { GET_USER, GET_CACHE_USER };
+/**
+ * * 아이디로 유저 불러오기
+ */
+export const GET_USER_WITH_ID = gql`
+  query getUserWithId($userId: ID!) {
+    getUserWithId(userId: $userId) {
+      id
+      email
+      username
+      profilePhoto
+      bookAvgRating
+      isAdmin
+      profile {
+        age
+        gender
+        bio
+        interests
+        favoriteBook
+      }
+      shelves {
+        id
+        name
+      }
+      displays {
+        book {
+          id
+          title
+          thumbnail
+        }
+        shelves {
+          name
+        }
+      }
+      bookComments {
+        book {
+          id
+          thumbnail
+        }
+        text
+      }
+    }
+  }
+`;
+
+export default { GET_LOGGED_USER, GET_CACHE_USER };

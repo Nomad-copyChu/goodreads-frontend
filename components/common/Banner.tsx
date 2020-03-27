@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import SearchInput from "./SearchInput";
+import responsive from "../../style/responsive";
 
 const Container = styled.div`
   display: flex;
@@ -21,6 +22,9 @@ const Container = styled.div`
     position: absolute;
     align-self: center;
     z-index: 9;
+    @media (max-width: ${responsive.medium}) {
+      top: 145px;
+    }
   }
   .main-search {
     width: 407px;
@@ -35,8 +39,7 @@ const Container = styled.div`
   .banner-text {
     position: absolute;
     font-family: Hoefler Text;
-    top: 60px;
-    left: 180px;
+    text-align: center;
     line-height: 1.2;
     z-index: 9;
     font-size: 50px;
@@ -48,16 +51,14 @@ const Container = styled.div`
       top: 60px;
       left: 50px;
     }
-    @media (max-width: 1173px) {
-      font-size: 32px;
-      align-self: center;
+    @media (max-width: ${responsive.medium}) {
+      font-size: 40px;
+      top: 30px;
+      margin: auto;
       left: auto;
     }
     p {
       color: white;
-      @media (max-width: 1173px) {
-        margin-bottom: 40px;
-      }
     }
   }
 `;

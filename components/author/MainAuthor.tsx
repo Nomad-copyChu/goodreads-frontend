@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import { empty } from "apollo-boost";
+import isEmpty from "lodash/isEmpty";
 import { Author } from "../../types";
 
 const Container = styled.div`
@@ -17,6 +19,7 @@ const Container = styled.div`
     border-radius: 5px;
     display: flex;
     flex-direction: column;
+    height: 100%;
     @media (max-width: 870px) {
       width: 100%;
       margin-bottom: 15px;
@@ -106,16 +109,20 @@ const MainAuthor: React.FC<IProps> = ({ author }) => {
             </span>
           </div>
         </div>
-        <div className="main-author-booksfont">{author?.name}의 책들</div>
-        <div className="main-author-booklist">
-          {author?.books.map(book => (
-            <Link href="/book/[id]" as={`/book/${book.id} `} key={book.id}>
-              <a>
-                <img className="main-author-booklist-thumbnail" src={book.thumbnail} alt="" />
-              </a>
-            </Link>
-          ))}
-        </div>
+        {!isEmpty(author?.books) && (
+          <>
+            <div className="main-author-booksfont">{author?.name}의 책들</div>
+            <div className="main-author-booklist">
+              {author?.books.map(book => (
+                <Link href="/book/[id]" as={`/book/${book.id} `} key={book.id}>
+                  <a>
+                    <img className="main-author-booklist-thumbnail" src={book.thumbnail} alt="" />
+                  </a>
+                </Link>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </Container>
   );
