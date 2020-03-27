@@ -13,3 +13,17 @@ const getTimeStamp = (input: string) => {
   return tempValue;
 };
 export default getTimeStamp;
+
+/**
+ * * 남,여 한글로 리턴하는 함수
+ */
+export const getGender = (gender: string) => {
+  switch (gender) {
+    case "MALE":
+      return "남";
+    case "FEMALE":
+      return "여";
+    default:
+      return "";
+  }
+};

@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
-import Link from "next/link";
 import { NextPage } from "next";
-import useUser from "../../hooks/useUser";
 import ButtonProfile from "../../public/static/svg/userprofile.svg";
 import ButtonBooklist from "../../public/static/svg/userbooklist.svg";
 import Buttoncomment from "../../public/static/svg/usercomment.svg";
@@ -13,6 +11,9 @@ import colors from "../../style/colors";
 import { ApolloNextPageContext, User } from "../../types";
 import { GET_USER_WITH_ID } from "../../query/user";
 import UserComments from "../../components/me/UserComments";
+import UserProfile from "../../components/me/UserProfile";
+import UserShelves from "../../components/me/UserShelves";
+import UserQuotes from "../../components/me/UserQuotes";
 
 const ReactStars = dynamic(import("react-stars"), { ssr: false });
 
@@ -147,6 +148,26 @@ const Container = styled.div`
       ::-webkit-scrollbar {
         display: none;
       }
+      .not-exist-logged-book-card-wrapper {
+        border: 1px solid ${colors.gray_500};
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 24px;
+        margin-right: 16px;
+        width: 120px;
+        height: 180px;
+        box-sizing: border-box;
+        @media (max-width: 1150px) {
+          width: 100px;
+          height: 150px;
+        }
+        p {
+          text-align: center;
+          color: ${colors.gray_600};
+        }
+      }
       h3 {
         font-weight: 700;
         font-size: 21px;
@@ -271,16 +292,6 @@ type ProfileFoucsedStatus = "profile" | "shelves" | "comments" | "addBooks" | "q
 
 const me: NextPage<IProps> = ({ user }) => {
   const [focusedStatus, setFocusedStatus] = useState<ProfileFoucsedStatus>("profile");
-  console.log(user);
-  const genderTranslation = () => {
-    if (user.profile?.gender === "MALE") {
-      return "남";
-    }
-    if (user.profile?.gender === "FEMALE") {
-      return "여";
-    }
-    return null;
-  };
   return (
     <Container>
       <div className="dashboard-photo-menus-wrapper">
@@ -292,10 +303,10 @@ const me: NextPage<IProps> = ({ user }) => {
           <li role="presentation" onClick={() => setFocusedStatus("shelves")}>
             <ButtonBooklist className="togglebutton-svg" />
           </li>
-          <li role="presentation" onClick={() => setFocusedStatus("profile")}>
+          <li role="presentation" onClick={() => setFocusedStatus("comments")}>
             <Buttoncomment className="togglebutton-svg" />
           </li>
-          <li role="presentation" onClick={() => setFocusedStatus("comments")}>
+          <li role="presentation" onClick={() => setFocusedStatus("addBooks")}>
             <AddBookIcon className="togglebutton-svg" />
           </li>
           <li role="presentation" onClick={() => setFocusedStatus("quotes")}>
@@ -307,13 +318,20 @@ const me: NextPage<IProps> = ({ user }) => {
         <div className="userinfo-name">{user?.username}</div>
         <div className="userinfo-email">{user?.email}</div>
         <div className="userinfo-avgRating-wrapper">
-          <ReactStars count={5} edit={false} value={3.5} size={14} color1="#D8D8D8" color2="#FA604A" />
-          <div className="userinfo-avgRating">3.5</div>
+          <ReactStars
+            count={5}
+            edit={false}
+            value={Number(user?.bookAvgRating === "NaN" ? 0 : user?.bookAvgRating)}
+            size={14}
+            color1="#D8D8D8"
+            color2="#FA604A"
+          />
+          <div className="userinfo-avgRating">{user?.bookAvgRating === "NaN" ? 0 : user?.bookAvgRating}</div>
         </div>
-        {/* {focusedStatus === "profile" && <UserProfile profile={}/>}
-        {focusedStatus === "shelves" && <UserShelves user={user.fp}  s/>}
-        {focusedStatus === "comments" && <UserComments user={user} />}
-        {focusedStatus === "quotes " && <UserQuotes />} */}
+        {focusedStatus === "profile" && <UserProfile profile={user.profile} />}
+        {focusedStatus === "shelves" && <UserShelves displays={user.displays} />}
+        {focusedStatus === "comments" && <UserComments bookComments={user.bookComments} />}
+        {/* {focusedStatus === "quotes " && <UserQuotes />} */}
       </div>
     </Container>
   );
