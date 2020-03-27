@@ -13,6 +13,7 @@ import { GET_USER_WITH_ID } from "../../query/user";
 import UserComments from "../../components/me/UserComments";
 import UserProfile from "../../components/me/UserProfile";
 import UserShelves from "../../components/me/UserShelves";
+import UserAddBooks from "../../components/me/UserAddBooks";
 import UserQuotes from "../../components/me/UserQuotes";
 
 const ReactStars = dynamic(import("react-stars"), { ssr: false });
@@ -144,6 +145,7 @@ const Container = styled.div`
       }
     }
     .userinfo-shelf-wrapper {
+      max-height: 600px;
       overflow-y: auto;
       ::-webkit-scrollbar {
         display: none;
@@ -156,6 +158,7 @@ const Container = styled.div`
         align-items: center;
         padding-top: 24px;
         margin-right: 16px;
+        margin-bottom: 16px;
         width: 120px;
         height: 180px;
         box-sizing: border-box;
@@ -228,8 +231,10 @@ const Container = styled.div`
         flex-direction: column;
         .userinfo-comment-bookthumbnail-wapper {
           display: flex;
-          .userinfo-comment-bookthumbnail {
+          .userinfo-comment-bookthumbnail-link {
             margin: 18px;
+          }
+          .userinfo-comment-bookthumbnail {
             width: 60px;
             height: 94px;
             border: 1px solid #d8d8d8;
@@ -244,7 +249,7 @@ const Container = styled.div`
               margin-top: 10px;
               margin-bottom: 10px;
               display: flex;
-              justify-content: center;
+              justify-content: start;
               span {
                 font-size: 14px;
                 margin-left: 12px;
@@ -259,6 +264,23 @@ const Container = styled.div`
               color: #767676;
             }
           }
+        }
+      }
+    }
+    .userinfo-AddBooks-wrapper {
+      h3 {
+        font-size: 21px;
+        margin-bottom: 24px;
+      }
+      .userinfo-AddBooks-shelf-borderbox-Wrapper {
+        display: flex;
+        .userinfo-AddBooks-shelf-borderbox {
+          margin-right: 18px;
+          padding: 6px 15px 6px 15px;
+          font-size: 14px;
+          background: #f4f1ea;
+          border: 1px solid #d6d0c4;
+          border-radius: 5px;
         }
       }
     }
@@ -329,8 +351,9 @@ const me: NextPage<IProps> = ({ user }) => {
           <div className="userinfo-avgRating">{user?.bookAvgRating === "NaN" ? 0 : user?.bookAvgRating}</div>
         </div>
         {focusedStatus === "profile" && <UserProfile profile={user.profile} />}
-        {focusedStatus === "shelves" && <UserShelves displays={user.displays} />}
+        {focusedStatus === "shelves" && <UserShelves shelves={user.shelves} />}
         {focusedStatus === "comments" && <UserComments bookComments={user.bookComments} />}
+        {focusedStatus === "addBooks" && <UserAddBooks name={user.username} shelves={user.shelves} />}
         {/* {focusedStatus === "quotes " && <UserQuotes />} */}
       </div>
     </Container>

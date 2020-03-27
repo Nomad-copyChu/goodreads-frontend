@@ -242,7 +242,11 @@ const index: NextPage<IProps> = ({ gernes, books }) => {
           <div className="new-book-list-wrapper">
             {books.map((book, i) => (
               <div key={i} className="new-book-list">
-                <img src={book.thumbnail} alt="" className="new-book-thumbnail" />
+                <Link href="/book/[id]" as={`/book/${book.id}`}>
+                  <a>
+                    <img src={book.thumbnail} alt="" className="new-book-thumbnail" />
+                  </a>
+                </Link>
                 <div className="new-book-title">{book.title}</div>
               </div>
             ))}
@@ -253,7 +257,11 @@ const index: NextPage<IProps> = ({ gernes, books }) => {
           <div className="popular-book-list-wrapper">
             {books.map((book, i) => (
               <div key={i} className="popular-book-list">
-                <img src={book.thumbnail} alt="" className="popular-book-thumbnail" />
+                <Link href="/book/[id]" as={`/book/${book.id}`}>
+                  <a>
+                    <img src={book.thumbnail} alt="" className="popular-book-thumbnail" />
+                  </a>
+                </Link>
                 <div className="popular-book-title">{book.title}</div>
               </div>
             ))}

@@ -22,6 +22,13 @@ export const GET_LOGGED_USER = gql`
       shelves {
         id
         name
+        displays {
+          book {
+            id
+            title
+            thumbnail
+          }
+        }
       }
       displays {
         book {
@@ -29,11 +36,12 @@ export const GET_LOGGED_USER = gql`
           title
           thumbnail
         }
-        shelves {
-          name
-        }
       }
       bookComments {
+        user {
+          username
+          profilePhoto
+        }
         book {
           id
           thumbnail
@@ -66,6 +74,13 @@ export const GET_CACHE_USER = gql`
       shelves {
         id
         name
+        displays {
+          book {
+            id
+            title
+            thumbnail
+          }
+        }
       }
       displays {
         book {
@@ -73,11 +88,12 @@ export const GET_CACHE_USER = gql`
           title
           thumbnail
         }
-        shelves {
-          name
-        }
       }
       bookComments {
+        user {
+          username
+          profilePhoto
+        }
         book {
           id
           thumbnail
@@ -110,6 +126,13 @@ export const GET_USER_WITH_ID = gql`
       shelves {
         id
         name
+        displays {
+          book {
+            id
+            title
+            thumbnail
+          }
+        }
       }
       displays {
         book {
@@ -117,11 +140,12 @@ export const GET_USER_WITH_ID = gql`
           title
           thumbnail
         }
-        shelves {
-          name
-        }
       }
       bookComments {
+        user {
+          username
+          profilePhoto
+        }
         book {
           id
           thumbnail
@@ -132,4 +156,4 @@ export const GET_USER_WITH_ID = gql`
   }
 `;
 
-export default { GET_LOGGED_USER, GET_CACHE_USER };
+export default { GET_LOGGED_USER, GET_CACHE_USER, GET_USER_WITH_ID };

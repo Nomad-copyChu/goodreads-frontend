@@ -32,4 +32,4 @@ export const ADD_QUOTE = gql`
   }
 `;
 
-export default GET_QUOTES;
+export default { GET_QUOTES, ADD_QUOTE };

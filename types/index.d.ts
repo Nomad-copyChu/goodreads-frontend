@@ -118,6 +118,7 @@ export type Rating = {
 export type Shelf = {
   id: string;
   name: string;
+  displays: Display[];
 };
 
 export type Tag = {

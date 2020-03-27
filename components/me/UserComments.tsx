@@ -1,5 +1,6 @@
 import React from "react";
-import styled from "styled-components";
+import Link from "next/link";
+import isEmpty from "lodash/isEmpty";
 import { User } from "../../types";
 
 interface IProps {
@@ -15,7 +16,11 @@ const UserComments: React.FC<IProps> = ({ bookComments }) => {
           <div key={i}>
             <div className="userinfo-border" />
             <div className="userinfo-comment-bookthumbnail-wapper">
-              <img className="userinfo-comment-bookthumbnail" src={comment.book.thumbnail} alt="" />
+              <Link href="/book/[id]" as={`/book/${comment.book.id} `} key={comment.book.id}>
+                <a className="userinfo-comment-bookthumbnail-link">
+                  <img className="userinfo-comment-bookthumbnail" src={comment.book.thumbnail} alt="" />
+                </a>
+              </Link>
               <div className="userinfo-comment-info">
                 <div className="userinfo-comment-userinfo">
                   <img className="userinfo-comment-photo" src={comment.user.profilePhoto} alt="" />
@@ -27,6 +32,7 @@ const UserComments: React.FC<IProps> = ({ bookComments }) => {
           </div>
         ))}
         <div className="userinfo-border" />
+        {isEmpty(bookComments.map(comment => comment.text)) && <p>아직 쓴 댓글이 없습니다.</p>}
       </div>
     </div>
   );

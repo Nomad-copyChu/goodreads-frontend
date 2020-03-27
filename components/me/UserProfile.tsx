@@ -1,13 +1,14 @@
 import React from "react";
-import styled from "styled-components";
+import Link from "next/link";
 import { User } from "../../types";
 import { getGender } from "../../lib/util";
 
 interface IProps {
   profile: User["profile"];
+  id?: User["id"];
 }
 
-const Profile: React.FC<IProps> = ({ profile }) => {
+const Profile: React.FC<IProps> = ({ profile, id }) => {
   return (
     <div className="userinfo-profile-note">
       <p>나이:{profile?.age}</p>
