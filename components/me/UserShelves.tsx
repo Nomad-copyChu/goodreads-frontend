@@ -8,7 +8,6 @@ interface IProps {
   shelves: User["shelves"];
 }
 
-type ShelfName = "want" | "reading" | "read";
 const UserShelves: React.FC<IProps> = ({ shelves }) => {
   return (
     <div className="userinfo-shelf-wrapper">
