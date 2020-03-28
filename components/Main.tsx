@@ -140,6 +140,7 @@ const Sidebar = styled.div`
     font-family: Roboto;
     color: #aaaaaa;
     font-size: 12px;
+    white-space: pre;
   }
   @media (max-width: ${responsive.medium}) {
     display: none;
