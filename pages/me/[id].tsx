@@ -274,6 +274,11 @@ const Container = styled.div`
       }
       .userinfo-AddBooks-shelf-borderbox-Wrapper {
         display: flex;
+        width: 605px;
+        overflow-x: auto;
+        ::-webkit-scrollbar {
+          display: none;
+        }
         .userinfo-AddBooks-shelf-borderbox {
           margin-right: 18px;
           padding: 6px 15px 6px 15px;
@@ -282,6 +287,9 @@ const Container = styled.div`
           border: 1px solid #d6d0c4;
           border-radius: 5px;
         }
+      }
+      .AddshelfButton {
+        width: 265px;
       }
     }
     .userinfo-quote-wapper {

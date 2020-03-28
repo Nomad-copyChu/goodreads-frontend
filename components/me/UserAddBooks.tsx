@@ -21,25 +21,27 @@ const UserAddBooks: React.FC<IProps> = ({ name, shelves }) => {
           </div>
         ))}
       </div>
-      <Input
-        color="transparent"
-        value={state.addShelfName}
-        type="text"
-        onChange={e => state.setAddShelfName(e.target.value)}
-        placeholder="선반 이름을 입력해주세요"
-      />
-      <Button
-        color="green"
-        onClick={async () => {
-          try {
-            await state.AddShelfMutation();
-          } catch (e) {
-            alert(e.message);
-          }
-        }}
-      >
-        선반추가하기
-      </Button>
+      <div className="AddshelfButton">
+        <Input
+          color="transparent"
+          value={state.name}
+          type="text"
+          onChange={e => state.setName(e.target.value)}
+          placeholder="선반 이름을 입력해주세요"
+        />
+        <Button
+          color="green"
+          onClick={async () => {
+            try {
+              await state.AddShelfMutation();
+            } catch (e) {
+              alert(e.message);
+            }
+          }}
+        >
+          선반추가하기
+        </Button>
+      </div>
     </div>
   );
 };
