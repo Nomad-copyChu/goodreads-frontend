@@ -5,9 +5,9 @@ import { Gerne } from "../../types";
 import colors from "../../style/colors";
 
 const Container = styled.div`
-  height: 17px;
+  margin-top: 8px;
   .flex {
-    font-size: 12px;
+    font-size: 14px;
     margin-top: 2px;
   }
   span {
@@ -21,7 +21,6 @@ interface IProps {
 }
 
 const GetGernes: React.FC<IProps> = ({ gernes }) => {
-  console.log(gernes);
   return (
     <Container>
       {gernes.map((gerne, index) => (

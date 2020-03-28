@@ -11,7 +11,7 @@ import MenuIcon from "../public/static/svg/menu.svg";
 import useUser from "../hooks/useUser";
 import Dashboard from "../public/static/svg/dashboard.svg";
 import Setting from "../public/static/svg/settings.svg";
-import Question from "../public/static/svg/question.svg";
+import BrwonBookList from "../public/static/svg/header/bookShelfBrown.svg";
 import Add from "../public/static/svg/add.svg";
 import Loggedout from "../public/static/svg/loggedout.svg";
 import responsive from "../style/responsive";
@@ -182,7 +182,7 @@ const Header: NextPage = () => {
             <div className="header-logged-popup-item-font">설정</div>
           </li>
           <li className="header-logged-popup-item-Wrapper" onClick={() => router.push("/book")}>
-            <Question className="header-logged-popup-item-emoticon" />
+            <BrwonBookList className="header-logged-popup-item-emoticon" />
             <div className="header-logged-popup-item-font">도서목록</div>
           </li>
           <li className="header-logged-popup-item-Wrapper" onClick={() => router.push("/add")}>

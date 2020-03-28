@@ -97,6 +97,9 @@ const LoginBox: React.FC = () => {
   const router = useRouter();
   const registerRequest = async () => {
     try {
+      if (username === "") {
+        throw Error("유저네임을 입력해주세요");
+      }
       const data = await registerMutation();
       const token = data?.data?.createUser;
       if (token) {

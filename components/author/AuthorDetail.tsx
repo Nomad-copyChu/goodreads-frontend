@@ -16,19 +16,20 @@ const Container = styled.div`
   margin: auto;
   margin-top: 60px;
   justify-content: space-between;
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
   @media (max-width: 760px) {
     margin-top: 0;
   }
-  @media (max-width: 460px) {
-    flex-direction: column;
-  }
+
   @media (max-width: ${responsive.medium}) {
     width: 100%;
     padding: 20px;
   }
   .author-infos-comments {
     width: 575px;
-    @media (max-width: 460px) {
+    @media (max-width: 900px) {
       width: 100%;
     }
     .author-infos {
@@ -38,9 +39,7 @@ const Container = styled.div`
       width: 100%;
       position: relative;
       display: flex;
-      @media (max-width: 760px) {
-        flex-direction: column;
-      }
+
       img {
         width: 100%;
         max-height: 215px;
@@ -50,8 +49,8 @@ const Container = styled.div`
       .author-detail {
         width: 280px;
         margin-left: 20px;
-        @media (max-width: 760px) {
-          margin: 0;
+        @media (max-width: 900px) {
+          width: 100%;
         }
         h1 {
           font-size: 16px;
@@ -142,10 +141,13 @@ const Container = styled.div`
       margin: 20px 0;
       flex-wrap: wrap;
       display: flex;
+
       @media (max-width: 770px) {
         justify-content: space-between;
         .author-book {
           margin-right: 0 !important;
+          font-size: 16px;
+          color: ${colors.woody_800};
         }
       }
       @media (max-width: 770px) {

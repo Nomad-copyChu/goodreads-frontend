@@ -187,7 +187,7 @@ const SearchInput: React.FC<IProps> = ({ placeholder }) => {
           className="result-user"
           role="presentation"
           onClick={() => {
-            router.push(`/user/${(item as User).id}`);
+            router.push(`/me/${(item as User).id}`);
             setPopupStatus(false);
           }}
         >
