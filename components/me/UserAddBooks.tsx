@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Link from "next/link";
+import isEmpty from "lodash/isEmpty";
 import { User } from "../../types";
 import Input from "../common/Input";
 import useAddShelf from "../../hooks/useAddShelf";
@@ -59,11 +61,35 @@ const UserAddBooks: React.FC<IProps> = ({ name, shelves }) => {
         </div>
       )}
       <div className="AddshelfBorderLine" />
-      {shelves.map((shelf, index) => (
-        <h3 key={index}>
-          {name}님의 선반 {shelf.name}
-        </h3>
-      ))}
+      <div className="shelf-booklist-wrapper">
+        {shelves.map((shelf, index) => (
+          <div key={index}>
+            {shelf.displays.map((display, index) => (
+              <div key={index}>
+                {isEmpty() && (
+                  <div>
+                    <h3>
+                      {name}님의 선반 {shelf.name}
+                    </h3>
+                    <div className="shelf-booklist">
+                      {shelf.displays.map((display, index) => (
+                        <div key={index} className="booklist-thumbnail-title-wrapper">
+                          <Link href="/book/[id]" as={`/book/${display.book.id}`}>
+                            <a>
+                              <img src={display.book.thumbnail} alt="" />
+                            </a>
+                          </Link>
+                          <p>{display.book.title}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

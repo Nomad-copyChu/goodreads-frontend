@@ -38,4 +38,12 @@ export const ADD_QUOTE = gql`
   }
 `;
 
+export const LIKE_QUOTE = gql`
+  mutation likeQuote($quoteId: ID!) {
+    likeQuote(quoteId: $quoteId) {
+      id
+    }
+  }
+`;
+
 export default { GET_QUOTES, ADD_QUOTE };

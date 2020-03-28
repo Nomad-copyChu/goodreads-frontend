@@ -5,13 +5,19 @@ import InkPen from "../../public/static/svg/registerSuccess/ink-pen.svg";
 import colors from "../../style/colors";
 
 const Container = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   .card-list {
     margin-top: 200px;
     width: 100%;
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
+    @media (max-width: 800px) {
+      margin-top: 20px;
+    }
     a {
+      margin-right: 20px;
+      margin-bottom: 20px;
       &:hover {
         text-decoration: none;
       }

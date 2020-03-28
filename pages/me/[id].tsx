@@ -312,6 +312,32 @@ const Container = styled.div`
         width: 842px;
         margin-top: 25px;
       }
+      .shelf-booklist-wrapper {
+        width: 842px;
+        height: 565px;
+        overflow: auto;
+        ::-webkit-scrollbar {
+          display: none;
+        }
+      }
+      .shelf-booklist {
+        display: flex;
+        flex-wrap: wrap;
+        .booklist-thumbnail-title-wrapper {
+          margin-right: 20px;
+          display: flex;
+          flex-direction: column;
+          p {
+            width: 124px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* ellipsis line */
+            -webkit-box-orient: vertical;
+          }
+        }
+      }
     }
     .userinfo-quote-wapper {
       /* height: 630px; */
@@ -383,7 +409,7 @@ const me: NextPage<IProps> = ({ user }) => {
         {focusedStatus === "shelves" && <UserShelves shelves={user.shelves} />}
         {focusedStatus === "comments" && <UserComments bookComments={user.bookComments} />}
         {focusedStatus === "addBooks" && <UserAddBooks name={user.username} shelves={user.shelves} />}
-        {/* {focusedStatus === "quotes " && <UserQuotes />} */}
+        {focusedStatus === "quotes" && <UserQuotes />}
       </div>
     </Container>
   );

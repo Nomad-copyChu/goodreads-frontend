@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import SearchInput from "../../components/common/SearchInput";
 import { ApolloNextPageContext, Gerne, Book } from "../../types";
-import { GET_BOOKS } from "../../query";
+import { GET_BOOKS } from "../../query/book";
 import GET_GERNES from "../../query/gernes";
 import BestBookThisWeek from "../../components/book/BestBookThisWeek";
 import colors from "../../style/colors";
@@ -35,7 +35,6 @@ const Container = styled.div`
     }
   }
   .nav-menu {
-    width: 300px;
     z-index: 10px;
     position: absolute;
     overflow-y: auto;
@@ -56,14 +55,14 @@ const Container = styled.div`
   }
   .side-menu-contents {
     .search {
-      margin-top: 60px;
-      width: 254px;
+      margin-top: 20px;
+      width: calc(100% - 20px);
       border-radius: 5px;
     }
-    h2 {
-      margin-top: 24px;
+    .side-menu-header {
       margin-bottom: 24px;
     }
+
     .gerne-wrapper {
       display: flex;
       flex-direction: column;
@@ -212,7 +211,7 @@ const index: NextPage<IProps> = ({ gernes, books }) => {
         <div className="search">
           <SearchInput placeholder="궁금한 책을 검색하세요." />
         </div>
-        <h2>인기있는 장르</h2>
+        <h2 className="side-menu-header">인기있는 장르</h2>
         {max.map((gerne, index) => (
           <div key={index} className="gerne-wrapper">
             <Link href="/gerne">

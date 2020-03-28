@@ -48,7 +48,7 @@ const Container = styled.div`
     align-items: center;
     margin-top: 4px;
     flex-direction: column;
-
+    z-index: 10;
     li {
       font-size: 14px;
       font-size: 14px;

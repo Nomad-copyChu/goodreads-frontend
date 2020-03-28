@@ -37,7 +37,7 @@ book.getInitialProps = async ({ apolloClient, query }: ApolloNextPageContext) =>
     });
     return { book: bookData?.getBook, rating: ratingData.checkRating };
   } catch (e) {
-    console.log(e.message);
+    console.warn(e.message);
   }
   return { book: bookData?.getBook };
 };

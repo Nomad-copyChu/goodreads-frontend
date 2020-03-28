@@ -4,9 +4,9 @@ import { NextPage } from "next";
 import styled from "styled-components";
 import SearchInput from "../../components/common/SearchInput";
 import { Quote, ApolloNextPageContext } from "../../types";
-import QuoteCard from "../../components/quote/QuoteCard";
 import { GET_QUOTES } from "../../query/quote";
 import colors from "../../style/colors";
+import QuoteCard from "../../components/quote/QuoteCard";
 import Logo from "../../public/static/svg/goodreadsKr.svg";
 import useAddQuote from "../../hooks/useAddQuote";
 import Input from "../../components/common/Input";
@@ -104,7 +104,7 @@ const quote: NextPage<IProps> = ({ quotes }) => {
   return (
     <Container>
       <div className="add-quote-search">
-        <SearchInput placeholder="궁금한 작가를 검색하세요." />
+        <SearchInput placeholder="궁금한 것을 검색해 보세요." />
       </div>
       <div className="add-quote-contents">
         <div className="add-quote-anotherQuote">

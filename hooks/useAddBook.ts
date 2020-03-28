@@ -26,7 +26,9 @@ export default () => {
   const [authorsFromDB, setAuthorsFromDB] = useState<AddBookAuthorType[]>([]);
 
   const router = useRouter();
-
+  /**
+   * * 책 추가하기 Mutation
+   */
   const [addBookMutation, { error: addBookMutationError }] = useMutation(ADD_BOOK, {
     variables: {
       bookInfos: {

@@ -5,7 +5,7 @@ import Banner from "./common/Banner";
 import LoggedBookList from "./book/LoggedBookList";
 import BookList from "./book/BookList";
 import MainAuthor from "./author/MainAuthor";
-import { Book, Author, Quote } from "../types";
+import { Book, Author, Quote, Gerne } from "../types";
 import useUser from "../hooks/useUser";
 import GetGernes from "./common/GetGernes";
 import BestBookThisWeek from "./book/BestBookThisWeek";
@@ -150,9 +150,10 @@ interface IProps {
   books: Book[];
   authors: Author[];
   quotes: Quote[];
+  gernes: Gerne[];
 }
 
-const Main: React.FC<IProps> = ({ books, authors, quotes }) => {
+const Main: React.FC<IProps> = ({ books, authors, quotes, gernes }) => {
   const { user, isLogged } = useUser();
   return (
     <Container>
@@ -195,7 +196,7 @@ const Main: React.FC<IProps> = ({ books, authors, quotes }) => {
                 <Link href="tags">
                   <a className="main-tags-title">Tags</a>
                 </Link>
-                <GetGernes />
+                <GetGernes gernes={gernes} />
               </div>
               <div className="best-book-this-week-wrapper">
                 <BestBookThisWeek book={books[2]} />

@@ -419,7 +419,7 @@ const AddBook: React.FC = () => {
             <AddToShelfButton
               size="large"
               onClick={() => alert("책을 추가해 주세요")}
-              onChange={() => console.log()}
+              onChange={() => console.warn()}
               options={[
                 { value: "원해요", label: "원해요" },
                 { value: "읽는중", label: "읽는중" },
@@ -431,14 +431,7 @@ const AddBook: React.FC = () => {
               <p>읽는중 : 0명</p>
               <p>읽음 : 0명</p>
               <div className="stars-wrapper">
-                <ReactStars
-                  count={5}
-                  value={0}
-                  onChange={e => console.log(e)}
-                  size={19}
-                  color1="#D8D8D8"
-                  color2="#F5A523"
-                />
+                <ReactStars count={5} value={0} size={19} color1="#D8D8D8" color2="#F5A523" />
                 <p>0 (0명 투표함)</p>
               </div>
             </div>

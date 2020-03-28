@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useRouter } from "next/router";
 import TextareaAutosize from "react-textarea-autosize";
 import Button from "../common/Button";
 import { Author } from "../../types";
@@ -183,8 +182,6 @@ const EditAuthor: React.FC<IProps> = ({ author }) => {
     setGerneInput("");
   };
 
-  const router = useRouter();
-
   return (
     <Container>
       <div className="author-infos-comments">
@@ -212,13 +209,14 @@ const EditAuthor: React.FC<IProps> = ({ author }) => {
                         born: authorBorn,
                         died: authorDied,
                         gernes: authorGernes,
-                        description: authorDescription
+                        description: authorDescription,
+                        photo: authorPhoto
                       }
                     }
                   })
                     .then(() => {
                       alert("정보를 수정하였습니다.");
-                      router.push("/author/[id]", `/author/${author.id}`);
+                      window.location.href = `/author/${author.id}`;
                     })
                     .catch(e => {
                       alert(e.message);
