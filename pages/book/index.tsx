@@ -273,12 +273,10 @@ index.getInitialProps = async (ctx: ApolloNextPageContext) => {
   //Posts 불러오기
   const [bookData, gerneData] = await Promise.all([
     await apolloClient.query({
-      query: GET_BOOKS,
-      fetchPolicy: "network-only"
+      query: GET_BOOKS
     }),
     await apolloClient.query({
-      query: GET_GERNES,
-      fetchPolicy: "network-only"
+      query: GET_GERNES
     })
   ]);
   return { books: bookData?.data?.getBooks, gernes: gerneData?.data?.getGernes };

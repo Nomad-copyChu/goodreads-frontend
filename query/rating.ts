@@ -18,6 +18,7 @@ export const RATE_BOOK = gql`
 export const CHECK_RATING = gql`
   query checkRating($bookId: ID!) {
     checkRating(bookId: $bookId) {
+      id
       count
     }
   }

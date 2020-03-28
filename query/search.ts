@@ -7,10 +7,12 @@ const SEARCH = gql`
         id
         title
         authors {
+          id
           name
         }
         thumbnail
         gernes {
+          id
           term
         }
       }

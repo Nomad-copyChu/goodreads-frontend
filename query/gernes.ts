@@ -29,6 +29,7 @@ const GET_GERNES = gql`
 export const GET_GERNE_ITEMS = gql`
   query getGerneItems($term: String!) {
     getGerneItems(term: $term) {
+      id
       term
       books {
         id
@@ -60,6 +61,7 @@ export const GET_GERNE_ITEMS = gql`
         totalRating
         avgRating
         addUser {
+          id
           username
         }
         createdAt

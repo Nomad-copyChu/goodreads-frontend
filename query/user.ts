@@ -13,6 +13,7 @@ export const GET_LOGGED_USER = gql`
       bookAvgRating
       isAdmin
       profile {
+        id
         age
         gender
         bio
@@ -23,6 +24,7 @@ export const GET_LOGGED_USER = gql`
         id
         name
         displays {
+          id
           book {
             id
             title
@@ -31,17 +33,21 @@ export const GET_LOGGED_USER = gql`
         }
       }
       displays {
+        id
         book {
           id
           title
           thumbnail
         }
         shelves {
+          id
           name
         }
       }
       bookComments {
+        id
         user {
+          id
           username
           profilePhoto
         }
@@ -68,6 +74,7 @@ export const GET_CACHE_USER = gql`
       bookAvgRating
       isAdmin
       profile {
+        id
         age
         gender
         bio
@@ -78,6 +85,7 @@ export const GET_CACHE_USER = gql`
         id
         name
         displays {
+          id
           book {
             id
             title
@@ -86,17 +94,21 @@ export const GET_CACHE_USER = gql`
         }
       }
       displays {
+        id
         book {
           id
           title
           thumbnail
         }
         shelves {
+          id
           name
         }
       }
       bookComments {
+        id
         user {
+          id
           username
           profilePhoto
         }
@@ -132,10 +144,12 @@ export const GET_USER_WITH_ID = gql`
           name
         }
         tags {
+          id
           term
         }
       }
       profile {
+        id
         age
         gender
         bio
@@ -146,6 +160,7 @@ export const GET_USER_WITH_ID = gql`
         id
         name
         displays {
+          id
           book {
             id
             title
@@ -154,6 +169,7 @@ export const GET_USER_WITH_ID = gql`
         }
       }
       displays {
+        id
         book {
           id
           title
@@ -161,7 +177,9 @@ export const GET_USER_WITH_ID = gql`
         }
       }
       bookComments {
+        id
         user {
+          id
           username
           profilePhoto
         }

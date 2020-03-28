@@ -147,8 +147,7 @@ const SearchInput: React.FC<IProps> = ({ placeholder }) => {
 
   const { data, loading } = useQuery<{ search: [SearchResult] }>(SEARCH, {
     skip: serachValue === "" || value === "",
-    variables: { keyword: serachValue },
-    fetchPolicy: "network-only"
+    variables: { keyword: serachValue }
   });
   const searchLoading = useMemo(() => value !== serachValue || loading, [value, serachValue, loading]);
   const [popupStatus, setPopupStatus] = useState(false);
