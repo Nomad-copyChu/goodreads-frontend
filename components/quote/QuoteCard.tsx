@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Link from "next/link";
 import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
+import { LIKE_QUOTE } from "../../query/quote";
 import { Quote } from "../../types";
 import colors from "../../style/colors";
-import { LIKE_QUOTE } from "../../query/quote";
 
 const Container = styled.div`
   width: 468px;

@@ -349,6 +349,7 @@ const Container = styled.div`
         font-weight: 700;
         font-size: 21px;
         color: ${colors.woody_600};
+        margin-bottom: 33px;
         @media (max-width: 1150px) {
           font-size: 15px;
         }
@@ -356,6 +357,14 @@ const Container = styled.div`
       .userinfo-quote {
         display: flex;
         flex-direction: column;
+        max-height: 506px;
+        overflow: auto;
+        ::-webkit-scrollbar {
+          display: none;
+        }
+        .userinfo-quote-QuoteCard-Wrapper {
+          margin-bottom: 20px;
+        }
       }
     }
   }
@@ -409,7 +418,7 @@ const me: NextPage<IProps> = ({ user }) => {
         {focusedStatus === "shelves" && <UserShelves shelves={user.shelves} />}
         {focusedStatus === "comments" && <UserComments bookComments={user.bookComments} />}
         {focusedStatus === "addBooks" && <UserAddBooks name={user.username} shelves={user.shelves} />}
-        {focusedStatus === "quotes" && <UserQuotes />}
+        {focusedStatus === "quotes" && <UserQuotes likeQuotes={user.likeQuotes} />}
       </div>
     </Container>
   );

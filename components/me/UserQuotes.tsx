@@ -1,11 +1,25 @@
 import React from "react";
-import styled from "styled-components";
+import isEmpty from "lodash/isEmpty";
+import { User } from "../../types";
+import QuoteCard from "../quote/QuoteCard";
 
-const UserQuotes: React.FC = () => {
+interface IProps {
+  likeQuotes: User["likeQuotes"];
+}
+
+const UserQuotes: React.FC<IProps> = ({ likeQuotes }) => {
+  console.log(likeQuotes.map(quote => quote.id));
   return (
     <div className="userinfo-quote-wapper">
       <h3>내가 좋아하는 명언들</h3>
-      <div className="userinfo-quote">{/* {} */}</div>
+      <div className="userinfo-quote">
+        <div className="userinfo-quote-QuoteCard-Wrapper">
+          {likeQuotes.map(quote => (
+            <QuoteCard quote={quote} />
+          ))}
+        </div>
+      </div>
+      {isEmpty() && <p>아직 좋아하는 명언이 없습니다.</p>}
     </div>
   );
 };

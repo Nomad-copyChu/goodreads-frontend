@@ -122,6 +122,19 @@ export const GET_USER_WITH_ID = gql`
       profilePhoto
       bookAvgRating
       isAdmin
+      likeQuotes {
+        id
+        likesCount
+        term
+        author {
+          id
+          photo
+          name
+        }
+        tags {
+          term
+        }
+      }
       profile {
         age
         gender
