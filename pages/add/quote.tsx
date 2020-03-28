@@ -124,7 +124,7 @@ const quote: NextPage<IProps> = ({ quotes }) => {
         </div>
         <div className="add-quote-AddBox">
           <Logo className="add-quote-addBox-logo" />
-          <h3>명언</h3>
+          <h3>명언 추가하기</h3>
           <TextArea
             color="transparent"
             className="term-textarea"

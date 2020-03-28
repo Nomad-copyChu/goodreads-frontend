@@ -24,7 +24,7 @@ const Container = styled.div`
   }
   .even-author-wrapper {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 30px;
     margin-left: 20px;
     @media (max-width: 920px) {
       display: none;
