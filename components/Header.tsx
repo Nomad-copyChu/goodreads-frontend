@@ -211,7 +211,7 @@ const Header: NextPage = () => {
         <Link href="/author" prefetch={false}>
           <a>작가목록</a>
         </Link>
-        <Link href="/quote" prefetch={false}>
+        <Link href="/add/quote" prefetch={false}>
           <a>명언목록</a>
         </Link>
         {isLogged && (

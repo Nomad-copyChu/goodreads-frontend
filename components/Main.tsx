@@ -96,10 +96,10 @@ const MainWrapper = styled.div`
       max-width: 467px;
       display: flex;
       justify-content: space-between;
-      @media (max-width: 870px) {
+      margin-left: 20px;
+      @media (max-width: ${responsive.medium}) {
         margin-left: 0px;
         width: 100%;
-        justify-content: flex-start;
       }
     }
     .main-tags-title {

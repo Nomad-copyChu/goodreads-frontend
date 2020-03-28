@@ -3,7 +3,6 @@ import Link from "next/link";
 import styled from "styled-components";
 import { Quote } from "../../types";
 import colors from "../../style/colors";
-import responsive from "../../style/responsive";
 
 const Container = styled.div`
   width: 468px;
@@ -48,6 +47,7 @@ interface IProps {
 }
 
 const QuoteCard: React.FC<IProps> = ({ quote }) => {
+  console.log(quote);
   return (
     <Container>
       <Link href="/author/[id]" as={`/author/${quote?.author?.id}`}>
@@ -62,7 +62,8 @@ const QuoteCard: React.FC<IProps> = ({ quote }) => {
           <a className="quote-author">― {quote?.author?.name}</a>
         </Link>
         <div className="quote-info-footer">
-          <p className="quote-tags">tags : {quote?.tags.map(tag => tag.term)}</p>
+          <p className="quote-tags">tags : {quote?.tags.map(tag => `#${tag.term} `)}</p>
+          <p className="quote-likes">{quote.likesCount}</p>
         </div>
       </div>
     </Container>

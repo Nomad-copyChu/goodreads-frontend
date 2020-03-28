@@ -18,16 +18,16 @@ const Container = styled.div`
   flex-direction: column;
   .add-quote-search {
     width: 385px;
-    margin-top: 20px;
-    margin-left: 375px;
+    margin: 20px auto 0px;
   }
   .add-quote-contents {
-    margin-top: 166px;
+    margin: auto;
+    margin-top: 80px;
+    width: 875px;
     display: flex;
     .add-quote-anotherQuote {
       display: flex;
       flex-direction: column;
-      margin-left: 330px;
       h3 {
         font-size: 21px;
         margin-bottom: 30px;
@@ -74,6 +74,9 @@ const Container = styled.div`
         width: 258px;
         min-height: 108px;
         margin-bottom: 19px;
+        outline: none;
+        resize: none;
+        padding: 6px;
       }
       h5 {
         font-size: 12px;
@@ -110,6 +113,11 @@ const quote: NextPage<IProps> = ({ quotes }) => {
             {quotes.map((quote, i) => (
               <div key={i} className="add-quote-card">
                 <QuoteCard quote={quote} key={quote.id} />
+              </div>
+            ))}
+            {state.addedQuote.map(quote => (
+              <div key={quote.id} className="add-quote-card">
+                <QuoteCard quote={quote} />
               </div>
             ))}
           </div>
@@ -174,6 +182,7 @@ quote.getInitialProps = async (ctx: ApolloNextPageContext) => {
   const [quoteData] = await Promise.all([
     await apolloClient.query({
       query: GET_QUOTES,
+      variables: { limit: 10 },
       fetchPolicy: "network-only"
     })
   ]);

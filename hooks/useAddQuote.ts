@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
-import { useRouter } from "next/router";
 import { ADD_QUOTE } from "../query/quote";
 
 export default () => {
@@ -8,9 +7,7 @@ export default () => {
   const [authorName, setAuthorName] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
-  const [likeCount, setLikeCount] = useState(0);
-
-  const router = useRouter();
+  const [addedQuote, setAddedQuote] = useState([]);
 
   const [addQuoteMutation, { error: addQuoteMutationError }] = useMutation(ADD_QUOTE, {
     variables: {
@@ -18,9 +15,10 @@ export default () => {
       authorName,
       tags
     },
-    onCompleted: () => {
+    onCompleted: data => {
+      setAddedQuote([...addedQuote, data?.addQuote]);
+      setTags([]);
       alert("명언이 추가되었습니다.");
-      router.push("/add/quote");
     }
   });
   const addTags = e => {
@@ -32,15 +30,14 @@ export default () => {
     term,
     authorName,
     tags,
-    likeCount,
     setTerm,
     setAuthorName,
     setTags,
-    setLikeCount,
     addQuoteMutation,
     addQuoteMutationError,
     addTags,
     tagInput,
-    setTagInput
+    setTagInput,
+    addedQuote
   };
 };

@@ -43,10 +43,9 @@ const Container = styled.div`
     line-height: 1.2;
     z-index: 9;
     font-size: 50px;
-    @media (max-width: 1434px) {
-      top: 60px;
-      left: 100px;
-    }
+    top: 60px;
+    left: 100px;
+
     @media (max-width: 1270px) {
       top: 60px;
       left: 50px;

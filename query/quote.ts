@@ -1,10 +1,11 @@
 import { gql } from "apollo-boost";
 
 export const GET_QUOTES = gql`
-  query getQuotes {
-    getQuotes {
+  query getQuotes($limit: Int) {
+    getQuotes(limit: $limit) {
       id
       term
+      likesCount
       author {
         id
         name
@@ -21,11 +22,16 @@ export const GET_QUOTES = gql`
 export const ADD_QUOTE = gql`
   mutation addQuote($term: String!, $tags: [String], $authorName: String!) {
     addQuote(term: $term, tags: $tags, authorName: $authorName) {
+      id
       term
+      likesCount
       author {
+        id
         name
+        photo
       }
       tags {
+        id
         term
       }
     }

@@ -4,9 +4,10 @@ import Link from "next/link";
 import { empty } from "apollo-boost";
 import isEmpty from "lodash/isEmpty";
 import { Author } from "../../types";
+import SadFaceIcon from "../../public/static/svg/sad.svg";
+import colors from "../../style/colors";
 
 const Container = styled.div`
-  width: calc((100% - 24px) / 2);
   @media (max-width: 870px) {
     width: 100%;
     &:last-child {
@@ -83,6 +84,22 @@ const Container = styled.div`
     box-sizing: border-box;
     border-radius: 5px;
   }
+  .no-main-author-books {
+    width: 60px !important;
+    margin-top: 4px;
+    padding-top: 5px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid ${colors.gray_500};
+    border-radius: 5px;
+    p {
+      margin-top: 4px;
+      font-size: 12px;
+      color: ${colors.gray_600};
+      text-align: center;
+    }
+  }
 `;
 
 interface IProps {
@@ -109,10 +126,11 @@ const MainAuthor: React.FC<IProps> = ({ author }) => {
             </span>
           </div>
         </div>
-        {!isEmpty(author?.books) && (
-          <>
-            <div className="main-author-booksfont">{author?.name}의 책들</div>
-            <div className="main-author-booklist">
+
+        <div className="main-author-booksfont">{author?.name}의 책들</div>
+        <div className="main-author-booklist">
+          {!isEmpty(author?.books) ? (
+            <>
               {author?.books.map(book => (
                 <Link href="/book/[id]" as={`/book/${book.id} `} key={book.id}>
                   <a>
@@ -120,9 +138,18 @@ const MainAuthor: React.FC<IProps> = ({ author }) => {
                   </a>
                 </Link>
               ))}
+            </>
+          ) : (
+            <div className="no-main-author-books">
+              <img src="/static/svg/sad.svg" alt="" />
+              <p>
+                책이
+                <br />
+                없습니다.
+              </p>
             </div>
-          </>
-        )}
+          )}
+        </div>
       </div>
     </Container>
   );
