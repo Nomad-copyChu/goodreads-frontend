@@ -23,9 +23,9 @@ const UserAddBooks: React.FC<IProps> = ({ name, shelves }) => {
       </div>
       <Input
         color="transparent"
-        value={state.name}
+        value={state.addShelfName}
         type="text"
-        onChange={e => state.setName(e.target.value)}
+        onChange={e => state.setAddShelfName(e.target.value)}
         placeholder="선반 이름을 입력해주세요"
       />
       <Button

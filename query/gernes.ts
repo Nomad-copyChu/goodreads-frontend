@@ -6,6 +6,16 @@ const GET_GERNES = gql`
       id
       term
       booksCount
+      books {
+        id
+        title
+        thumbnail
+      }
+      authors {
+        id
+        name
+        photo
+      }
     }
   }
 `;

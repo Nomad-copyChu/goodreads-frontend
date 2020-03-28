@@ -4,21 +4,22 @@ import { useMutation } from "@apollo/react-hooks";
 import { ADD_SHELF } from "../query/shelf";
 
 export default () => {
-  const [name, setName] = useState("");
-  const router = useRouter();
-
+  const [addedShelfName, setAddedShelfName] = useState([]);
+  const [addShelfName, setAddShelfName] = useState("");
   const [AddShelfMutation, { error: AddShelfMutationError }] = useMutation(ADD_SHELF, {
     variables: {
-      name
+      addShelfName
     },
-    onCompleted: () => {
+    onCompleted: data => {
+      setAddedShelfName([...addedShelfName, data?.addShelfName]);
       alert("선반이 추가되었습니다.");
-      router.reload();
     }
   });
   return {
-    name,
-    setName,
+    addedShelfName,
+    setAddedShelfName,
+    addShelfName,
+    setAddShelfName,
     AddShelfMutation,
     AddShelfMutationError
   };
