@@ -182,8 +182,7 @@ quote.getInitialProps = async (ctx: ApolloNextPageContext) => {
   const [quoteData] = await Promise.all([
     await apolloClient.query({
       query: GET_QUOTES,
-      variables: { limit: 10 },
-      fetchPolicy: "network-only"
+      variables: { limit: 10 }
     })
   ]);
   return { quotes: quoteData?.data?.getQuotes };

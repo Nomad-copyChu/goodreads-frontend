@@ -231,6 +231,7 @@ const Container = styled.div`
         position: relative;
         display: flex;
         align-items: center;
+
         .plus-button {
           position: absolute;
           font-size: 32px;
@@ -298,6 +299,9 @@ const Container = styled.div`
         position: relative;
         display: flex;
         align-items: center;
+        @media (min-width: ${responsive.medium}) {
+          display: none;
+        }
         .plus-button {
           position: absolute;
           font-size: 32px;

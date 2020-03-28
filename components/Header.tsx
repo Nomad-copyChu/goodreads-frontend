@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { NextPage } from "next";
 import OutsideClickHandler from "react-outside-click-handler";
 import { useRouter } from "next/router";
 import cookie from "js-cookie";
+import ReactGA from "react-ga";
 import Link from "next/link";
 import Logo from "../public/static/svg/goodreadsKr.svg";
 import colors from "../style/colors";
@@ -157,6 +158,12 @@ const Container = styled.div`
 const Header: NextPage = () => {
   const [show, setShow] = useState(false);
   const [iconShow, setIconShow] = useState(false);
+
+  useEffect(() => {
+    ReactGA.initialize(process.env.GOOGLE_ANALYTIC_ID);
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
+
   const toggleIcon = () => {
     setIconShow(!iconShow);
   };
