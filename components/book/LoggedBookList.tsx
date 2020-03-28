@@ -66,7 +66,6 @@ interface IProps {
   displays: Display[];
 }
 const LoggedBookList: React.FC<IProps> = ({ displays }) => {
-  console.log(displays);
   return (
     <Container>
       {displays?.map((display, i) => (

@@ -12,6 +12,50 @@ export const ADD_BOOK = gql`
 `;
 
 /**
+ * * 책 리스트 불러오기
+ */
+export const GET_BOOKS = gql`
+  query getBooks($gerne: String) {
+    getBooks(gerne: $gerne) {
+      id
+      title
+      authors {
+        id
+        name
+        photo
+        description
+      }
+      gernes {
+        id
+        term
+      }
+      comments {
+        id
+      }
+      thumbnail
+      contents
+      datetime
+      isbn
+      price
+      publisher
+      wantCount
+      readingCount
+      readCount
+      totalRating
+      ratedUserNum
+      totalRating
+      avgRating
+      addUser {
+        id
+        username
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+/**
  * * 책 하나 불러오기
  */
 export const GET_BOOK = gql`

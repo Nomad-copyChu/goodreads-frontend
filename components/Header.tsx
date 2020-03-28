@@ -181,9 +181,9 @@ const Header: NextPage = () => {
             <Setting className="header-logged-popup-item-emoticon" />
             <div className="header-logged-popup-item-font">설정</div>
           </li>
-          <li className="header-logged-popup-item-Wrapper">
+          <li className="header-logged-popup-item-Wrapper" onClick={() => router.push("/book")}>
             <Question className="header-logged-popup-item-emoticon" />
-            <div className="header-logged-popup-item-font">Q&A</div>
+            <div className="header-logged-popup-item-font">도서목록</div>
           </li>
           <li className="header-logged-popup-item-Wrapper" onClick={() => router.push("/add")}>
             <Add className="header-logged-popup-item-emoticon" />
@@ -215,7 +215,7 @@ const Header: NextPage = () => {
           <a>명언목록</a>
         </Link>
         {isLogged && (
-          <Link href="/me/shelf" prefetch={false}>
+          <Link href="/me/[id]" as={`/me/${user.id}`} prefetch={false}>
             <a>나의 선반</a>
           </Link>
         )}

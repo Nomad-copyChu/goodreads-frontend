@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useQuery } from "@apollo/react-hooks";
 import Link from "next/link";
-import GET_GERNES from "../../query/gernes";
 import { Gerne } from "../../types";
 import colors from "../../style/colors";
 
@@ -18,11 +16,15 @@ const Container = styled.div`
   }
 `;
 
-const GetGernes: React.FC = () => {
-  const { data } = useQuery<{ getGernes: Gerne[] }>(GET_GERNES);
+interface IProps {
+  gernes: Gerne[];
+}
+
+const GetGernes: React.FC<IProps> = ({ gernes }) => {
+  console.log(gernes);
   return (
     <Container>
-      {data?.getGernes?.map((gerne, index) => (
+      {gernes.map((gerne, index) => (
         <div key={index} className="flex">
           <Link href="/gerne/[term]" as={`/gerne/${gerne.term}`}>
             <a className="main-tag">{gerne.term}</a>

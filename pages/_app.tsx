@@ -36,7 +36,7 @@ class MyApp extends App<IProps> {
         });
         userprops = data?.getUser;
       } catch (e) {
-        console.log(e.message);
+        console.warn(e.message);
       }
     }
     const appInitialProps: AppInitialProps = await App.getInitialProps(appContext);

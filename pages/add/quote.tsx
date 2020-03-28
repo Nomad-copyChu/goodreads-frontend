@@ -104,7 +104,7 @@ const quote: NextPage<IProps> = ({ quotes }) => {
   return (
     <Container>
       <div className="add-quote-search">
-        <SearchInput placeholder="궁금한 작가를 검색하세요." />
+        <SearchInput placeholder="궁금한 것을 검색해 보세요." />
       </div>
       <div className="add-quote-contents">
         <div className="add-quote-anotherQuote">

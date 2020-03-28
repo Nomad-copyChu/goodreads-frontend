@@ -12,12 +12,7 @@ const Container = styled.div`
 const index: React.FC = () => {
   return (
     <Container>
-      <SearchInput
-        placeholder="궁금한 작가,책을 검색해 보세요."
-        onClick={item => {
-          console.log(item);
-        }}
-      />
+      <SearchInput placeholder="궁금한 작가,책을 검색해 보세요." />
     </Container>
   );
 };

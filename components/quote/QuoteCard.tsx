@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import styled from "styled-components";
+import { useMutation } from "@apollo/react-hooks";
 import { Quote } from "../../types";
 import colors from "../../style/colors";
+import { LIKE_QUOTE } from "../../query/quote";
 
 const Container = styled.div`
   width: 468px;
@@ -40,6 +42,17 @@ const Container = styled.div`
       color: ${colors.gray_600};
     }
   }
+  .quote-likes {
+    font-size: 12px;
+    color: ${colors.green_500};
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-end;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `;
 
 interface IProps {
@@ -47,7 +60,8 @@ interface IProps {
 }
 
 const QuoteCard: React.FC<IProps> = ({ quote }) => {
-  console.log(quote);
+  const [likeQuoteMutation] = useMutation(LIKE_QUOTE, { variables: { quoteId: quote.id } });
+  const [likesCount, setLikesCount] = useState(quote.likesCount || 0);
   return (
     <Container>
       <Link href="/author/[id]" as={`/author/${quote?.author?.id}`}>
@@ -63,7 +77,21 @@ const QuoteCard: React.FC<IProps> = ({ quote }) => {
         </Link>
         <div className="quote-info-footer">
           <p className="quote-tags">tags : {quote?.tags.map(tag => `#${tag.term} `)}</p>
-          <p className="quote-likes">{quote.likesCount}</p>
+          <p
+            className="quote-likes"
+            onClick={async () => {
+              try {
+                await likeQuoteMutation().then(() => {
+                  setLikesCount(likesCount + 1);
+                  alert("명언을 좋아요 하였습니다.");
+                });
+              } catch (e) {
+                alert(e.message);
+              }
+            }}
+          >
+            {likesCount} likes+
+          </p>
         </div>
       </div>
     </Container>

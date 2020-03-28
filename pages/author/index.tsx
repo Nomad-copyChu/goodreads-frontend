@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import { NextPage } from "next";
 import { GET_AUTHORS } from "../../query/author";
 import { ApolloNextPageContext, Author } from "../../types";
