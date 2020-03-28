@@ -212,7 +212,6 @@ const Container = styled.div`
       }
     }
     .userinfo-comment-wrapper {
-      /* height: 630px; */
       overflow-y: auto;
       ::-webkit-scrollbar {
         display: none;
@@ -272,24 +271,46 @@ const Container = styled.div`
         font-size: 21px;
         margin-bottom: 24px;
       }
-      .userinfo-AddBooks-shelf-borderbox-Wrapper {
+      .userinfo-AddBooks-shelf-wrapper {
         display: flex;
-        width: 605px;
-        overflow-x: auto;
-        ::-webkit-scrollbar {
-          display: none;
+        justify-content: space-between;
+        width: 750px;
+        .userinfo-AddBooks-shelf-borderbox-Wrapper {
+          display: flex;
+          width: 505px;
+          overflow-x: auto;
+          ::-webkit-scrollbar {
+            display: none;
+          }
         }
         .userinfo-AddBooks-shelf-borderbox {
           margin-right: 18px;
           padding: 6px 15px 6px 15px;
-          font-size: 14px;
           background: #f4f1ea;
           border: 1px solid #d6d0c4;
           border-radius: 5px;
+          max-height: 32px;
+          font-size: 1rem;
+        }
+        .userinfo-AddBooks-shelf-borderbox-addbutton {
+          margin-right: 18px;
+          padding: 6px 15px 6px 15px;
+          background: #f4f1ea;
+          border: 1px solid #d6d0c4;
+          border-radius: 5px;
+          max-height: 32px;
+          font-size: 1rem;
+          cursor: pointer;
         }
       }
-      .AddshelfButton {
+      .AddshelfInputWraaper {
+        position: absolute;
         width: 265px;
+      }
+      .AddshelfBorderLine {
+        border: 1px solid #d8d8d8;
+        width: 842px;
+        margin-top: 25px;
       }
     }
     .userinfo-quote-wapper {

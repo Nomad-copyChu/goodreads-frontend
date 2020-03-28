@@ -47,7 +47,7 @@ interface IProps {
 }
 
 const QuoteCard: React.FC<IProps> = ({ quote }) => {
-  console.log(quote);
+  // console.log(quote);
   return (
     <Container>
       <Link href="/author/[id]" as={`/author/${quote?.author?.id}`}>

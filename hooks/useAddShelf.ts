@@ -10,9 +10,9 @@ export default () => {
     variables: {
       name
     },
-    onCompleted: data => {
-      setAddedShelfName([...addedShelfName, data?.name]);
+    onCompleted: async data => {
       alert("선반이 추가되었습니다.");
+      await setAddedShelfName([...addedShelfName, data?.createShelf]);
     }
   });
   return {

@@ -11,8 +11,8 @@ interface IProps {
 const UserShelves: React.FC<IProps> = ({ shelves }) => {
   return (
     <div className="userinfo-shelf-wrapper">
-      {shelves.map(shelf => (
-        <div>
+      {shelves.map((shelf, index) => (
+        <div key={index}>
           <h3>{shelf.name}</h3>
           <div className="userinfo-shelf-bookWrapper">
             {shelf.displays.map((display, index) => (
