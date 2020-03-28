@@ -9,7 +9,7 @@ import GET_GERNES from "../../query/gernes";
 import BestBookThisWeek from "../../components/book/BestBookThisWeek";
 import colors from "../../style/colors";
 import Nav from "../../public/static/svg/navigation.svg";
-import Close from "../../public/static/svg/xmark.svg";
+import Close from "../../public/static/svg/common/closeXButton.svg";
 
 const Container = styled.div`
   display: flex;
@@ -21,7 +21,7 @@ const Container = styled.div`
     position: relative;
     overflow-y: auto;
     padding-left: 24px;
-    width: 392px;
+    min-width: 280px;
     border: 1px solid #d6d0c4;
     height: 100%;
     display: flex;
@@ -55,7 +55,8 @@ const Container = styled.div`
   }
   .side-menu-contents {
     .search {
-      margin-top: 20px;
+      margin-top: 40px;
+      margin-bottom: 16px;
       width: calc(100% - 20px);
       border-radius: 5px;
     }
@@ -84,24 +85,20 @@ const Container = styled.div`
   .book-list-Wrapper {
     position: relative;
     display: flex;
-    width: 100%;
-    height: 100%;
     h3 {
       font-size: 21px;
-      margin-top: 60px;
-      margin-bottom: 20px;
+      margin: 60px 20px 20px;
     }
     .books-new {
-      margin-left: 42.5px;
-      width: 50%;
       overflow-y: auto;
       ::-webkit-scrollbar {
         display: none;
       }
       .new-book-list-wrapper {
-        width: 100%;
         display: flex;
         flex-wrap: wrap;
+        border-right: 4px solid ${colors.beige_900};
+        padding: 0 20px;
         .new-book-list {
           width: 150px;
           margin-right: 20px;
@@ -122,23 +119,21 @@ const Container = styled.div`
             text-overflow: ellipsis;
             word-wrap: break-word;
             display: -webkit-box;
-            -webkit-line-clamp: 1; /* ellipsis line */
+            -webkit-line-clamp: 2; /* ellipsis line */
             -webkit-box-orient: vertical;
           }
         }
       }
     }
     .books-popular {
-      margin-left: 42.5px;
-      width: 50%;
       overflow-y: auto;
       ::-webkit-scrollbar {
         display: none;
       }
       .popular-book-list-wrapper {
-        width: 100%;
         display: flex;
         flex-wrap: wrap;
+        padding: 0 20px;
         .popular-book-list {
           width: 150px;
           margin-right: 20px;
@@ -159,7 +154,7 @@ const Container = styled.div`
             text-overflow: ellipsis;
             word-wrap: break-word;
             display: -webkit-box;
-            -webkit-line-clamp: 1; /* ellipsis line */
+            -webkit-line-clamp: 2; /* ellipsis line */
             -webkit-box-orient: vertical;
           }
         }
@@ -178,6 +173,8 @@ const Container = styled.div`
   .navigation-close {
     position: absolute;
     right: 0;
+    width: 16px;
+    height: 16px;
     margin-top: 10px;
     margin-right: 10px;
     cursor: pointer;
@@ -214,7 +211,7 @@ const index: NextPage<IProps> = ({ gernes, books }) => {
         <h2 className="side-menu-header">인기있는 장르</h2>
         {max.map((gerne, index) => (
           <div key={index} className="gerne-wrapper">
-            <Link href="/gerne">
+            <Link href="/gerne/[term]" as={`/gerne/${gerne.term}`}>
               <a className="gerne-interval">#{gerne.term}</a>
             </Link>
           </div>

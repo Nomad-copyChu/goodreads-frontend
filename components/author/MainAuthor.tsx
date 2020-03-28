@@ -60,6 +60,7 @@ const Container = styled.div`
   .author-gerne-wrapper {
     display: flex;
     margin-right: 3px;
+    flex-wrap: wrap;
   }
   .author-gerne {
     font-size: 14px;

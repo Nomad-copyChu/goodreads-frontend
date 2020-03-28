@@ -106,7 +106,7 @@ const MainWrapper = styled.div`
       }
     }
     .main-tags-title {
-      font-size: 14px;
+      font-size: 16px;
     }
 
     .main-borderbox-quote {
@@ -193,9 +193,7 @@ const Main: React.FC<IProps> = ({ books, authors, quotes, gernes }) => {
             </div>
             <div className="main-tags-bestbook-wrapper">
               <div>
-                <Link href="tags">
-                  <a className="main-tags-title">Tags</a>
-                </Link>
+                <p className="main-tags-title">Tags</p>
                 <GetGernes gernes={gernes} />
               </div>
               <div className="best-book-this-week-wrapper">

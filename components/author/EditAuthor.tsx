@@ -10,11 +10,15 @@ import useUpload from "../../hooks/useUpload";
 import useAuthor from "../../hooks/useAuthor";
 
 const Container = styled.div`
-  width: 1083px;
+  width: fit-content;
   display: flex;
   margin: auto;
   margin-top: 60px;
   justify-content: space-between;
+  @media (max-width: 640px) {
+    width: 100%;
+    padding: 20px;
+  }
   .edit-author-submit-button {
     position: absolute;
     right: 0;
@@ -23,6 +27,9 @@ const Container = styled.div`
   }
   .author-infos-comments {
     width: 575px;
+    @media (max-width: 640px) {
+      width: 100%;
+    }
     .author-infos {
       width: 100%;
     }
@@ -38,6 +45,9 @@ const Container = styled.div`
           height: 100%;
           border: 1px solid ${colors.gray_500};
           border-radius: 5px;
+          @media (max-width: 640px) {
+            width: 100%;
+          }
         }
         input {
           position: absolute;
@@ -287,22 +297,6 @@ const EditAuthor: React.FC<IProps> = ({ author }) => {
             ))}
           </div>
         </div>
-      </div>
-      <div className="author-books-quotes">
-        <h2>작가의 책들</h2>
-        <div className="author-books">
-          {author.books.map(book => (
-            <div className="author-book" key={book.id}>
-              <img src={book.thumbnail} alt="" />
-              {book.title}
-            </div>
-          ))}
-        </div>
-        <div className="author-no-book" />
-        <h3>작가의 명언</h3>
-        {author.quotes.map(quote => (
-          <QuoteCard quote={quote} key={quote.id} />
-        ))}
       </div>
     </Container>
   );
