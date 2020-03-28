@@ -139,9 +139,34 @@ const Container = styled.div`
       width: 474px;
     }
     .userinfo-profile-note {
-      p {
-        color: #767676;
+      .editButton {
+        cursor: pointer;
+        text-decoration: underline;
+        color: #00635d;
+      }
+      .Input-Wrapper {
+        display: flex;
         margin-bottom: 10px;
+        p {
+          padding-top: 10px;
+          color: #767676;
+        }
+        .Input {
+          margin: 0px 0px 10px 10px;
+          width: 300px;
+        }
+        .text-area-Input {
+          border: 1px solid #b9ad99;
+          box-sizing: border-box;
+          border-radius: 5px;
+          width: 300px;
+          min-height: 256px;
+          margin-bottom: 19px;
+          margin-left: 10px;
+          outline: none;
+          resize: none;
+          padding: 6px;
+        }
       }
     }
     .userinfo-shelf-wrapper {

@@ -13,8 +13,8 @@ const UserQuotes: React.FC<IProps> = ({ likeQuotes }) => {
       <h3>내가 좋아하는 명언들</h3>
       <div className="userinfo-quote">
         <div className="userinfo-quote-QuoteCard-Wrapper">
-          {likeQuotes.map(quote => (
-            <QuoteCard quote={quote} />
+          {likeQuotes.map((quote, index) => (
+            <QuoteCard key={index} quote={quote} />
           ))}
         </div>
       </div>
