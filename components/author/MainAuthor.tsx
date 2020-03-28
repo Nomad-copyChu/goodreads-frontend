@@ -1,13 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import { empty } from "apollo-boost";
 import isEmpty from "lodash/isEmpty";
 import { Author } from "../../types";
-import SadFaceIcon from "../../public/static/svg/sad.svg";
 import colors from "../../style/colors";
 
 const Container = styled.div`
+  width: 100%;
   @media (max-width: 870px) {
     width: 100%;
     &:last-child {
@@ -104,11 +103,12 @@ const Container = styled.div`
 
 interface IProps {
   author: Author;
+  style?: React.CSSProperties;
 }
 
-const MainAuthor: React.FC<IProps> = ({ author }) => {
+const MainAuthor: React.FC<IProps> = ({ author, style }) => {
   return (
-    <Container>
+    <Container style={style}>
       <div className="main-borderbox-author">
         <div className="main-author-info-wrapper">
           <img className="author-photo" src={author?.photo} alt="" />

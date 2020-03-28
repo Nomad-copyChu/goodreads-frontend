@@ -31,6 +31,7 @@ index.getInitialProps = async (ctx: ApolloNextPageContext) => {
     }),
     await apolloClient.query({
       query: GET_QUOTES,
+      variables: { limit: 3 },
       fetchPolicy: "network-only"
     })
   ]);
