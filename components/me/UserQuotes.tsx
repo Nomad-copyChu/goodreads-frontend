@@ -8,7 +8,6 @@ interface IProps {
 }
 
 const UserQuotes: React.FC<IProps> = ({ likeQuotes }) => {
-  console.log(likeQuotes.map(quote => quote.id));
   return (
     <div className="userinfo-quote-wapper">
       <h3>내가 좋아하는 명언들</h3>
