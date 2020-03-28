@@ -36,6 +36,9 @@ export const GET_LOGGED_USER = gql`
           title
           thumbnail
         }
+        shelves {
+          name
+        }
       }
       bookComments {
         user {
@@ -87,6 +90,9 @@ export const GET_CACHE_USER = gql`
           id
           title
           thumbnail
+        }
+        shelves {
+          name
         }
       }
       bookComments {

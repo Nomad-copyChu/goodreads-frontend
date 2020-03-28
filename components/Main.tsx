@@ -19,6 +19,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+
   /* height: 100%; */
 `;
 const MainWrapper = styled.div`
@@ -62,6 +63,7 @@ const MainWrapper = styled.div`
     .main-authors-warpper {
       display: flex;
       justify-content: space-between;
+
       @media (max-width: 870px) {
         display: block;
       }
@@ -97,6 +99,7 @@ const MainWrapper = styled.div`
       display: flex;
       justify-content: space-between;
       margin-left: 20px;
+      margin-bottom: 60px;
       @media (max-width: ${responsive.medium}) {
         margin-left: 0px;
         width: 100%;
@@ -173,7 +176,7 @@ const Main: React.FC<IProps> = ({ books, authors, quotes }) => {
           )}
           <h2>추천작가</h2>
           <div className="main-authors-warpper">
-            <MainAuthor author={authors[0]} />
+            <MainAuthor author={authors[0]} style={{ marginRight: "20px" }} />
             <MainAuthor author={authors[1]} />
           </div>
           <h2>작가의 명언</h2>
