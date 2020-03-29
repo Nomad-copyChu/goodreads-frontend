@@ -13,7 +13,7 @@ import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 
 const Container = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   .add-quote-search {
@@ -36,6 +36,7 @@ const Container = styled.div`
         font-weight: 550;
       }
       .add-quote-card-wrapper {
+        position: relative;
         height: 382px;
         overflow-y: auto;
         display: flex;
@@ -49,7 +50,7 @@ const Container = styled.div`
       }
     }
     .add-quote-AddBox {
-      position: relative;
+      /* position: relative; */
       margin-left: 112px;
       background-color: white;
       border: 1px solid ${colors.gray_500};

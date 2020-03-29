@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
   @media (max-height: 795px) {
     min-height: 100vh;
@@ -11,7 +11,7 @@ const Container = styled.div`
   .login-background {
     position: relative;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
   }
   .text {
     margin-top: 80px;

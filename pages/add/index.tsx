@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { NextPage } from "next";
 import Link from "next/link";
-import InkPen from "../../public/static/svg/registerSuccess/ink-pen.svg";
+import UserbookShelf from "../../public/static/svg/userbooklistBlack.svg";
 import colors from "../../style/colors";
+import { User, ApolloNextPageContext } from "../../types";
+import { GET_LOGGED_USER } from "../../query/user";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -22,13 +25,18 @@ const Container = styled.div`
         text-decoration: none;
       }
     }
+    .UserBookShelf {
+      width: 240px;
+      height: 240px;
+      margin-bottom: 30px;
+    }
     .card {
       width: 240px;
       height: 374px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      border: 1px solid ${colors.gray_500};
+      border: 1px solid ${colors.gray_600};
       justify-content: flex-end;
       border-radius: 5px;
       padding-bottom: 18px;
@@ -39,7 +47,7 @@ const Container = styled.div`
       }
 
       p {
-        color: ${colors.gray_500};
+        color: ${colors.gray_600};
       }
       .quote {
         color: ${colors.gray_800};
@@ -62,11 +70,15 @@ const Container = styled.div`
   }
 `;
 
-const index: React.FC = () => {
+interface IProps {
+  user: User;
+}
+
+const index: NextPage<IProps> = ({ user }) => {
   return (
     <Container>
       <div className="card-list">
-        <Link href="add/book">
+        <Link href="/add/book">
           <a>
             <div className="card">
               <img src="/static/image/black-book.png" alt="" />
@@ -74,15 +86,15 @@ const index: React.FC = () => {
             </div>
           </a>
         </Link>
-        <Link href="add/author">
+        <Link href="/me/[id]" as={`/me/${user.id}`}>
           <a>
             <div className="card">
-              <InkPen />
-              <p>작가 추가하기</p>
+              <UserbookShelf className="UserBookShelf" />
+              <p>선반 추가하기</p>
             </div>
           </a>
         </Link>
-        <Link href="add/quote">
+        <Link href="/add/quote">
           <a>
             <div className="card">
               <p className="quote">
@@ -99,4 +111,11 @@ const index: React.FC = () => {
   );
 };
 
+index.getInitialProps = async (ctx: ApolloNextPageContext) => {
+  const { apolloClient } = ctx;
+  const { data } = await apolloClient.query({
+    query: GET_LOGGED_USER
+  });
+  return { user: data?.getUser };
+};
 export default index;
