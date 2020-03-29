@@ -5,6 +5,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { LIKE_QUOTE } from "../../query/quote";
 import { Quote } from "../../types";
 import colors from "../../style/colors";
+import useUser from "../../hooks/useUser";
 
 const Container = styled.div`
   width: 468px;
@@ -71,6 +72,7 @@ interface IProps {
 const QuoteCard: React.FC<IProps> = ({ quote }) => {
   const [likeQuoteMutation] = useMutation(LIKE_QUOTE, { variables: { quoteId: quote.id } });
   const [likesCount, setLikesCount] = useState(quote.likesCount || 0);
+  const { user } = useUser();
   return (
     <Container>
       <Link href="/author/[id]" as={`/author/${quote?.author?.id}`}>
@@ -90,6 +92,9 @@ const QuoteCard: React.FC<IProps> = ({ quote }) => {
             className="quote-likes"
             onClick={async () => {
               try {
+                if (!user) {
+                  throw Error("로그인을 해주세요.");
+                }
                 await likeQuoteMutation().then(() => {
                   setLikesCount(likesCount + 1);
                   alert("명언을 좋아요 하였습니다.");

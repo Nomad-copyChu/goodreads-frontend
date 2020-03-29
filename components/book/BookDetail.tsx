@@ -465,7 +465,10 @@ const BookDetail: React.FC<IProps> = ({ book, rating }) => {
         <div className="book-infos">
           <div className="title-share">
             <p className="title">{book.title}</p>
-            <CopyToClipboard text={router?.asPath} onCopy={() => alert(`${router?.asPath} 를 복사했습니다.`)}>
+            <CopyToClipboard
+              text={`https://goodreadskr.jerrynim.com/book${router?.asPath}`}
+              onCopy={() => alert(`https://goodreadskr.jerrynim.com/book${router?.asPath} 를 복사했습니다.`)}
+            >
               <div className="share">
                 <ShareArrow />
                 <span>공유하기</span>
@@ -551,6 +554,9 @@ const BookDetail: React.FC<IProps> = ({ book, rating }) => {
                   try {
                     if (commentText === "") {
                       throw Error("댓글을 입력해 주세요.");
+                    }
+                    if (!user) {
+                      throw Error("로그인이 필요합니다.");
                     }
                     addCommentMutation({ variables: { bookId: book.id, text: commentText } })
                       .then(res => {

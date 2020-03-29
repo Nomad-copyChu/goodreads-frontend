@@ -129,7 +129,11 @@ const BestBookThisWeek: React.FC<IProps> = ({ book, className }) => {
               <a>{book?.comments.length} review</a>
             </Link>
           </div>
-          <AddToShelfButton className="shelfbutton" onClick={() => Router.push(`/book/${book?.id}`)} size="medium" />
+          <AddToShelfButton
+            className="shelfbutton"
+            onClick={() => Router.push("/book/[id]", `/book/${book?.id}`)}
+            size="medium"
+          />
         </div>
       </div>
       <div className="contents">{book?.contents}</div>

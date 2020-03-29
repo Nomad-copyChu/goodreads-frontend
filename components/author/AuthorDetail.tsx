@@ -9,6 +9,7 @@ import colors from "../../style/colors";
 import useAuthor from "../../hooks/useAuthor";
 import QuoteCard from "../quote/QuoteCard";
 import responsive from "../../style/responsive";
+import useUser from "../../hooks/useUser";
 
 const Container = styled.div`
   width: 1083px;
@@ -184,6 +185,7 @@ const AuthorDetail: React.FC<IProps> = ({ author }) => {
   const [commentList, setCommentList] = useState(author?.comments);
   const [commentText, setCommentText] = useState("");
   const { addCommentMutation } = useAuthor();
+  const { user } = useUser();
   return (
     <Container>
       <div className="author-infos-comments">
@@ -208,9 +210,11 @@ const AuthorDetail: React.FC<IProps> = ({ author }) => {
                   </span>
                 </p>
               )}
-              <Link href="/add/author/[id]" as={`/add/author/${author?.id}`}>
-                <a>...수정하기</a>
-              </Link>
+              {!!user && (
+                <Link href="/add/author/[id]" as={`/add/author/${author?.id}`}>
+                  <a>...수정하기</a>
+                </Link>
+              )}
             </div>
           </div>
           <div className="author-description">{author?.description || "작가의 소개가 없습니다. :("}</div>

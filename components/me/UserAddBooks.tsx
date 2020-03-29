@@ -35,7 +35,7 @@ const UserAddBooks: React.FC<IProps> = ({ name, shelves }) => {
             </Button>
           ))}
         </div>
-        {name === user.username && (
+        {!!user && name === user.username && (
           <Button width="fit-content" className="add-shelf-button" onClick={toggleAddButton}>
             추가하기
           </Button>

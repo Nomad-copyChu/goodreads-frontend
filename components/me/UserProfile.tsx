@@ -46,7 +46,7 @@ const Profile: React.FC<IProps> = ({ profile, id }) => {
     <div className="userinfo-profile-note">
       <div role="button" onClick={() => toggleEditButton()} className="editButton">
         {!editShow ? (
-          <>{id === user.id && "프로필 수정하기"}</>
+          <>{!!user && id === user.id && "프로필 수정하기"}</>
         ) : (
           <Button
             color="green"
