@@ -76,6 +76,7 @@ const Container = styled.div`
     display: flex;
     margin-bottom: 7px;
     align-items: center;
+    overflow: scroll;
   }
   .main-author-booklist-thumbnail {
     margin-right: 12px;

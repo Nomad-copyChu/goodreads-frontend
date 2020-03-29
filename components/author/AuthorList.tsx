@@ -17,13 +17,13 @@ const Container = styled.div`
     margin-bottom: 20px;
   }
   .ood-author-wrapper {
-    width: 100%;
+    width: 50%;
     @media (max-width: 920px) {
       display: none;
     }
   }
   .even-author-wrapper {
-    width: 100%;
+    width: 50%;
     margin-top: 30px;
     margin-left: 20px;
     @media (max-width: 920px) {
