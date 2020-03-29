@@ -77,6 +77,9 @@ const Container = styled.div`
     margin-bottom: 7px;
     align-items: center;
     overflow: scroll;
+    ::-webkit-scrollbar {
+      display: none;
+    }
   }
   .main-author-booklist-thumbnail {
     margin-right: 12px;

@@ -256,10 +256,14 @@ const AuthorDetail: React.FC<IProps> = ({ author }) => {
         <h2>작가의 책들</h2>
         <div className="author-books">
           {author.books.map(book => (
-            <div className="author-book" key={book.id}>
-              <img src={book.thumbnail} alt="" />
-              {book.title}
-            </div>
+            <Link href="/book/[id]" as={`/book/${book.id}`}>
+              <a>
+                <div className="author-book" key={book.id}>
+                  <img src={book.thumbnail} alt="" />
+                  {book.title}
+                </div>
+              </a>
+            </Link>
           ))}
         </div>
         <div className="author-no-book" />
