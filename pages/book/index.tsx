@@ -243,7 +243,7 @@ const index: NextPage<IProps> = ({ gernes, books }) => {
           <Nav onClick={toggleSidebar} className="navigation" />
           <div className={`nav-menu ${show ? "right300" : ""}`}>{SideMenu()}</div>
         </div>
-        <div className="books-newㄴ">
+        <div className="books-new">
           <h3>새로나온책</h3>
           <div className="new-book-list-wrapper">
             {books.map((book, i) => (

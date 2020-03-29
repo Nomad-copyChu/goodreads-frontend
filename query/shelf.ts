@@ -9,4 +9,20 @@ export const ADD_SHELF = gql`
   }
 `;
 
-export default ADD_SHELF;
+export const GET_SHELF = gql`
+  query getShelves {
+    getShelves {
+      id
+      name
+      displays {
+        id
+        book {
+          id
+          title
+        }
+      }
+    }
+  }
+`;
+
+export default { ADD_SHELF, GET_SHELF };
