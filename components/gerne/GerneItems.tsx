@@ -5,8 +5,12 @@ import BookList from "../book/BookList";
 import MainAuthor from "../author/MainAuthor";
 
 const Container = styled.div`
+  min-height: 100vh;
   width: 875px;
   margin: auto;
+  @media (max-width: 875px) {
+    width: 100%;
+  }
   h1 {
     margin-top: 20px;
     font-size: 21px;
@@ -14,16 +18,26 @@ const Container = styled.div`
   }
 
   .book-list-wrapper {
-    overflow: scroll;
+    overflow: auto;
+    ::-webkit-scrollbar {
+      display: none;
+    }
   }
   .gerne-author-list-wrapper {
     margin-top: 20px;
     margin-bottom: 60px;
-    overflow: scroll;
+    overflow: auto;
+    ::-webkit-scrollbar {
+      display: none;
+    }
     .gerne-author-list {
       display: flex;
       flex-wrap: wrap;
       width: max-content;
+      overflow: auto;
+      ::-webkit-scrollbar {
+        display: none;
+      }
     }
   }
 `;

@@ -145,6 +145,7 @@ const Container = styled.div`
     }
     .userinfo-shelf-wrapper {
       max-height: 600px;
+      overflow: auto;
       ::-webkit-scrollbar {
         display: none;
       }
@@ -259,6 +260,9 @@ const Container = styled.div`
             }
           }
         }
+        p {
+          color: #767676;
+        }
       }
     }
     .userinfo-AddBooks-wrapper {
@@ -340,6 +344,9 @@ const Container = styled.div`
       overflow-y: auto;
       ::-webkit-scrollbar {
         display: none;
+      }
+      p {
+        color: #767676;
       }
       h3 {
         font-weight: 700;

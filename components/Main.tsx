@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import Banner from "./common/Banner";
 import LoggedBookList from "./book/LoggedBookList";
 import BookList from "./book/BookList";
@@ -37,7 +38,7 @@ const MainWrapper = styled.div`
       padding: 20px;
       width: 100%;
     }
-    h2 {
+    .main-title {
       font-size: 21px;
       margin-top: 30px;
       margin-bottom: 20px;
@@ -156,6 +157,7 @@ interface IProps {
 
 const Main: React.FC<IProps> = ({ books, authors, quotes, gernes }) => {
   const { user, isLogged } = useUser();
+  const router = useRouter();
   return (
     <Container>
       <Banner />
@@ -163,25 +165,33 @@ const Main: React.FC<IProps> = ({ books, authors, quotes, gernes }) => {
         <div className="main-contents">
           {isLogged ? (
             <div>
-              <h2>나의 선반 책들</h2>
+              <div className="main-title" role="button" onClick={() => router.push("/book")}>
+                나의 선반 책들
+              </div>
               <div className="books-slide">
                 <LoggedBookList displays={user?.displays} />
               </div>
             </div>
           ) : (
             <div>
-              <h2>추천하는 도서</h2>
+              <div className="main-title" role="button" onClick={() => router.push("/book")}>
+                추천하는 도서
+              </div>
               <div className="books-slide">
                 <BookList books={books} />
               </div>
             </div>
           )}
-          <h2>추천작가</h2>
+          <div className="main-title" role="button" onClick={() => router.push("/author")}>
+            추천작가
+          </div>
           <div className="main-authors-warpper">
             <MainAuthor author={authors[0]} style={{ marginRight: "20px" }} />
             <MainAuthor author={authors[1]} />
           </div>
-          <h2>작가의 명언</h2>
+          <div className="main-title" role="button" onClick={() => router.push("/add/quote")}>
+            작가의 명언
+          </div>
           <div className="main-quote-tags-best-wrapper">
             <div className="main-quote-container">
               <div className="main-quote-borderbox-wrapper">
