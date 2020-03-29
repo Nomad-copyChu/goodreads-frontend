@@ -3,6 +3,7 @@ import styled from "styled-components";
 import dynamic from "next/dynamic";
 import { NextPage } from "next";
 import Head from "next/head";
+import { useMutation } from "@apollo/react-hooks";
 import ButtonProfile from "../../public/static/svg/userprofile.svg";
 import ButtonBooklist from "../../public/static/svg/userbooklist.svg";
 import Buttoncomment from "../../public/static/svg/usercomment.svg";
@@ -10,45 +11,30 @@ import QuoteMenuIcon from "../../public/static/svg/me/quote-text-svg.svg";
 import AddBookIcon from "../../public/static/svg/userBookAdd.svg";
 import colors from "../../style/colors";
 import { ApolloNextPageContext, User } from "../../types";
-import { GET_USER_WITH_ID } from "../../query/user";
+import { GET_USER_WITH_ID, CHANGE_PROFILE_PHOTO } from "../../query/user";
 import UserComments from "../../components/me/UserComments";
 import UserProfile from "../../components/me/UserProfile";
 import UserShelves from "../../components/me/UserShelves";
 import UserAddBooks from "../../components/me/UserAddBooks";
 import UserQuotes from "../../components/me/UserQuotes";
+import useUpload from "../../hooks/useUpload";
 
 const ReactStars = dynamic(import("react-stars"), { ssr: false });
 
 const Container = styled.div`
   min-height: 100vh;
   display: flex;
+  @media (max-width: 600px) {
+    padding: 20px;
+  }
   .dashboard-photo-menus-wrapper {
     margin-top: 82px;
     margin-left: 180px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    @media (max-width: 1150px) {
-      margin-left: 100px;
-    }
     @media (max-width: 800px) {
-      margin-top: 0px;
-      margin-left: 0px;
-    }
-    .dashboard-photo {
-      width: 160px;
-      height: 160px;
-
-      margin-bottom: 16px;
-      border-radius: 50%;
-      @media (max-width: 1150px) {
-        width: 100px;
-        height: 100px;
-      }
-      @media (max-width: 800px) {
-        width: 40px;
-        height: 40px;
-      }
+      margin: 0;
     }
     .dashboard-menu-list {
       display: flex;
@@ -72,73 +58,51 @@ const Container = styled.div`
         }
       }
 
-      .togglebutton-svg {
-        @media (max-width: 1150px) {
-          width: 20px;
-          height: 20px;
-        }
-      }
-      @media (max-width: 1150px) {
-        width: 40px;
-        height: 40px;
-        margin-bottom: 15px;
-      }
       cursor: pointer;
       .button-Quote {
         position: absolute;
-        @media (max-width: 1150px) {
-          width: 16px;
-          height: 16px;
-        }
       }
       p {
         color: #b9ad99;
         font-family: Noto Sans KR;
         font-size: 12px;
-        @media (max-width: 1150px) {
-          font-size: 10px;
-        }
       }
     }
   }
   .dashboard-userinfo-wrapper {
     margin-top: 102px;
-    margin-left: 50px;
-    @media (max-width: 800px) {
-      margin-top: 0px;
-      margin-left: 20px;
+    margin-left: 30px;
+    width: 100%;
+    max-width: 550px;
+    overflow: hidden;
+    @media (max-width: 600px) {
+      margin-top: 16px;
     }
     .userinfo-name {
       font-size: 21px;
       margin-bottom: 8px;
-      @media (max-width: 1150px) {
-        font-size: 14px;
-      }
     }
     .userinfo-email {
       color: #767676;
       font-size: 16px;
       margin-bottom: 8px;
-      @media (max-width: 1150px) {
-        font-size: 12px;
-      }
     }
     .userinfo-avgRating-wrapper {
       display: flex;
       align-items: center;
-      margin-bottom: 25px;
+      margin-bottom: 12px;
     }
     .userinfo-avgRating {
       margin-top: 3px;
       margin-left: 16px;
       font-size: 14px;
-      @media (max-width: 1150px) {
-        font-size: 11px;
-      }
     }
     .userinfo-border {
       border: 1px solid #d8d8d8;
       width: 474px;
+      @media (max-width: 600px) {
+        width: 100%;
+      }
     }
     .userinfo-profile-note {
       .editButton {
@@ -181,7 +145,6 @@ const Container = styled.div`
     }
     .userinfo-shelf-wrapper {
       max-height: 600px;
-      overflow-y: auto;
       ::-webkit-scrollbar {
         display: none;
       }
@@ -197,10 +160,7 @@ const Container = styled.div`
         width: 120px;
         height: 180px;
         box-sizing: border-box;
-        @media (max-width: 1150px) {
-          width: 100px;
-          height: 150px;
-        }
+
         p {
           text-align: center;
           color: ${colors.gray_600};
@@ -210,16 +170,14 @@ const Container = styled.div`
         font-weight: 700;
         font-size: 21px;
         color: ${colors.woody_600};
-        @media (max-width: 1150px) {
-          font-size: 15px;
-        }
       }
       .userinfo-shelf-bookWrapper {
         margin-top: 10px;
-        margin-left: 32px;
         display: flex;
         overflow-x: scroll;
-        width: 474px;
+        width: 100%;
+        @media (max-width: 600px) {
+        }
         ::-webkit-scrollbar {
           display: none;
         }
@@ -229,10 +187,6 @@ const Container = styled.div`
           height: 180px;
           box-sizing: border-box;
           border-radius: 5px;
-          @media (max-width: 1150px) {
-            width: 100px;
-            height: 150px;
-          }
         }
         .userinfo-shelf-title {
           width: 120px;
@@ -247,18 +201,24 @@ const Container = styled.div`
       }
     }
     .userinfo-comment-wrapper {
+      width: 474px;
+      @media (max-width: 600px) {
+        div {
+          width: 100%;
+        }
+        width: 100%;
+      }
+      h3 {
+        margin-bottom: 12px;
+      }
       overflow-y: auto;
       ::-webkit-scrollbar {
         display: none;
       }
-      width: 474px;
       h3 {
         font-weight: 700;
         font-size: 21px;
         color: ${colors.woody_600};
-        @media (max-width: 1150px) {
-          font-size: 15px;
-        }
       }
       .userinfo-comment-contents {
         display: flex;
@@ -302,18 +262,21 @@ const Container = styled.div`
       }
     }
     .userinfo-AddBooks-wrapper {
+      position: relative;
       h3 {
         font-size: 21px;
-        margin-bottom: 24px;
+        margin-bottom: 12px;
+        color: ${colors.woody_800};
       }
       .userinfo-AddBooks-shelf-wrapper {
-        display: flex;
-        justify-content: space-between;
-        width: 750px;
+        width: 100%;
         .userinfo-AddBooks-shelf-borderbox-Wrapper {
           display: flex;
-          width: 505px;
+          width: 100%;
           overflow-x: auto;
+          button {
+            margin-bottom: 12px;
+          }
           ::-webkit-scrollbar {
             display: none;
           }
@@ -339,16 +302,14 @@ const Container = styled.div`
         }
       }
       .AddshelfInputWraaper {
-        position: absolute;
-        width: 265px;
       }
       .AddshelfBorderLine {
         border: 1px solid #d8d8d8;
-        width: 842px;
+        width: 100%;
         margin-top: 25px;
       }
       .shelf-booklist-wrapper {
-        width: 842px;
+        width: 100%;
         height: 565px;
         overflow: auto;
         ::-webkit-scrollbar {
@@ -384,10 +345,7 @@ const Container = styled.div`
         font-weight: 700;
         font-size: 21px;
         color: ${colors.woody_600};
-        margin-bottom: 33px;
-        @media (max-width: 1150px) {
-          font-size: 15px;
-        }
+        margin-bottom: 20px;
       }
       .userinfo-quote {
         display: flex;
@@ -406,6 +364,42 @@ const Container = styled.div`
   .mr-12 {
     margin-right: 12px;
   }
+  .dashboard-photo-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    img {
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+    }
+    input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      opacity: 0;
+      cursor: pointer;
+    }
+  }
+  .userinfo-AddBooks-shelf-borderbox-Wrapper {
+    flex-wrap: wrap;
+  }
+  .add-shelf-button {
+    margin-top: 12px;
+  }
+  .me-quote-wapper {
+    margin-bottom: 16px;
+    @media (max-width: 650px) {
+      div {
+        width: 100%;
+      }
+    }
+  }
+  .me-shelf-books {
+  }
 `;
 
 interface IProps {
@@ -416,6 +410,9 @@ type ProfileFoucsedStatus = "profile" | "shelves" | "comments" | "addBooks" | "q
 
 const me: NextPage<IProps> = ({ user }) => {
   const [focusedStatus, setFocusedStatus] = useState<ProfileFoucsedStatus>("profile");
+  const { fileUploadMuation } = useUpload();
+  const [userPhoto, setUserPhoto] = useState(user?.profilePhoto);
+  const [changeProfilePhotoMutation] = useMutation(CHANGE_PROFILE_PHOTO);
   return (
     <>
       <Head>
@@ -423,7 +420,24 @@ const me: NextPage<IProps> = ({ user }) => {
       </Head>
       <Container>
         <div className="dashboard-photo-menus-wrapper">
-          <img src={user?.profilePhoto} alt={user?.username} className="dashboard-photo" />
+          <div className="dashboard-photo-wrapper">
+            <img src={userPhoto} alt={user?.username} className="dashboard-photo" />
+            <input
+              type="file"
+              onChange={async e => {
+                try {
+                  const file = e.target.files[0];
+                  const { data } = await fileUploadMuation({ variables: { file } });
+                  const { data: changeData } = await changeProfilePhotoMutation({
+                    variables: { url: data?.singleUpload }
+                  });
+                  setUserPhoto(changeData?.chageProfilePhoto.profilePhoto);
+                } catch (e) {
+                  alert(e.message);
+                }
+              }}
+            />
+          </div>
           <ul className="dashboard-menu-list">
             <li role="presentation" onClick={() => setFocusedStatus("profile")}>
               <ButtonProfile className="togglebutton-svg" />

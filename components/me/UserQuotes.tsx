@@ -14,7 +14,9 @@ const UserQuotes: React.FC<IProps> = ({ likeQuotes }) => {
       <div className="userinfo-quote">
         <div className="userinfo-quote-QuoteCard-Wrapper">
           {likeQuotes.map((quote, index) => (
-            <QuoteCard key={index} quote={quote} />
+            <div className="me-quote-wapper" key={quote.id}>
+              <QuoteCard key={index} quote={quote} />
+            </div>
           ))}
         </div>
       </div>
