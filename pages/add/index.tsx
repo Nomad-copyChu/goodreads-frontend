@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import Head from "next/head";
+import { NextPage } from "next";
 import Link from "next/link";
 import InkPen from "../../public/static/svg/registerSuccess/ink-pen.svg";
 import colors from "../../style/colors";
@@ -62,40 +64,45 @@ const Container = styled.div`
   }
 `;
 
-const index: React.FC = () => {
+const index: NextPage = () => {
   return (
-    <Container>
-      <div className="card-list">
-        <Link href="add/book">
-          <a>
-            <div className="card">
-              <img src="/static/image/black-book.png" alt="" />
-              <p>책 추가하기</p>
-            </div>
-          </a>
-        </Link>
-        <Link href="add/author">
-          <a>
-            <div className="card">
-              <InkPen />
-              <p>작가 추가하기</p>
-            </div>
-          </a>
-        </Link>
-        <Link href="add/quote">
-          <a>
-            <div className="card">
-              <p className="quote">
-                “닭을 죽인자는 미워하되
-                <br />
-                튀긴자는 미워하지 말라"
-              </p>
-              <p>명언 추가하기</p>
-            </div>
-          </a>
-        </Link>
-      </div>
-    </Container>
+    <>
+      <Head>
+        <title>추가하기 | 굿리즈</title>
+      </Head>
+      <Container>
+        <div className="card-list">
+          <Link href="add/book">
+            <a>
+              <div className="card">
+                <img src="/static/image/black-book.png" alt="" />
+                <p>책 추가하기</p>
+              </div>
+            </a>
+          </Link>
+          <Link href="add/author">
+            <a>
+              <div className="card">
+                <InkPen />
+                <p>작가 추가하기</p>
+              </div>
+            </a>
+          </Link>
+          <Link href="add/quote">
+            <a>
+              <div className="card">
+                <p className="quote">
+                  “닭을 죽인자는 미워하되
+                  <br />
+                  튀긴자는 미워하지 말라"
+                </p>
+                <p>명언 추가하기</p>
+              </div>
+            </a>
+          </Link>
+        </div>
+      </Container>
+    </>
   );
 };
 

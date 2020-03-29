@@ -1,0 +1,16 @@
+{
+  "name": "goodreadsKr-jerrynim",
+  "short_name": "goodreadsKr",
+  "icons": [
+    {
+      "src": "/book-cat.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "background_color": "#FFFFFF",
+  "description": "copychu팀의 gooreadsKr 입니다. 자신만의 책들을 찾고 등록해 보세요.",
+  "display": "standalone",
+  "start_url": "/",
+  "theme_color": "#FFFFFF"
+}

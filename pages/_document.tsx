@@ -30,8 +30,12 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
-        <Head />
+      <Html lang="ko">
+        <Head>
+          <meta name="description" content="copychu팀의 gooreadsKr 입니다. 자신만의 책들을 찾고 등록해 보세요." />
+          <link rel="manifest" href="/manifest.json" />
+          <link rel="icon" type="image/png" sizes="192x192" href="/book-cat.png" />
+        </Head>
         <body>
           <Main />
           <NextScript />

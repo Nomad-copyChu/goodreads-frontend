@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import { NextPage } from "next";
+import Head from "next/head";
 import ButtonProfile from "../../public/static/svg/userprofile.svg";
 import ButtonBooklist from "../../public/static/svg/userbooklist.svg";
 import Buttoncomment from "../../public/static/svg/usercomment.svg";
@@ -416,48 +417,53 @@ type ProfileFoucsedStatus = "profile" | "shelves" | "comments" | "addBooks" | "q
 const me: NextPage<IProps> = ({ user }) => {
   const [focusedStatus, setFocusedStatus] = useState<ProfileFoucsedStatus>("profile");
   return (
-    <Container>
-      <div className="dashboard-photo-menus-wrapper">
-        <img src={user?.profilePhoto} alt={user?.username} className="dashboard-photo" />
-        <ul className="dashboard-menu-list">
-          <li role="presentation" onClick={() => setFocusedStatus("profile")}>
-            <ButtonProfile className="togglebutton-svg" />
-          </li>
-          <li role="presentation" onClick={() => setFocusedStatus("shelves")}>
-            <ButtonBooklist className="togglebutton-svg" />
-          </li>
-          <li role="presentation" onClick={() => setFocusedStatus("comments")}>
-            <Buttoncomment className="togglebutton-svg" />
-          </li>
-          <li role="presentation" onClick={() => setFocusedStatus("addBooks")}>
-            <AddBookIcon className="togglebutton-svg" />
-          </li>
-          <li role="presentation" onClick={() => setFocusedStatus("quotes")}>
-            <QuoteMenuIcon className="togglebutton-svg" />
-          </li>
-        </ul>
-      </div>
-      <div className="dashboard-userinfo-wrapper">
-        <div className="userinfo-name">{user?.username}</div>
-        <div className="userinfo-email">{user?.email}</div>
-        <div className="userinfo-avgRating-wrapper">
-          <ReactStars
-            count={5}
-            edit={false}
-            value={Number(user?.bookAvgRating === "NaN" ? 0 : user?.bookAvgRating)}
-            size={14}
-            color1="#D8D8D8"
-            color2="#FA604A"
-          />
-          <div className="userinfo-avgRating">{user?.bookAvgRating === "NaN" ? 0 : user?.bookAvgRating}</div>
+    <>
+      <Head>
+        <title>회원님 {user.username} | 굿리즈</title>
+      </Head>
+      <Container>
+        <div className="dashboard-photo-menus-wrapper">
+          <img src={user?.profilePhoto} alt={user?.username} className="dashboard-photo" />
+          <ul className="dashboard-menu-list">
+            <li role="presentation" onClick={() => setFocusedStatus("profile")}>
+              <ButtonProfile className="togglebutton-svg" />
+            </li>
+            <li role="presentation" onClick={() => setFocusedStatus("shelves")}>
+              <ButtonBooklist className="togglebutton-svg" />
+            </li>
+            <li role="presentation" onClick={() => setFocusedStatus("comments")}>
+              <Buttoncomment className="togglebutton-svg" />
+            </li>
+            <li role="presentation" onClick={() => setFocusedStatus("addBooks")}>
+              <AddBookIcon className="togglebutton-svg" />
+            </li>
+            <li role="presentation" onClick={() => setFocusedStatus("quotes")}>
+              <QuoteMenuIcon className="togglebutton-svg" />
+            </li>
+          </ul>
         </div>
-        {focusedStatus === "profile" && <UserProfile profile={user.profile} id={user.id} />}
-        {focusedStatus === "shelves" && <UserShelves shelves={user.shelves} />}
-        {focusedStatus === "comments" && <UserComments bookComments={user.bookComments} />}
-        {focusedStatus === "addBooks" && <UserAddBooks name={user.username} shelves={user.shelves} />}
-        {focusedStatus === "quotes" && <UserQuotes likeQuotes={user.likeQuotes} />}
-      </div>
-    </Container>
+        <div className="dashboard-userinfo-wrapper">
+          <div className="userinfo-name">{user?.username}</div>
+          <div className="userinfo-email">{user?.email}</div>
+          <div className="userinfo-avgRating-wrapper">
+            <ReactStars
+              count={5}
+              edit={false}
+              value={Number(user?.bookAvgRating === "NaN" ? 0 : user?.bookAvgRating)}
+              size={14}
+              color1="#D8D8D8"
+              color2="#FA604A"
+            />
+            <div className="userinfo-avgRating">{user?.bookAvgRating === "NaN" ? 0 : user?.bookAvgRating}</div>
+          </div>
+          {focusedStatus === "profile" && <UserProfile profile={user.profile} id={user.id} />}
+          {focusedStatus === "shelves" && <UserShelves shelves={user.shelves} />}
+          {focusedStatus === "comments" && <UserComments bookComments={user.bookComments} />}
+          {focusedStatus === "addBooks" && <UserAddBooks name={user.username} shelves={user.shelves} />}
+          {focusedStatus === "quotes" && <UserQuotes likeQuotes={user.likeQuotes} />}
+        </div>
+      </Container>
+    </>
   );
 };
 

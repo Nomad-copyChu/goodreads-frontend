@@ -1,5 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
+import Head from "next/head";
 import { GET_AUTHORS } from "../../query/author";
 import { ApolloNextPageContext, Author } from "../../types";
 import AuthorList from "../../components/author/AuthorList";
@@ -9,7 +10,14 @@ interface IProps {
 }
 
 const authList: NextPage<IProps> = ({ authors }) => {
-  return <AuthorList authors={authors} />;
+  return (
+    <>
+      <Head>
+        <title>작가목록 | 굿리즈</title>
+      </Head>
+      <AuthorList authors={authors} />
+    </>
+  );
 };
 
 authList.getInitialProps = async ({ apolloClient }: ApolloNextPageContext) => {

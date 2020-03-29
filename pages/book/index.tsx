@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import styled from "styled-components";
 import { useState } from "react";
+import Head from "next/head";
 import Link from "next/link";
 import SearchInput from "../../components/common/SearchInput";
 import { ApolloNextPageContext, Gerne, Book } from "../../types";
@@ -201,28 +202,33 @@ const index: NextPage<IProps> = ({ gernes, books }) => {
       })
       .slice(0, 6);
     return (
-      <div className="side-menu-contents">
-        <div role="button" onClick={() => setShow(!show)}>
-          <Close className="navigation-close" />
-        </div>
-        <div className="search">
-          <SearchInput placeholder="궁금한 책을 검색하세요." />
-        </div>
-        <h2 className="side-menu-header">인기있는 장르</h2>
-        {max.map((gerne, index) => (
-          <div key={index} className="gerne-wrapper">
-            <Link href="/gerne/[term]" as={`/gerne/${gerne.term}`}>
-              <a className="gerne-interval">#{gerne.term}</a>
-            </Link>
+      <>
+        <Head>
+          <title>도서 목록 | 굿리즈</title>
+        </Head>
+        <div className="side-menu-contents">
+          <div role="button" onClick={() => setShow(!show)}>
+            <Close className="navigation-close" />
           </div>
-        ))}
-        <div className="division-border" />
-        <div className="bestbook-Wrapper">
-          <BestBookThisWeek book={books[1]} className="bestbook" />
-          <BestBookThisWeek book={books[2]} className="bestbook" />
-          <BestBookThisWeek book={books[3]} className="bestbook" />
+          <div className="search">
+            <SearchInput placeholder="궁금한 책을 검색하세요." />
+          </div>
+          <h2 className="side-menu-header">인기있는 장르</h2>
+          {max.map((gerne, index) => (
+            <div key={index} className="gerne-wrapper">
+              <Link href="/gerne/[term]" as={`/gerne/${gerne.term}`}>
+                <a className="gerne-interval">#{gerne.term}</a>
+              </Link>
+            </div>
+          ))}
+          <div className="division-border" />
+          <div className="bestbook-Wrapper">
+            <BestBookThisWeek book={books[1]} className="bestbook" />
+            <BestBookThisWeek book={books[2]} className="bestbook" />
+            <BestBookThisWeek book={books[3]} className="bestbook" />
+          </div>
         </div>
-      </div>
+      </>
     );
   };
   return (

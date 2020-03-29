@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { NextPage } from "next";
+import Head from "next/head";
 import { ApolloNextPageContext, Book, Author, Quote, Gerne } from "../types";
 import { GET_BOOKS } from "../query/book";
 
@@ -16,7 +17,14 @@ interface IProps {
 }
 
 const index: NextPage<IProps> = ({ books, authors, quotes, gernes }) => {
-  return <Main books={books} authors={authors} quotes={quotes} gernes={gernes} />;
+  return (
+    <>
+      <Head>
+        <title>goodreadsKr</title>
+      </Head>
+      <Main books={books} authors={authors} quotes={quotes} gernes={gernes} />
+    </>
+  );
 };
 
 index.getInitialProps = async (ctx: ApolloNextPageContext) => {

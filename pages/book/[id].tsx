@@ -1,5 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
+import Head from "next/head";
 import { ApolloNextPageContext, Book } from "../../types";
 import { GET_BOOK } from "../../query/book";
 import BookDetail from "../../components/book/BookDetail";
@@ -11,7 +12,14 @@ interface IProps {
 }
 
 const book: NextPage<IProps> = ({ book, rating }) => {
-  return <BookDetail book={book} rating={rating} />;
+  return (
+    <>
+      <Head>
+        <title>책 ${book.title} | 굿리즈</title>
+      </Head>
+      <BookDetail book={book} rating={rating} />
+    </>
+  );
 };
 
 book.getInitialProps = async ({ apolloClient, query }: ApolloNextPageContext) => {
