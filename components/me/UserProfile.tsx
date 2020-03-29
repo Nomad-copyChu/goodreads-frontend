@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
+import isNaN from "lodash/isNaN";
 import { User } from "../../types";
 import { getGender } from "../../lib/util";
 import useProfile from "../../hooks/useProfile";
@@ -12,12 +13,11 @@ interface IProps {
 }
 
 const Profile: React.FC<IProps> = ({ profile, id }) => {
-  // const [username, setUsername] = useState("");
-  const [userAge, setUserAge] = useState("");
-  const [usergender, setUserGender] = useState("");
-  const [userinterests, setUserInterests] = useState("");
-  const [userfavoriteBook, setUserFavoriteBook] = useState("");
-  const [userbio, setUserBio] = useState("");
+  const [userAge, setUserAge] = useState(profile?.age ? `${profile.age}` : "");
+  const [usergender, setUserGender] = useState(profile?.gender || "MALE");
+  const [userinterests, setUserInterests] = useState(profile?.interests || "");
+  const [userfavoriteBook, setUserFavoriteBook] = useState(profile?.favoriteBook || "");
+  const [userbio, setUserBio] = useState(profile?.bio || "");
   const { editProfileMutation } = useProfile();
 
   const [editShow, setEditShow] = useState(false);
@@ -26,22 +26,18 @@ const Profile: React.FC<IProps> = ({ profile, id }) => {
     setEditShow(!editShow);
   };
 
-  const genderTrans = () => {
-    switch (usergender) {
-      case "남":
-        return "MALE";
-      case "male":
-        return "MALE";
-      case "Male":
-        return "MALE";
-      case "여":
-        return "FEMALE";
-      case "female":
-        return "FEMALE";
-      case "Female":
-        return "FEMALE";
-      default:
-        return "MALE";
+  /**
+   * * 입력값이 올바른지 확인하기
+   */
+  const validateInputs = () => {
+    try {
+      if (isNaN(parseInt(userAge, 10))) {
+        throw Error("숫자를 입력해 주세요");
+      }
+      return true;
+    } catch (e) {
+      alert(e.message);
+      return false;
     }
   };
 
@@ -49,27 +45,29 @@ const Profile: React.FC<IProps> = ({ profile, id }) => {
     <div className="userinfo-profile-note">
       <div role="button" onClick={() => toggleEditButton()} className="editButton">
         {!editShow ? (
-          "...edit"
+          "프로필 수정하기"
         ) : (
           <Button
             color="green"
             onClick={() => {
-              editProfileMutation({
-                variables: {
-                  age: userAge,
-                  gender: genderTrans(),
-                  interests: userinterests,
-                  favoriteBook: userfavoriteBook,
-                  bio: userbio
-                }
-              })
-                .then(() => {
-                  alert("정보를 수정하였습니다.");
-                  window.location.href = `/me/${id}`;
+              if (validateInputs()) {
+                editProfileMutation({
+                  variables: {
+                    age: parseInt(userAge, 10),
+                    gender: usergender,
+                    interests: userinterests,
+                    favoriteBook: userfavoriteBook,
+                    bio: userbio
+                  }
                 })
-                .catch(e => {
-                  alert(e.message);
-                });
+                  .then(() => {
+                    alert("정보를 수정하였습니다.");
+                    window.location.href = `/me/${id}`;
+                  })
+                  .catch(() => {
+                    window.location.href = `/me/${id}`;
+                  });
+              }
             }}
           >
             수정완료
@@ -92,14 +90,26 @@ const Profile: React.FC<IProps> = ({ profile, id }) => {
       <div className="Input-Wrapper">
         <p>성별:{!editShow && getGender(profile?.gender)}</p>
         {editShow && (
-          <Input
-            className="Input"
-            color="transparent"
-            value={usergender}
-            type="text"
-            onChange={e => setUserGender(e.target.value)}
-            placeholder="성별을 입력해주세요(ex. 남 or 여)"
-          />
+          <div className="Input">
+            <input
+              type="radio"
+              name="gener"
+              value="남"
+              checked={usergender === "MALE"}
+              onClick={() => setUserGender("MALE")}
+              onChange={() => {}}
+            />
+            남
+            <input
+              type="radio"
+              name="gener"
+              value="여"
+              checked={usergender === "FEMALE"}
+              onClick={() => setUserGender("FEMALE")}
+              onChange={() => {}}
+            />
+            여
+          </div>
         )}
       </div>
       <div className="Input-Wrapper">
@@ -128,7 +138,7 @@ const Profile: React.FC<IProps> = ({ profile, id }) => {
           />
         )}
       </div>
-      <div className="Input-Wrapper">
+      <div className="Input-Wrapper text-area-wrapper">
         <p>자기소개:{!editShow && profile?.bio}</p>
         {editShow && (
           <TextareaAutosize

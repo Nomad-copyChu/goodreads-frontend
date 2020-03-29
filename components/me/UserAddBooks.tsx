@@ -17,25 +17,26 @@ const UserAddBooks: React.FC<IProps> = ({ name, shelves }) => {
   const toggleAddButton = () => {
     setAddButtonShow(!addButtonShow);
   };
+
   return (
     <div className="userinfo-AddBooks-wrapper">
       <h3>{name}님의 선반 Category</h3>
       <div className="userinfo-AddBooks-shelf-wrapper">
         <div className="userinfo-AddBooks-shelf-borderbox-Wrapper">
           {shelves.map((shelf, index) => (
-            <div key={index} className="userinfo-AddBooks-shelf-borderbox">
+            <Button key={index} width="fit-contet" onClick={() => {}} className="mr-12">
               {shelf.name}
-            </div>
+            </Button>
           ))}
           {state.addedShelfName.map(shelf => (
             <div key={shelf.id} className="userinfo-AddBooks-shelf-borderbox">
-              {shelf}
+              {shelf.name}
             </div>
           ))}
         </div>
-        <div role="button" className="userinfo-AddBooks-shelf-borderbox-addbutton" onClick={toggleAddButton}>
+        <Button width="fit-content" onClick={toggleAddButton}>
           추가하기
-        </div>
+        </Button>
       </div>
       {addButtonShow && (
         <div className="AddshelfInputWraaper">
@@ -50,7 +51,11 @@ const UserAddBooks: React.FC<IProps> = ({ name, shelves }) => {
             color="green"
             onClick={async () => {
               try {
+                if (state.name === "") {
+                  throw Error("선반 이름을 입력해주세요");
+                }
                 await state.AddShelfMutation();
+                toggleAddButton();
               } catch (e) {
                 alert(e.message);
               }

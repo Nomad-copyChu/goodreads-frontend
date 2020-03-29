@@ -117,6 +117,7 @@ const Container = styled.div`
     .userinfo-email {
       color: #767676;
       font-size: 16px;
+      margin-bottom: 8px;
       @media (max-width: 1150px) {
         font-size: 12px;
       }
@@ -147,14 +148,14 @@ const Container = styled.div`
       .Input-Wrapper {
         display: flex;
         margin-bottom: 10px;
+        align-items: center;
         p {
-          padding-top: 10px;
           color: #767676;
         }
         .Input {
-          margin: 0px 0px 10px 10px;
-          width: 300px;
+          margin-left: 12px;
         }
+
         .text-area-Input {
           border: 1px solid #b9ad99;
           background-color: #f4f1ea;
@@ -162,12 +163,19 @@ const Container = styled.div`
           border-radius: 5px;
           width: 300px;
           min-height: 256px;
-          margin-bottom: 19px;
-          margin-left: 10px;
+          font-size: 16px;
+          padding: 6px;
           outline: none;
           resize: none;
           padding: 6px;
         }
+      }
+    }
+    .text-area-wrapper {
+      flex-direction: column;
+      align-items: flex-start !important;
+      p {
+        margin-bottom: 10px;
       }
     }
     .userinfo-shelf-wrapper {
@@ -393,6 +401,9 @@ const Container = styled.div`
         }
       }
     }
+  }
+  .mr-12 {
+    margin-right: 12px;
   }
 `;
 
