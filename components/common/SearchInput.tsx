@@ -28,6 +28,7 @@ const Container = styled.div`
     position: absolute;
     background-color: white;
     width: 100%;
+    overflow: auto;
     display: flex;
     justify-content: flex-start;
     align-items: center;
