@@ -45,7 +45,7 @@ export default () => {
       authors: authorsFromDB.map((author: AddBookAuthorType) => ({
         name: author.name,
         description: author.description,
-        photo: author.photo
+        photo: author.photo || "https://goodreads-jerrynim.s3.ap-northeast-2.amazonaws.com/ink-pen.png"
       }))
     },
     onCompleted: data => {
