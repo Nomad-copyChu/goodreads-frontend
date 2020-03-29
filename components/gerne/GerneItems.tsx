@@ -27,6 +27,7 @@ const Container = styled.div`
     margin-top: 20px;
     margin-bottom: 60px;
     overflow: auto;
+    width: 100%;
     ::-webkit-scrollbar {
       display: none;
     }
