@@ -25,7 +25,7 @@ export default withApollo(ctx => {
   const browserCookie = cookie.get("Authorization");
   return new ApolloClient({
     link: createUploadLink({
-      uri: "http://52.78.34.51:4000/",
+      uri: "https://goodereads-server.shop/",
       headers: {
         Authorization: cookies?.Authorization || browserCookie
       }

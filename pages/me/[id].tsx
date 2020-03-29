@@ -157,6 +157,7 @@ const Container = styled.div`
         }
         .text-area-Input {
           border: 1px solid #b9ad99;
+          background-color: #f4f1ea;
           box-sizing: border-box;
           border-radius: 5px;
           width: 300px;
@@ -439,7 +440,7 @@ const me: NextPage<IProps> = ({ user }) => {
           />
           <div className="userinfo-avgRating">{user?.bookAvgRating === "NaN" ? 0 : user?.bookAvgRating}</div>
         </div>
-        {focusedStatus === "profile" && <UserProfile profile={user.profile} />}
+        {focusedStatus === "profile" && <UserProfile profile={user.profile} id={user.id} />}
         {focusedStatus === "shelves" && <UserShelves shelves={user.shelves} />}
         {focusedStatus === "comments" && <UserComments bookComments={user.bookComments} />}
         {focusedStatus === "addBooks" && <UserAddBooks name={user.username} shelves={user.shelves} />}

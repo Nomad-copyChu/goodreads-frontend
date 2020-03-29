@@ -86,9 +86,8 @@ export type AuthorComment = {
 
 export type Profile = {
   id: string;
-  username: string;
   age: number;
-  gender: Gender;
+  gender: string;
   bio: string;
   interests: string;
   favoriteBook: string;
