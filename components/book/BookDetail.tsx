@@ -414,25 +414,21 @@ const BookDetail: React.FC<IProps> = ({ book, rating /*shelve*/ }) => {
               onChange={value => setShelf(value)}
               onClick={async () => {
                 if (isLogged) {
-                  if (!book.id) {
-                    try {
-                      await addToShelfMutation({
-                        variables: { shelfName: shelf.value, bookId: book.id }
-                      }).then(() => {
-                        alert(`${shelf.label}선반에 추가하였습니다.`);
-                        if (shelf.value === "want") {
-                          setWantCount(count => count + 1);
-                        } else if (shelf.value === "reading") {
-                          setReadingCount(count => count + 1);
-                        } else if (shelf.value === "read") {
-                          setReadCount(count => count + 1);
-                        }
-                      });
-                    } catch (e) {
-                      alert(e.message);
-                    }
-                  } else {
-                    alert("이미 선반에 추가했습니다.");
+                  try {
+                    await addToShelfMutation({
+                      variables: { shelfName: shelf.value, bookId: book.id }
+                    }).then(() => {
+                      alert(`${shelf.label}선반에 추가하였습니다.`);
+                      if (shelf.value === "want") {
+                        setWantCount(count => count + 1);
+                      } else if (shelf.value === "reading") {
+                        setReadingCount(count => count + 1);
+                      } else if (shelf.value === "read") {
+                        setReadCount(count => count + 1);
+                      }
+                    });
+                  } catch (e) {
+                    alert(e.message);
                   }
                 } else {
                   alert("로그인이 필요한 기능 입니다.");
