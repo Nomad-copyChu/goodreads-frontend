@@ -26,6 +26,12 @@ const Container = styled.div`
     .quote-text {
       font-size: 12px;
       width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-wrap: break-word;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* ellipsis line */
+      -webkit-box-orient: vertical;
     }
     .quote-author {
       font-size: 12px;

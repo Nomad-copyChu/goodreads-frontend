@@ -18,7 +18,7 @@ const UserQuotes: React.FC<IProps> = ({ likeQuotes }) => {
           ))}
         </div>
       </div>
-      {isEmpty() && <p>아직 좋아하는 명언이 없습니다.</p>}
+      {isEmpty(likeQuotes) && <p>아직 좋아하는 명언이 없습니다.</p>}
     </div>
   );
 };
