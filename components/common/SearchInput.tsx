@@ -59,6 +59,7 @@ const Container = styled.div`
     padding: 8px;
     background-color: white;
     cursor: pointer;
+    min-height: fit-content;
     img {
       width: 34px;
       height: 50px;

@@ -53,9 +53,13 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
+    min-height: fit-content;
     border-bottom: 1px solid ${colors.gray_500};
     padding: 8px;
     cursor: pointer;
+    /* @media (max-width: 795px) {
+      font-size: 14px;
+    } */
     &:hover {
       background-color: ${colors.beige_400};
     }
