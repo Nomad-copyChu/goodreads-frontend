@@ -26,6 +26,25 @@ const Profile: React.FC<IProps> = ({ profile, id }) => {
     setEditShow(!editShow);
   };
 
+  const genderTrans = () => {
+    switch (usergender) {
+      case "남":
+        return "MALE";
+      case "male":
+        return "MALE";
+      case "Male":
+        return "MALE";
+      case "여":
+        return "FEMALE";
+      case "female":
+        return "FEMALE";
+      case "Female":
+        return "FEMALE";
+      default:
+        return "MALE";
+    }
+  };
+
   return (
     <div className="userinfo-profile-note">
       <div role="button" onClick={() => toggleEditButton()} className="editButton">
@@ -38,7 +57,7 @@ const Profile: React.FC<IProps> = ({ profile, id }) => {
               editProfileMutation({
                 variables: {
                   age: userAge,
-                  gender: usergender,
+                  gender: genderTrans(),
                   interests: userinterests,
                   favoriteBook: userfavoriteBook,
                   bio: userbio
@@ -57,20 +76,6 @@ const Profile: React.FC<IProps> = ({ profile, id }) => {
           </Button>
         )}
       </div>
-
-      {/* <div className="Input-Wrapper">
-        <p>이름:{!editShow && profile?.username}</p>
-        {editShow && (
-          <Input
-            className="Input"
-            color="transparent"
-            value={username}
-            type="text"
-            onChange={e => setUsername(e.target.value)}
-            placeholder="이름을 입력해주세요"
-          />
-        )}
-      </div> */}
       <div className="Input-Wrapper">
         <p>나이:{!editShow && profile?.age}</p>
         {editShow && (
@@ -93,7 +98,7 @@ const Profile: React.FC<IProps> = ({ profile, id }) => {
             value={usergender}
             type="text"
             onChange={e => setUserGender(e.target.value)}
-            placeholder="성별을 입력해주세요(ex. MALE or FEMALE)"
+            placeholder="성별을 입력해주세요(ex. 남 or 여)"
           />
         )}
       </div>

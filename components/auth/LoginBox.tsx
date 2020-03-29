@@ -16,6 +16,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
+  @media (max-width: 795px) {
+    justify-content: center;
+  }
   .button {
     width: 108px;
     height: 32px;
@@ -32,7 +35,14 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 320px;
-
+    @media (max-width: 795px) {
+      margin-top: 0px;
+      margin-left: 0px;
+      align-self: center;
+    }
+    @media (max-width: 350px) {
+      width: 280px;
+    }
     h1 {
       margin: 25px 0px;
       font-size: 21px;

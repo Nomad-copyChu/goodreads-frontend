@@ -6,7 +6,7 @@ const Container = styled.div`
   height: 100vh;
   position: relative;
   @media (max-height: 795px) {
-    height: 100vmin;
+    min-height: 100vh;
   }
   .login-background {
     position: relative;
@@ -22,17 +22,12 @@ const Container = styled.div`
     font-weight: bold;
     font-size: 60px;
     z-index: 4;
-    /* @media (max-height: 795px) {
-      font-size: 24px;
-      margin-top: 10px;
-      margin-left: 100px;
-    } */
+    @media (max-width: 795px) {
+      display: none;
+    }
     p {
       color: white;
       margin-bottom: 18px;
-      /* @media (max-height: 795px) {
-        margin-bottom: 0px;
-      } */
     }
   }
 `;

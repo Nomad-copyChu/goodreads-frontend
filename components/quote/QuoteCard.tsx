@@ -13,6 +13,9 @@ const Container = styled.div`
   align-items: center;
   border: 1px solid ${colors.gray_500};
   border-radius: 5px;
+  /* @media (max-width: 468px) {
+    width: 375px;
+  } */
   img {
     width: 64px;
     height: 64px;

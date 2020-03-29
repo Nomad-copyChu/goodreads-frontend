@@ -22,9 +22,11 @@ const Container = styled.div`
   }
   .add-quote-contents {
     margin: auto;
-    margin-top: 80px;
-    width: 875px;
     display: flex;
+    align-self: center;
+    @media (max-width: 795px) {
+      flex-direction: column-reverse;
+    }
     .add-quote-anotherQuote {
       display: flex;
       flex-direction: column;
@@ -56,6 +58,10 @@ const Container = styled.div`
       padding: 20px 39px;
       display: flex;
       flex-direction: column;
+      @media (max-width: 795px) {
+        margin: 20px 0 20px 0;
+        align-self: center;
+      }
       .add-quote-addBox-logo {
         align-self: center;
         width: 219px;

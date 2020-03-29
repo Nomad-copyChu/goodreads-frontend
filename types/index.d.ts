@@ -84,10 +84,15 @@ export type AuthorComment = {
   updatedAt: string;
 };
 
+// export enum Gender {
+//   MALE
+//   FEMALE
+// }
+
 export type Profile = {
   id: string;
   age: number;
-  gender: string;
+  gender: Gender;
   bio: string;
   interests: string;
   favoriteBook: string;

@@ -108,7 +108,7 @@ const Container = styled.div`
     top: 40px;
     left: 0;
     position: absolute;
-    z-index: 10;
+    z-index: 11;
     width: 161px;
     height: 171px;
     background: #f4f1ea;
@@ -144,7 +144,7 @@ const Container = styled.div`
     top: 24px;
     left: -128px;
     position: absolute;
-    z-index: 10;
+    z-index: 11;
     width: 161px;
     height: 171px;
     background: #f4f1ea;
@@ -283,7 +283,7 @@ const Header: NextPage = () => {
                   <li className="header-logged-popup-item-Wrapper" onClick={() => router.push("/author")}>
                     <a>작가목록</a>
                   </li>
-                  <li className="header-logged-popup-item-Wrapper" onClick={() => router.push("/quote")}>
+                  <li className="header-logged-popup-item-Wrapper" onClick={() => router.push("/add/quote")}>
                     <a>명언목록</a>
                   </li>
                   <li className="header-logged-popup-item-Wrapper" onClick={() => router.push("/auth/register")}>
