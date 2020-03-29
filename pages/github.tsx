@@ -31,7 +31,7 @@ const github: NextPage<IProps> = ({ code }) => {
     if (code) {
       githubLogin();
     } else {
-      window.location.href = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}`;
+      window.location.href = "https://github.com/login/oauth/authorize?client_id=da15f4e685d7726aa2c9";
     }
   }, []);
   return <div>login...</div>;

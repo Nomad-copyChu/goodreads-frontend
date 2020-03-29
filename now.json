@@ -1,12 +1,4 @@
 {
   "version": 2,
-  "env": {
-    "END_POINT": "@endipoint",
-    "GOOGLE_ANALYTIC_ID": "@gaid",
-    "GITHUB_CLIENT_ID": "@githubid"
-  },
-  "builds": [
-    { "src": "next.config.js", "use": "@now/next" },
-    { "src": "package.json", "use": "@now/next" }
-  ]
+  "alias": "goodreadsKr.jerrynim.com"
 }
