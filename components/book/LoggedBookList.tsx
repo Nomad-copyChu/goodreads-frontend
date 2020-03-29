@@ -103,7 +103,7 @@ const LoggedBookList: React.FC<IProps> = ({ displays }) => {
         </div>
       ))}
       {isEmpty(displays) && (
-        <Link href="/add/book">
+        <Link href="/book">
           <a>
             <div className="not-exist-logged-book-card-wrapper">
               <MagicBook />

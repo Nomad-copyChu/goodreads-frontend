@@ -422,7 +422,7 @@ const AddBook: React.FC = () => {
             </div>
             <AddToShelfButton
               size="large"
-              onClick={() => alert("책을 추가해 주세요")}
+              onClick={() => alert("책을 등록해 주세요")}
               onChange={() => console.warn()}
               options={[
                 { value: "원해요", label: "원해요" },
