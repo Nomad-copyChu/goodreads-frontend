@@ -1,6 +1,7 @@
 import React from "react";
 import TextArea from "react-textarea-autosize";
 import { NextPage } from "next";
+import Head from "next/head";
 import styled from "styled-components";
 import SearchInput from "../../components/common/SearchInput";
 import { Quote, ApolloNextPageContext } from "../../types";
@@ -109,77 +110,82 @@ interface IProps {
 const quote: NextPage<IProps> = ({ quotes }) => {
   const state = useAddQuote();
   return (
-    <Container>
-      <div className="add-quote-search">
-        <SearchInput placeholder="궁금한 것을 검색해 보세요." />
-      </div>
-      <div className="add-quote-contents">
-        <div className="add-quote-anotherQuote">
-          <h3>다른 명언들</h3>
-          <div className="add-quote-card-wrapper">
-            {quotes.map((quote, i) => (
-              <div key={i} className="add-quote-card">
-                <QuoteCard quote={quote} key={quote.id} />
-              </div>
-            ))}
-            {state.addedQuote.map(quote => (
-              <div key={quote.id} className="add-quote-card">
-                <QuoteCard quote={quote} />
-              </div>
-            ))}
-          </div>
+    <>
+      <Head>
+        <title>명언 추가하기 | 굿리즈</title>
+      </Head>
+      <Container>
+        <div className="add-quote-search">
+          <SearchInput placeholder="궁금한 것을 검색해 보세요." />
         </div>
-        <div className="add-quote-AddBox">
-          <Logo className="add-quote-addBox-logo" />
-          <h3>명언 추가하기</h3>
-          <TextArea
-            color="transparent"
-            className="term-textarea"
-            value={state.term}
-            type="text"
-            onChange={e => state.setTerm(e.target.value)}
-            placeholder="&#34;명언...&#34;"
-          />
-          <h5>작가</h5>
-          <Input
-            color="transparent"
-            className="authorName-input"
-            value={state.authorName}
-            type="text"
-            onChange={e => state.setAuthorName(e.target.value)}
-            placeholder="작가 이름"
-            width="100%"
-          />
-          <h5>태그</h5>
-          <form onSubmit={state.addTags} className="quote-tag-form">
-            {state.tags.map((tag, i) => (
-              <span key={i}>{`#${tag}`}</span>
-            ))}
+        <div className="add-quote-contents">
+          <div className="add-quote-anotherQuote">
+            <h3>다른 명언들</h3>
+            <div className="add-quote-card-wrapper">
+              {quotes.map((quote, i) => (
+                <div key={i} className="add-quote-card">
+                  <QuoteCard quote={quote} key={quote.id} />
+                </div>
+              ))}
+              {state.addedQuote.map(quote => (
+                <div key={quote.id} className="add-quote-card">
+                  <QuoteCard quote={quote} />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="add-quote-AddBox">
+            <Logo className="add-quote-addBox-logo" />
+            <h3>명언 추가하기</h3>
+            <TextArea
+              color="transparent"
+              className="term-textarea"
+              value={state.term}
+              type="text"
+              onChange={e => state.setTerm(e.target.value)}
+              placeholder="&#34;명언...&#34;"
+            />
+            <h5>작가</h5>
             <Input
               color="transparent"
-              value={state.tagInput}
+              className="authorName-input"
+              value={state.authorName}
               type="text"
-              onChange={e => state.setTagInput(e.target.value)}
-              placeholder="엔터로 추가해 주세요"
+              onChange={e => state.setAuthorName(e.target.value)}
+              placeholder="작가 이름"
+              width="100%"
             />
-          </form>
-          <div className="quote-submit-wrapper">
-            <Button
-              color="green"
-              onClick={async () => {
-                try {
-                  await state.addQuoteMutation();
-                } catch (e) {
-                  alert(e.message);
-                }
-              }}
-            >
-              추가하기
-            </Button>
+            <h5>태그</h5>
+            <form onSubmit={state.addTags} className="quote-tag-form">
+              {state.tags.map((tag, i) => (
+                <span key={i}>{`#${tag}`}</span>
+              ))}
+              <Input
+                color="transparent"
+                value={state.tagInput}
+                type="text"
+                onChange={e => state.setTagInput(e.target.value)}
+                placeholder="엔터로 추가해 주세요"
+              />
+            </form>
+            <div className="quote-submit-wrapper">
+              <Button
+                color="green"
+                onClick={async () => {
+                  try {
+                    await state.addQuoteMutation();
+                  } catch (e) {
+                    alert(e.message);
+                  }
+                }}
+              >
+                추가하기
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </>
   );
 };
 

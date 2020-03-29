@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import { NextPage } from "next";
 import AuthorDetail from "../../components/author/AuthorDetail";
 import { ApolloNextPageContext, Author as AuthorType } from "../../types";
@@ -9,7 +10,14 @@ interface IProps {
 }
 
 const author: NextPage<IProps> = ({ author }) => {
-  return <AuthorDetail author={author} />;
+  return (
+    <>
+      <Head>
+        <title>작가 {author.name} | 굿리즈</title>
+      </Head>
+      <AuthorDetail author={author} />
+    </>
+  );
 };
 
 author.getInitialProps = async ({ query, apolloClient }: ApolloNextPageContext) => {

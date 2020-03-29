@@ -6,6 +6,7 @@ import { getGender } from "../../lib/util";
 import useProfile from "../../hooks/useProfile";
 import Input from "../common/Input";
 import Button from "../common/Button";
+import useUser from "../../hooks/useUser";
 
 interface IProps {
   profile: User["profile"];
@@ -19,7 +20,7 @@ const Profile: React.FC<IProps> = ({ profile, id }) => {
   const [userfavoriteBook, setUserFavoriteBook] = useState(profile?.favoriteBook || "");
   const [userbio, setUserBio] = useState(profile?.bio || "");
   const { editProfileMutation } = useProfile();
-
+  const { user } = useUser();
   const [editShow, setEditShow] = useState(false);
 
   const toggleEditButton = () => {
@@ -45,7 +46,7 @@ const Profile: React.FC<IProps> = ({ profile, id }) => {
     <div className="userinfo-profile-note">
       <div role="button" onClick={() => toggleEditButton()} className="editButton">
         {!editShow ? (
-          "프로필 수정하기"
+          <>{id === user.id && "프로필 수정하기"}</>
         ) : (
           <Button
             color="green"

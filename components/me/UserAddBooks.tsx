@@ -5,6 +5,7 @@ import { User } from "../../types";
 import Input from "../common/Input";
 import useAddShelf from "../../hooks/useAddShelf";
 import Button from "../common/Button";
+import useUser from "../../hooks/useUser";
 
 interface IProps {
   name: User["username"];
@@ -17,26 +18,28 @@ const UserAddBooks: React.FC<IProps> = ({ name, shelves }) => {
   const toggleAddButton = () => {
     setAddButtonShow(!addButtonShow);
   };
-
+  const { user } = useUser();
   return (
     <div className="userinfo-AddBooks-wrapper">
       <h3>{name}님의 선반 Category</h3>
       <div className="userinfo-AddBooks-shelf-wrapper">
         <div className="userinfo-AddBooks-shelf-borderbox-Wrapper">
           {shelves.map((shelf, index) => (
-            <Button key={index} width="fit-contet" onClick={() => {}} className="mr-12">
+            <Button key={index} width="fit-content" onClick={() => {}} className="mr-12">
               {shelf.name}
             </Button>
           ))}
           {state.addedShelfName.map(shelf => (
-            <div key={shelf.id} className="userinfo-AddBooks-shelf-borderbox">
+            <Button key={shelf.id} width="fit-content" className="mr-12" onClick={() => {}}>
               {shelf.name}
-            </div>
+            </Button>
           ))}
         </div>
-        <Button width="fit-content" onClick={toggleAddButton}>
-          추가하기
-        </Button>
+        {name === user.username && (
+          <Button width="fit-content" className="add-shelf-button" onClick={toggleAddButton}>
+            추가하기
+          </Button>
+        )}
       </div>
       {addButtonShow && (
         <div className="AddshelfInputWraaper">
@@ -73,9 +76,7 @@ const UserAddBooks: React.FC<IProps> = ({ name, shelves }) => {
               <div key={index}>
                 {isEmpty() && (
                   <div>
-                    <h3>
-                      {name}님의 선반 {shelf.name}
-                    </h3>
+                    <h3>{shelf.name}</h3>
                     <div className="shelf-booklist">
                       {shelf.displays.map((display, index) => (
                         <div key={index} className="booklist-thumbnail-title-wrapper">

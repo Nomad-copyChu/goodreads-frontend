@@ -1,6 +1,7 @@
 import React from "react";
-import styled from "styled-components";
 import { NextPage } from "next";
+import Head from "next/head";
+
 import { ApolloNextPageContext, Gerne } from "../../types";
 import { GET_GERNE_ITEMS } from "../../query/gernes";
 import GerneItems from "../../components/gerne/GerneItems";
@@ -10,7 +11,14 @@ interface IProps {
 }
 
 const term: NextPage<IProps> = ({ gerne }) => {
-  return <GerneItems gerne={gerne} />;
+  return (
+    <>
+      <Head>
+        <title>장르 {gerne.term} | 굿리즈</title>
+      </Head>
+      <GerneItems gerne={gerne} />
+    </>
+  );
 };
 
 term.getInitialProps = async ({ query, apolloClient }: ApolloNextPageContext) => {

@@ -193,4 +193,16 @@ export const GET_USER_WITH_ID = gql`
   }
 `;
 
+/**
+ * * 프로필 사진 변경
+ */
+export const CHANGE_PROFILE_PHOTO = gql`
+  mutation chageProfilePhoto($url: String!) {
+    chageProfilePhoto(url: $url) {
+      id
+      profilePhoto
+    }
+  }
+`;
+
 export default { GET_LOGGED_USER, GET_CACHE_USER, GET_USER_WITH_ID };

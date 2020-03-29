@@ -1,12 +1,16 @@
 import React from "react";
-import styled from "styled-components";
+import { NextPage } from "next";
+import Head from "next/head";
 import RegisterSuccess from "../../../components/auth/RegisterSuccess";
 
-const sucess: React.FC = () => {
+const sucess: NextPage = () => {
   return (
-    <div>
+    <>
+      <Head>
+        <title>어서오세요 | 굿리즈</title>
+      </Head>
       <RegisterSuccess />
-    </div>
+    </>
   );
 };
 
