@@ -46,6 +46,7 @@ const Container = styled.div`
     flex-direction: column;
     transition: 0.5s;
     background-color: #f4f1ea;
+    transform: translateX(-300px);
     ::-webkit-scrollbar {
       display: none;
     }
@@ -53,6 +54,9 @@ const Container = styled.div`
       position: absolute;
       display: none;
     }
+  }
+  .right300 {
+    transform: translateX(0px);
   }
   .side-menu-contents {
     .search {
@@ -237,9 +241,9 @@ const index: NextPage<IProps> = ({ gernes, books }) => {
       <div className="book-list-Wrapper">
         <div role="button">
           <Nav onClick={toggleSidebar} className="navigation" />
-          {show && <div className="nav-menu">{SideMenu()}</div>}
+          <div className={`nav-menu ${show ? "right300" : ""}`}>{SideMenu()}</div>
         </div>
-        <div className="books-new">
+        <div className="books-newㄴ">
           <h3>새로나온책</h3>
           <div className="new-book-list-wrapper">
             {books.map((book, i) => (
