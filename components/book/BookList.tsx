@@ -22,9 +22,7 @@ const Container = styled.div`
     :hover {
       opacity: 1;
     }
-    @media (max-width: 870px) {
-      display: none;
-    }
+
     .main-book-hover {
       display: flex;
       justify-content: space-around;
