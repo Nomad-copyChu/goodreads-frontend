@@ -96,6 +96,8 @@ const Container = styled.div`
     padding: 8px;
     background-color: white;
     cursor: pointer;
+    flex-shrink: 0;
+
     &:hover {
       background-color: ${colors.beige_400};
     }
@@ -127,7 +129,7 @@ const Container = styled.div`
     padding: 8px;
     background-color: white;
     cursor: pointer;
-
+    flex-shrink: 0;
     &:hover {
       background-color: ${colors.beige_400};
     }
