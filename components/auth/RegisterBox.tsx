@@ -114,7 +114,7 @@ const LoginBox: React.FC = () => {
       const token = data?.data?.createUser;
       if (token) {
         cookie.set("Authorization", token);
-        router.push("/auth/register/success");
+        window.location.href = "/auth/register/success";
       }
     } catch (e) {
       setError(e.message.replace("GraphQL error: ", ""));
