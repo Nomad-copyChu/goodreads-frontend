@@ -99,7 +99,7 @@ interface IProps {
 const BestBookThisWeek: React.FC<IProps> = ({ book, className }) => {
   return (
     <Container className={className}>
-      <div className="title">이주의 배스트 책</div>
+      <div className="title">이주의 베스트 책</div>
       <div className="border" />
       <div className="main-bestbook-info">
         <img className="booksCard" src={book?.thumbnail} alt="" />
