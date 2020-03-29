@@ -110,7 +110,7 @@ const Container = styled.div`
     position: absolute;
     z-index: 11;
     width: 161px;
-    height: 171px;
+    padding: 12px 0;
     background: #f4f1ea;
     border: 1px solid #d8d8d8;
     box-sizing: border-box;
@@ -160,7 +160,7 @@ const Header: NextPage = () => {
   const [iconShow, setIconShow] = useState(false);
 
   useEffect(() => {
-    ReactGA.initialize(process.env.GOOGLE_ANALYTIC_ID);
+    ReactGA.initialize("UA-149928114-1");
     ReactGA.pageview(window.location.pathname + window.location.search);
   }, []);
 
@@ -183,10 +183,6 @@ const Header: NextPage = () => {
           <li className="header-logged-popup-item-Wrapper" onClick={() => router.push(`/me/${user.id}`)}>
             <Dashboard />
             <div className="header-logged-popup-item-font">대쉬보드</div>
-          </li>
-          <li className="header-logged-popup-item-Wrapper">
-            <Setting className="header-logged-popup-item-emoticon" />
-            <div className="header-logged-popup-item-font">설정</div>
           </li>
           <li className="header-logged-popup-item-Wrapper" onClick={() => router.push("/book")}>
             <BrwonBookList className="header-logged-popup-item-emoticon" />
